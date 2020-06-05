@@ -15,6 +15,10 @@ html,body {
 a {
 	text-decoration: none;
 }
+a:focus {
+	outline: none;
+	-moz-outline: none;
+}
 a:hover {
 	text-decoration: none;
 }
