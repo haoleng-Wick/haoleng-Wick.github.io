@@ -13,61 +13,6 @@ li{
 	justify-content: center;
 	margin: 15px;
 }
-.cube{
-	background : red;
-	display: flex;
-	justify-content: center;
-	margin: 50px;
-	width: 200px;
-	height: 200px;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100% 100%;
-	position: absolute;
-	-webkit-transform-style: preserve-3d;
-	-webkit-transform:rotateX(13deg);
-	-webkit-animation:move 5s linear infinite;
-}
-.mincube{
-	width: 100px;
-	height: 100px;
-	position: absolute;
-	left: 50px;
-	top: 30px;
-	-webkit-transform-style: preserve-3d;
-}
-.mincube li{
-	width: 100px;
-	height: 100px;
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-.mincube li:nth-child(1){
-	background: url(../img/archlinux2.jpg) no-repeat 0 0;
-	-webkit-transform: translateZ(50px);
-}
-.mincube li:nth-child(2){
-	background: url(../img/archlinux2.jpg) no-repeat 0 0;
-	-webkit-transform: rotateX(180deg) translateZ(50px);
-}
-.mincube li:nth-child(3){
-	background: url(../img/archlinux2.jpg) no-repeat 0 0;
-	-webkit-transform: rotateX(-90deg) translateZ(50px);
-}
-.mincube li:nth-child(4){
-	background: url(../img/archlinux2.jpg) no-repeat 0 0;
-	-webkit-transform: rotateX(90deg) translateZ(50px);
-}
-.mincube li:nth-child(5){
-	background: url(../img/archlinux2.jpg) no-repeat 0 0;
-	-webkit-transform: rotateX(-90deg) translateZ(50px);
-}
-.mincube li:nth-child(6){
-	background: url(../img/archlinux2.jpg) no-repeat 0 0;
-	-webkit-transform: rotateX(90deg) translateZ(50px);
-}
 
 .circle{
 	position: relative;
