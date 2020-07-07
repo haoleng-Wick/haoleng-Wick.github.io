@@ -1,0 +1,135 @@
+body{
+	background: #1F1F1F;
+}
+a:focus{
+	outline: none;
+}
+li{
+	list-style: none;
+}
+
+.box{
+	display: flex;
+	justify-content: center;
+	margin: 15px;
+}
+.cube{
+	background : red;
+	display: flex;
+	justify-content: center;
+	margin: 50px;
+	width: 200px;
+	height: 200px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+	position: absolute;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform:rotateX(13deg);
+	-webkit-animation:move 5s linear infinite;
+}
+.mincube{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 50px;
+	top: 30px;
+	-webkit-transform-style: preserve-3d;
+}
+.mincube li{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.mincube li:nth-child(1){
+	background: url(../img/archlinux2.jpg) no-repeat 0 0;
+	-webkit-transform: translateZ(50px);
+}
+.mincube li:nth-child(2){
+	background: url(../img/archlinux2.jpg) no-repeat 0 0;
+	-webkit-transform: rotateX(180deg) translateZ(50px);
+}
+.mincube li:nth-child(3){
+	background: url(../img/archlinux2.jpg) no-repeat 0 0;
+	-webkit-transform: rotateX(-90deg) translateZ(50px);
+}
+.mincube li:nth-child(4){
+	background: url(../img/archlinux2.jpg) no-repeat 0 0;
+	-webkit-transform: rotateX(90deg) translateZ(50px);
+}
+.mincube li:nth-child(5){
+	background: url(../img/archlinux2.jpg) no-repeat 0 0;
+	-webkit-transform: rotateX(-90deg) translateZ(50px);
+}
+.mincube li:nth-child(6){
+	background: url(../img/archlinux2.jpg) no-repeat 0 0;
+	-webkit-transform: rotateX(90deg) translateZ(50px);
+}
+
+.circle{
+	position: relative;
+	width: 220px;
+	height: 220px;
+ 	background: url(../img/darkring.jpg) center center;
+	background-size: 380px 220px;
+	border-radius: 50%;
+	box-shadow: inset 0 0 0 18px rgba(225,225,225,0.6),0 1px 2px rgba(0,0,0,0.1);
+	transition: all 0.4s ease-in-out;
+}
+.circle:nth-child(2){
+ 	background: url(../img/archlinux2.jpg) center center;
+	background-size: 320px 300px;
+}
+.circle:nth-child(3){
+ 	background: url(../img/Wallpaper-4.jpg) bottom center;
+	background-size: 380px 220px;
+}
+
+.info{
+	opacity: 0;
+	transform: scale(0);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(63,147,147,0.8);
+	border-radius: 50%;
+	text-align: center;
+	transition: all 0.4s ease-in-out;
+}
+.info h3{
+	height: 85px;
+	font-size: 22px;
+	color: #fff;
+	margin: 0 30px;
+	padding-top: 55px;
+	text-transform: uppercase;
+}
+.info p{
+	opacity: 0;
+	font-size: 18px;
+	color: #fff;
+	font-style: italic;
+	margin: 0 30px;
+	padding-top: 15px;
+	border-top: 1px solid rgba(225,225,225,0.5);
+	transition: all 0.4s ease-in-out 0.4s;
+}
+.info a{
+	display: block;	
+	color: #fff;
+	font-style: italic;
+	text-decoration: none;
+}
+.circle:hover{
+	box-shadow: inset 0 0 0 1px rgba(225,225,225,0.1),0 1px 2px rgba(0,0,0,0.1);
+}
+.circle:hover .info{
+	opacity: 1;
+	transform: scale(1);
+}
+.circle:hover .info p{
+	opacity: 1;	
+}
