@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Pytorch的安装和一些基本操作...'>
+<title>Pytorch入门</title>
+
+<link rel='canonical' href='https://example.com/p/pytorch%E5%85%A5%E9%97%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Pytorch入门'>
+<meta property='og:description' content='Pytorch的安装和一些基本操作...'>
+<meta property='og:url' content='https://example.com/p/pytorch%E5%85%A5%E9%97%A8/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='机器视觉' /><meta property='article:tag' content='Pytorch' /><meta property='article:published_time' content='2023-05-20T05:59:13&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:27:17&#43;08:00'/><meta property='og:image' content='https://example.com/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.jpg' />
+<meta name="twitter:title" content="Pytorch入门">
+<meta name="twitter:description" content="Pytorch的安装和一些基本操作..."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.jpg' />
+    <link rel="shortcut icon" href="static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以致千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#引言">引言</a>
+      <ol>
+        <li><a href="#安装相关">安装相关</a></li>
+      </ol>
+    </li>
+    <li><a href="#卷积层">卷积层</a></li>
+    <li><a href="#激活层">激活层</a></li>
+    <li><a href="#池化层">池化层</a></li>
+    <li><a href="#全连接层">全连接层</a>
+      <ol>
+        <li><a href="#损失函数">损失函数</a>
+          <ol>
+            <li><a href="#l1loss--mseloss">L1Loss &amp;&amp; MSELoss</a></li>
+            <li><a href="#crossentropyloss">CrossEntropyLoss</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#一个简单的例子cifar-10分类任务">一个简单的例子（Cifar-10分类任务）</a></li>
+    <li><a href="#pytorch-各种模型的格式">Pytorch 各种模型的格式</a></li>
+    <li><a href="#目标检测数据集">目标检测数据集</a>
+      <ol>
+        <li><a href="#voc数据集httphostrobotsoxacukpascalvoc"><a href="http://host.robots.ox.ac.uk/pascal/VOC/">VOC数据集</a></a></li>
+        <li><a href="#coco数据集httpscocodatasetorghome"><a href="https://cocodataset.org/#home">COCO数据集</a></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/pytorch%E5%85%A5%E9%97%A8/">
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch_hu9f713ad84f2edfa72e78551edd5f644f_73867_800x0_resize_q75_box.jpg"
+                        srcset="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch_hu9f713ad84f2edfa72e78551edd5f644f_73867_800x0_resize_q75_box.jpg 800w, /p/pytorch%E5%85%A5%E9%97%A8/PyTorch_hu9f713ad84f2edfa72e78551edd5f644f_73867_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="385" 
+                        loading="lazy"
+                        alt="Featured image of post Pytorch入门" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" style="background-color: #2a9d8f; color: #fff;">
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pytorch%E5%85%A5%E9%97%A8/">Pytorch入门</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Pytorch的安装和一些基本操作...
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023-05-20</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-20</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="引言">引言</h2>
+<h3 id="安装相关">安装相关</h3>
+<p><strong>安装Anaconda</strong></p>
+<p>通过链接<a class="link" href="https://www.anaconda.com/download/"  target="_blank" rel="noopener"
+    >Anaconda</a>下载安装包并根据提示安装到自己的目标目录下。国内网络环境不友好，可以<a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/"  target="_blank" rel="noopener"
+    >更换国内镜像源</a>。</p>
+<p>然后在当前环境下创建一个新的环境命名为 <code>pytorch</code>(可随意确定)
+并切换到新环境(pytorch)下，再安装pytorch所需的环境</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Shell" data-lang="Shell"><span class="line"><span class="cl"><span class="o">(</span>base<span class="o">)</span>$ conda create -n pytorch <span class="nv">python</span><span class="o">=</span>3.10
+</span></span><span class="line"><span class="cl"><span class="o">(</span>base<span class="o">)</span>$ conda activate pytorch
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># GPU版本的</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pytorch<span class="o">)</span>$ conda install pytorch torchvision torchaudio pytorch-cuda<span class="o">=</span>11.7 -c pytorch -c nvidia
+</span></span><span class="line"><span class="cl"><span class="c1"># CPU版本的</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pytorch<span class="o">)</span>$ conda install pytorch torchvision torchaudio cpuonly -c pytorch
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装完成之后进行验证</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">(</span><span class="n">pytorch</span><span class="p">)</span><span class="err">$</span> <span class="n">python</span>
+</span></span><span class="line"><span class="cl"><span class="n">Python</span> <span class="mf">3.10.11</span> <span class="p">(</span><span class="n">main</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">2023</span><span class="p">,</span> <span class="mi">19</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mi">41</span><span class="p">)</span> <span class="p">[</span><span class="n">GCC</span> <span class="mf">11.2.0</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux</span>
+</span></span><span class="line"><span class="cl"><span class="n">Type</span> <span class="s2">&#34;help&#34;</span><span class="p">,</span> <span class="s2">&#34;copyright&#34;</span><span class="p">,</span> <span class="s2">&#34;credits&#34;</span> <span class="ow">or</span> <span class="s2">&#34;license&#34;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 没有报错说明 pytorch 安装成功</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># True说明 GPU 可用,我这里 linux 系统并没有装 nvidia 显卡驱动，所以是 False</span>
+</span></span><span class="line"><span class="cl"><span class="kc">False</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">tensor</span><span class="p">([[</span><span class="mf">0.7296</span><span class="p">,</span> <span class="mf">0.8000</span><span class="p">,</span> <span class="mf">0.3431</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mf">0.9990</span><span class="p">,</span> <span class="mf">0.2202</span><span class="p">,</span> <span class="mf">0.0889</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mf">0.1130</span><span class="p">,</span> <span class="mf">0.9352</span><span class="p">,</span> <span class="mf">0.8562</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mf">0.4942</span><span class="p">,</span> <span class="mf">0.4214</span><span class="p">,</span> <span class="mf">0.4962</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mf">0.3023</span><span class="p">,</span> <span class="mf">0.7504</span><span class="p">,</span> <span class="mf">0.6801</span><span class="p">]])</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Tensorboard使用
+举一个简单的画三角函数图像的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch.utils.tensorboard</span> <span class="kn">import</span> <span class="n">SummaryWriter</span>
+</span></span><span class="line"><span class="cl"><span class="n">writer</span> <span class="o">=</span> <span class="n">SummaryWriter</span><span class="p">(</span><span class="s2">&#34;./test_logs&#34;</span><span class="p">)</span>    <span class="c1"># 可自定义输出位置，默认为./runs</span>
+</span></span><span class="line"><span class="cl"><span class="n">r</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">writer</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span><span class="s1">&#39;trigonometric function&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                       <span class="p">{</span><span class="s1">&#39;xsinx&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">r</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                       <span class="s1">&#39;xcosx&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">r</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                       <span class="s1">&#39;tanx&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">r</span><span class="p">)},</span> <span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后通过命令 <code>tensorboard --logdir=test_logs</code>，根据提示可以打开网页看到结果，如下图所示。</p>
+<div align=center><img src="./trangle.png" alt="三角函数显示结果" /></div>
+<p>Transforms图像变换</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">()</span> <span class="c1">#对图片中心进行裁剪 </span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">FiveCrop</span><span class="p">()</span>  <span class="c1">#对图像四个角和中心进行裁剪得到五分图像</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">()</span>  <span class="c1">#对图像进行灰度变换</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">Pad</span><span class="p">()</span>  <span class="c1">#使用固定值进行像素填充</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">RandomResizedCrop</span><span class="p">()</span>	<span class="c1">#随即裁剪为不同大小和宽高比，然后缩放为特定大小</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">RandomCrop</span><span class="p">()</span>  <span class="c1">#随机区域裁剪</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">RandomRotation</span><span class="p">()</span>  <span class="c1">#随机旋转</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">()</span>  <span class="c1">#随机水平翻转</span>
+</span></span><span class="line"><span class="cl"><span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">()</span>	<span class="c1">#归一化处理</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>transforms.Compose</strong>组合实现各种变化</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    			<span class="n">transforms</span><span class="o">.</span><span class="n">Random</span>
+</span></span><span class="line"><span class="cl">    			<span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">     			<span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>torchvision、DataLoader</p>
+<p>nn.Module</p>
+<h2 id="卷积层">卷积层</h2>
+<h2 id="激活层">激活层</h2>
+<h2 id="池化层">池化层</h2>
+<h2 id="全连接层">全连接层</h2>
+<h3 id="损失函数">损失函数</h3>
+<h4 id="l1loss--mseloss">L1Loss &amp;&amp; MSELoss</h4>
+<p>假设预期结果为 <code>[1, 2, 8]</code>，但实际结果为 <code>[1, 2, 3]</code></p>
+<p>定义：</p>
+<p>$$
+ℓ(x,y)=\begin{cases}
+mean(L),\quad reduction=mean; \\\\
+sum(L),\quad reduction=sum
+\end{cases}
+$$</p>
+<p><code>loss_l1 = nn.L1loss(reduction='mean'或者'sum')</code></p>
+<p>L1Loss的结果：</p>
+<p>$$
+ℓ(x,y)=\begin{cases}
+\frac {(1 - 1) + (2 - 2) + (8 - 3)}{3} = 1.67	\quad reduction = mean \\\
+(1 - 1) + (2 - 2) + (8 - 3) = 5	\quad reduction = sum
+\end{cases}
+$$</p>
+<p><code>loss_mse = nn.MSELoss()</code></p>
+<p>MSELoss的结果：</p>
+<p>$$
+ℓ(x,y)=\begin{cases}
+\frac {(1 - 1)^2 + (2 - 2)^2 + (8 - 3)^2}{3} = 8.33	\quad reduction = mean \\\
+(1 - 1)^2 + (2 - 2)^2 + (8 - 3)^2 = 25	\quad reduction = sum
+\end{cases}
+$$</p>
+<h4 id="crossentropyloss">CrossEntropyLoss</h4>
+<p><code>torch.nn.CrossEntropyLoss(weight=None, ignore_index=- 100, reduction='mean', label_smoothing=0.0)</code></p>
+<p>定义：</p>
+<p>$$
+loss(x, class) = -ln(\frac{e^{x[class]}}{\sum_j e^{x[j]}}) \\\
+=-x[class] + ln(\sum_j e^{x[j]})
+$$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## target	[person, dog, cat]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## intputs	[0.1, 	 0.2, 0.3]</span>
+</span></span><span class="line"><span class="cl"><span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>	<span class="c1"># 1代表dog</span>
+</span></span><span class="line"><span class="cl"><span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">loss_cross</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_cross</span> <span class="o">=</span> <span class="n">loss_cross</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">result_cross</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 输出</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## tensor(1.1019)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>CrossEntropyLoss的结果：</p>
+<p>$$
+loss(x, class) = -0.2 + ln(e^{0.1} + e^{0.2} + e^{0.3}) = 1.1019
+$$</p>
+<h2 id="一个简单的例子cifar-10分类任务">一个简单的例子（Cifar-10分类任务）</h2>
+<div align=center><img src="./Cifar10.webp" alt="Cifar-10" /></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 导入包</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torchvision</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch.utils.tensorboard</span> <span class="kn">import</span> <span class="n">SummaryWriter</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 导入数据集</span>
+</span></span><span class="line"><span class="cl"><span class="n">train_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&#34;./data&#34;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">transform</span><span class="o">=</span><span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">test_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&#34;./data&#34;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">transform</span><span class="o">=</span><span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出训练和测试总量</span>
+</span></span><span class="line"><span class="cl"><span class="n">train_data_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">test_data_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;训练集的大小: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_data_size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;测试集的大小: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test_data_size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</span></span><span class="line"><span class="cl"><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 实例一个model</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_model</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># GPU</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">my_model</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 损失函数</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span> <span class="c1"># 交叉熵</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 优化器</span>
+</span></span><span class="line"><span class="cl"><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>    <span class="c1"># 学习率</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 训练参数</span>
+</span></span><span class="line"><span class="cl"><span class="n">total_train_step</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">total_test_step</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">epoch</span> <span class="o">=</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># tensorboard</span>
+</span></span><span class="line"><span class="cl"><span class="n">writer</span> <span class="o">=</span> <span class="n">SummaryWriter</span><span class="p">(</span><span class="s2">&#34;./taining_logs&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;----开始第 </span><span class="si">{}</span><span class="s2"> 轮训练----&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">my_model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">imgs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="n">imgs</span> <span class="o">=</span> <span class="n">imgs</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">outputs</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 优化</span>
+</span></span><span class="line"><span class="cl">        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">total_train_step</span> <span class="o">=</span> <span class="n">total_train_step</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 每100次显示一次</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">total_train_step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;第 </span><span class="si">{}</span><span class="s2"> 次训练的loss值: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_train_step</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">writer</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s2">&#34;train_loss&#34;</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">total_train_step</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 测试步骤开始</span>
+</span></span><span class="line"><span class="cl">    <span class="n">my_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total_test_loss</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total_accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 测试集不需要梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_dataloader</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">imgs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                <span class="n">imgs</span> <span class="o">=</span> <span class="n">imgs</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">outputs</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">total_test_loss</span> <span class="o">=</span> <span class="n">total_test_loss</span> <span class="o">+</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">total_accuracy</span> <span class="o">=</span> <span class="n">total_accuracy</span> <span class="o">+</span> <span class="n">accuracy</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;整体测试集上的Loss: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_test_loss</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;整体测试集上的正确率: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_accuracy</span> <span class="o">/</span> <span class="n">test_data_size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">writer</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s2">&#34;test_loss&#34;</span><span class="p">,</span> <span class="n">total_test_loss</span><span class="p">,</span> <span class="n">total_test_step</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">writer</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s2">&#34;test_accuracy&#34;</span><span class="p">,</span> <span class="n">total_accuracy</span> <span class="o">/</span> <span class="n">test_data_size</span><span class="p">,</span> <span class="n">total_test_step</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">total_test_step</span> <span class="o">=</span> <span class="n">total_test_step</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl"><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">my_model</span><span class="p">,</span> <span class="s2">&#34;my_cifar10.pth&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;模型已保存&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pytorch-各种模型的格式">Pytorch 各种模型的格式</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:left">格式</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:left">适用场景</th>
+<th style="text-align:left">对应后缀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>.pt或.pth</code></td>
+<td style="text-align:center">pytorch默认的模型文件</td>
+<td style="text-align:left">需要保存和加载完整Pytorch模型的场景</td>
+<td style="text-align:left"><code>.pt或.pth</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.bin</code></td>
+<td style="text-align:center">通用的二进制格式</td>
+<td style="text-align:left">需要将Pytorch模型转化为通用的二进制格式的场景</td>
+<td style="text-align:left"><code>.bin</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.onnx</code></td>
+<td style="text-align:center">通用的交叉模型格式</td>
+<td style="text-align:left">需要将Pytorch模型转化为其他深度学习框架或硬件平台可用的格式的场景</td>
+<td style="text-align:left"><code>.onnx</code></td>
+</tr>
+<tr>
+<td style="text-align:left">TorchScript</td>
+<td style="text-align:center">Pytorch提供的一种序列化和优化模型的方法</td>
+<td style="text-align:left">需要将Pytorch模型序列化和优化，并在没有Pytorch环境的情况下运行模型的场景</td>
+<td style="text-align:left"><code>.pt或.pth</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="目标检测数据集">目标检测数据集</h2>
+<h3 id="voc数据集httphostrobotsoxacukpascalvoc"><a class="link" href="http://host.robots.ox.ac.uk/pascal/VOC/"  target="_blank" rel="noopener"
+    >VOC数据集</a></h3>
+<ul>
+<li>Annotations： 包含了xml文件，描述了图片的各种信息，特别是目标的坐标位置</li>
+<li>ImagesSets： 主要关注Main文件夹的内容，里面的文件包含了不同类别目标的训练/验证数据集的图片名称</li>
+<li>JPEGImages： 图片原文件</li>
+<li>SegentationClass/Object： 用于语义分割</li>
+</ul>
+<h3 id="coco数据集httpscocodatasetorghome"><a class="link" href="https://cocodataset.org/#home"  target="_blank" rel="noopener"
+    >COCO数据集</a></h3>
+<p>创建自己的coco数据集：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">目录结构：
+</span></span><span class="line"><span class="cl">.........
+</span></span><span class="line"><span class="cl">my_dataset
+</span></span><span class="line"><span class="cl">    ├───imgs
+</span></span><span class="line"><span class="cl">    │  ├───1.jpg
+</span></span><span class="line"><span class="cl">    │  ├───1.json
+</span></span><span class="line"><span class="cl">    │  ├───2.jpg
+</span></span><span class="line"><span class="cl">    │  ├───2.json
+</span></span><span class="line"><span class="cl">    │  │...........
+</span></span><span class="line"><span class="cl">    │  └───nnn.json
+</span></span><span class="line"><span class="cl"> 	└───coco
+</span></span><span class="line"><span class="cl">labelme2coco.py
+</span></span><span class="line"><span class="cl">labels.txt
+</span></span><span class="line"><span class="cl">.........
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装<a class="link" href="https://github.com/wkentaro/labelme"  target="_blank" rel="noopener"
+    >labelme</a>,然后在当前目录执行命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">python labelme2coco.py --labels labels.txt my_data/imgs/ my_data/coco/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中文件链接<a class="link" href="https://github.com/wkentaro/labelme/blob/main/examples/instance_segmentation/labelme2coco.py"  target="_blank" rel="noopener"
+    >labelme2coco.py</a>和labels.txt文件示例如下(本演示只有一个标签raccoon):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">__ignore__
+</span></span><span class="line"><span class="cl">_background_
+</span></span><span class="line"><span class="cl">raccoon
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后会在coco目录下生成可用的coco数据集文件。</p>
+<p>加载该数据集并可视化显示的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torchvision</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageDraw</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># torch官方的Coco API加载数据集</span>
+</span></span><span class="line"><span class="cl"><span class="n">coco_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CocoDetection</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sa">r</span><span class="s2">&#34;./my_data/coco/&#34;</span><span class="p">,</span>                                       <span class="n">annFile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&#34;./my_data/coco/annotations.json&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 读取第一张图片并显示</span>
+</span></span><span class="line"><span class="cl"><span class="n">image</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">coco_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">image_handler</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">ImageDraw</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 在该图片上画上标注框</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;bbox&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">image_handler</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(((</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">),</span> <span class="p">(</span><span class="n">x_min</span><span class="o">+</span><span class="n">width</span><span class="p">,</span> <span class="n">y_min</span><span class="o">+</span><span class="n">height</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 显示</span>
+</span></span><span class="line"><span class="cl"><span class="n">image</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>To be contuine</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉</a>
+        
+            <a href="/tags/pytorch/">Pytorch</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-20 22:27 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hud8524d9562d7473f3449c190ff1a23cc_42729_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Tensorflow入门"
+                        
+                        data-hash="md5-ipEKHxnOb3nhN33mV6xCmQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tensorflow入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.d67e3b6f1bb78779f5bd074efaf98994_hu897fca54ae8e34409121667f57e687d2_226190_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 传统机器视觉基础"
+                        
+                        data-hash="md5-1n47bxu3h3n1vQdO&#43;vmJlA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">传统机器视觉基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post KMP算法"
+                        
+                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KMP算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.05c035e802c47910fc7f4a76f93763d8_hu3380120350b8de274e915bc3a29bb5f0_49092_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 无人机基础"
+                        
+                        data-hash="md5-BcA16ALEeRD8f0p2&#43;Tdj2A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">无人机基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/shell%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/shell%E5%9F%BA%E7%A1%80/terminal.0b2c3cc4ed1a8b425baeab64ca586a5a_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell基础"
+                        
+                        data-hash="md5-Cyw8xO0ai0JbrqtkylhqWg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

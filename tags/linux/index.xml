@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Linux on 好冷の小窝</title>
+        <link>https://example.com/tags/linux/</link>
+        <description>Recent content in Linux on 好冷の小窝</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>欢迎前来窜门子</copyright>
+        <lastBuildDate>Sun, 21 May 2023 21:38:04 +0800</lastBuildDate><atom:link href="https://example.com/tags/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Gentoo随手记</title>
+        <link>https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/</link>
+        <pubDate>Sun, 21 May 2023 21:38:04 +0800</pubDate>
+        
+        <guid>https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/</guid>
+        <description>&lt;img src="https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo.png" alt="Featured image of post Gentoo随手记" /&gt;&lt;p&gt;Gentoo 是一个快速、现代化的 Linux 发行版，它的设计简洁、灵活。Gentoo 围绕自由软件建立，它不会对它的用户隐瞒“引擎盖下的细节”。Gentoo 所使用的软件包维护系统 Portage 是用 Python 编写的，这意味着用户可以轻松地查看和修改它的源代码。 Gentoo 的软件包管理系统使用源代码包（虽然也支持预编译软件包），并通过标准的文本文件配置Gentoo。换句话说，开放无处不在。  &amp;mdash;&amp;mdash;- 摘抄自&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Gentoo Wiki&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;安装的总流程&#34;&gt;安装的总流程&lt;/h2&gt;
+&lt;p&gt;强烈建议参考&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Wiki&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我在这里只是做了一些简单的记录，而且可能因为版本迭代不再适用，强烈建议参考官方&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Wiki&lt;/a&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;准备好镜像和环境&lt;/li&gt;
+&lt;li&gt;互联网连接&lt;/li&gt;
+&lt;li&gt;完成分区 并挂载&lt;/li&gt;
+&lt;li&gt;chroot，安装核心部件&lt;/li&gt;
+&lt;li&gt;配置并编译内核&lt;/li&gt;
+&lt;li&gt;创建大部分Gentoo的系统配置文件&lt;/li&gt;
+&lt;li&gt;必要的系统工具安装&lt;/li&gt;
+&lt;li&gt;引导程序安装&lt;/li&gt;
+&lt;li&gt;退出livecd环境并进入新系统&lt;/li&gt;
+&lt;li&gt;添加用户配置图形界面等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;下载镜像并进入livecd&#34;&gt;下载镜像并进入LiveCD&lt;/h3&gt;
+&lt;p&gt;本人是在清华大学镜像站下载的iso镜像，链接如下&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;镜像传送门&lt;/a&gt;，选择合适的镜像下载。&lt;/p&gt;
+&lt;p&gt;然后制作U盘启动器，推荐使用&lt;a class=&#34;link&#34; href=&#34;https://www.ventoy.net/cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Ventoy&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;U盘插入电脑选择启动项启动，选择gentoo默认内核启动&lt;/p&gt;
+&lt;h3 id=&#34;前置准备&#34;&gt;前置准备&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;联网&lt;code&gt;ping www.baidu.com&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有线网的话本人使用手机联网通过USB共享给LiveCD，使用&lt;code&gt;dhcpcd&lt;/code&gt;命令&lt;/li&gt;
+&lt;li&gt;无线网的话可以使用&lt;code&gt;wpa_supplicant -i &amp;lt;dev&amp;gt; -c &amp;lt;(wpa_passphrase [SSID] [passwd])&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;硬盘分区&lt;/p&gt;
+&lt;p&gt;分区工具建议使用&lt;code&gt;fdisk&lt;/code&gt;，分区前建议使用&lt;code&gt;lsblk&lt;/code&gt;查看&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UEFI or BIOS 引导分区（UEFI建议256MB及以上）&lt;/li&gt;
+&lt;li&gt;swap （如果内存足够可以不要，如果内存不足，建议设置为RAMx2）&lt;/li&gt;
+&lt;li&gt;root 根目录（其实本人并不建议为home目录单独分一个分区，因为我觉得对于ssd来说没必要，当然也可以创建一个共用区ntf给Windows）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;创建文件系统（以sda为例）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UEFI分区&lt;code&gt;mkfs.vfat -F 32 /dev/sda1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;swap分区：初始化&lt;code&gt;mkswap /dev/sda2&lt;/code&gt;，激活&lt;code&gt;swapon /dev/sda2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;root分区&lt;code&gt;mkfs.ext4 /dev/sda3&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;开始安装&#34;&gt;开始安装&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;挂载&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir --parents /mnt/gentoo
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount /dev/sda3 /mnt/gentoo
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 如果/tmp/需要放在一个单独的分区，请确保其在挂载后有对应的权限&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;chmod &lt;span class=&#34;m&#34;&gt;1777&lt;/span&gt; /mnt/gentoo/tmp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装Gentoo安装文件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;确保时间正确&lt;code&gt;date&lt;/code&gt;，从互联网下载&lt;a class=&#34;link&#34; href=&#34;https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/current-stage3-amd64-desktop-openrc/stage3-amd64-desktop-openrc-20230521T160357Z.tar.xz&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;stage3&lt;/a&gt;归档文件，建议使用&lt;code&gt;links https://mirrors.tuna.tsinghua.edu.cn/gentoo/&lt;/code&gt;命令行浏览器进入tui界面进行下载，或者也可以用其他的电脑下载到硬盘后直接挂载导入到当前地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;下载完成之后将下载的归档文件解压到新系统根目录&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tar xpvf stage3-amd64-desktop-openrc-20230521T160357Z.tar.xz --xattrs-include&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;*.*&amp;#39;&lt;/span&gt; --numeric-owner
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后配置编译选项&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nano -w /mnt/gentoo/etc/portage/make.conf&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;本人的&lt;code&gt;make.conf&lt;/code&gt;文件如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# These settings were set by the catalyst build script that automatically
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# built this stage.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# Please consult /usr/share/portage/config/make.conf.example for a more
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# detailed example.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;COMMON_FLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;-march=native -O2 -pipe&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;CFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${COMMON_FLAGS}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;CXXFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${COMMON_FLAGS}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FCFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${COMMON_FLAGS}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${COMMON_FLAGS}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# NOTE: This stage was built with the bindist Use flag enabled
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# This sets the language of build output to English.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# Please keep this setting intact when reporting bugs.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LC_MESSAGES&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;C&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;utf8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;MAKEOPTS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;-j4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ACCEPT_LICENSE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ACCEPT_KEYWORDS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;GENTOO_MIRRORS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://mirrors.aliyun.com/gentoo/ http://mirrors.aliyun.com/gentoo/ https://mirrors.tuna.tsinghua.edu.cn/gentoo&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;GRUB_PLATFORMS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;efi-64&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# USE
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;USE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;networkmanager savedconfig X elogind alsa icu zsh-completion -systemd&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# Xorg
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# support for touchpad, mouse, and keyboard
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;INPUT_DEVICES&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;synaptics libinput&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置并Chroot进入新系统环境&lt;/p&gt;
+&lt;p&gt;选择镜像&lt;code&gt;mirroselect -i -o &amp;gt;&amp;gt; /mnt/gentoo/etc/portage/make.conf&lt;/code&gt;，&lt;/p&gt;
+&lt;p&gt;配置软件仓库&lt;code&gt;mkdir --parents /mnt/gentoo/etc/portage/repos.conf&lt;/code&gt;，&lt;/p&gt;
+&lt;p&gt;复制Portage提供的Gentoo仓库配置文件到新创建的目录&lt;code&gt;cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;复制DNS信息，不然进新环境后会没有网络&lt;code&gt;cp --dereference /etc/resolv.conf /mnt/gentoo/etc/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;挂载必要的文件系统&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --types proc /proc /mnt/gentoo/proc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --rbind /sys /mnt/gentoo/sys
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --make-rslave /mnt/gentoo/sys
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --rbind /dev /mnt/gentoo/dev
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --make-rslave /mnt/gentoo/dev
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --bind /run /mnt/gentoo/run
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount --make-slave /mnt/gentoo/run  &lt;span class=&#34;c1&#34;&gt;#----# 为systemd提供的&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Chroot&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;chroot /mnt/gentoo /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; /etc/profile
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PS1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;(chroot) &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;PS1&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 挂载boot分区&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mount /dev/sda1 /boot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置Portage&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从网站安装ebuild数据库快照&lt;code&gt;emerge-webrsync&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;更新ebuild数据库&lt;code&gt;emerge --sync&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;选择正确的配置文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;eselect profile list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Available profile symlink targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;2&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/selinux &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;3&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/hardened &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;4&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/hardened/selinux &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;5&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/desktop &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; *
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;6&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/desktop/gnome &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;7&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/desktop/gnome/systemd &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;8&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;   default/linux/amd64/17.1/desktop/gnome/systemd/merged-usr &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;stable&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  ......
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;eselect profile set 5&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;更新@world集合&lt;code&gt;emerge --ask --verbose --update --deep --newuse @world&lt;/code&gt; 或者 &lt;code&gt;emerge -avuDN @world&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;配置USE变量 见我上面展示的make.conf&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;时区、区域配置（OpenRC）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;选择系统时区&lt;code&gt;echo &amp;quot;Asia/Shanghai&amp;quot; &amp;gt; /etc/timezone&lt;/code&gt;，&lt;code&gt;emerge --config sys-libs/timezone-data&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;区域配置&lt;code&gt;nano -w /etc/locale.gen&lt;/code&gt; 启用&lt;code&gt;en_US.UTF-8 UTF-8&lt;/code&gt;和&lt;code&gt;zh_CN.UTF-8 UTF-8&lt;/code&gt;，然后执行&lt;code&gt;locale-gen&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;选择区域&lt;code&gt;eselect locale list&lt;/code&gt;我选的是&lt;code&gt;en_US.utf8&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;重新加载环境&lt;code&gt;env-update &amp;amp;&amp;amp; source /etc/profile &amp;amp;&amp;amp; export PS1=&amp;quot;(chroot) ${PS1}&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装微码和固件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;固件 &lt;code&gt;emerge --ask sys-kernel/linux-firmware&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;微码 &lt;code&gt;emerge --ask sys-firmware/intel-microcode&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;其中，AMD处理器的微码已经在linux-firmware固件里面包含了&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编译内核（冲！！）&lt;/p&gt;
+&lt;p&gt;我使用的是&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Genkernel/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Genkernel&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;接受系统范围任意软件的许可证，也可以在&lt;code&gt;/etc/portage/make.conf&lt;/code&gt;中设置。
+&lt;code&gt;mkdir /etc/portage/package.license&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;安装&lt;code&gt;genkernel&lt;/code&gt;包
+&lt;code&gt;emerge --ask sys-kernel/genkernel&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;编译内核源码并安装
+&lt;code&gt;genkernel --mountboot --install all&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第一次可能比较慢，当然如果你的电脑性能好，也可能会编译的很快，Howerver，等到编译浏览器的时候，你会发现是处理器性能和内存大小对这影响还是很大的 &lt;del&gt;(确信)&lt;/del&gt; 。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;配置系统并完成安装&#34;&gt;配置系统并完成安装&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;fstab&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;建议使用UUID， &lt;code&gt;blkid&lt;/code&gt;命令可以查看UUID
+内附我的fstab文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# &amp;lt;fs&amp;gt;                  &amp;lt;mountpoint&amp;gt;    &amp;lt;type&amp;gt;          &amp;lt;opts&amp;gt;          &amp;lt;dump/pass&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# NOTE: If your BOOT partition is ReiserFS, add the notail option to opts.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# NOTE: Even though we list ext4 as the type here, it will work with ext2/ext3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#       filesystems.  This just tells the kernel to use the ext4 driver.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# NOTE: You can use full paths to devices like /dev/sda3, but it is often
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#       more reliable to use filesystem labels or UUIDs. See your filesystem
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#       documentation for details on setting a label. To obtain the UUID, use
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#       the blkid(8) command.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#LABEL=boot             /boot           ext4            noauto,noatime  1 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#UUID=58e72203-57d1-4497-81ad-97655bd56494              /               ext4            noatime         0 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#LABEL=swap             none            swap            sw              0 0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#/dev/cdrom             /mnt/cdrom      auto            noauto,ro       0 0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# /dev/sda1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;80AE-02C2&amp;#34;&lt;/span&gt;        &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;boot&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;vfat&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;defaults&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;noatime&lt;/span&gt;        &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# /dev/sda2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;711c9bab-9f43-4ebf-8817-1712928b6a89&amp;#34;&lt;/span&gt;     &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;       &lt;span class=&#34;n&#34;&gt;ext4&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;defaults&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;noatime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;discard&lt;/span&gt;        &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# /dev/sda3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;6676917276914429&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;home&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;haoleng&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Public&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;ntfs&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;defaults&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;noatime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;discard&lt;/span&gt;        &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Networking/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络配置&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;root密码&lt;code&gt;passwd&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;OpenRC&lt;/p&gt;
+&lt;p&gt;查看&lt;code&gt;/etc/rc.conf&lt;/code&gt;的注释并根据需求修改&lt;/p&gt;
+&lt;p&gt;安装系统日志工具&lt;code&gt;emerge --ask app-admin/sysklogd&lt;/code&gt;，更新应用配置&lt;code&gt;rc-update add sysklogd default&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;时间同步&lt;code&gt;emerge --ask net-misc/chrony&lt;/code&gt;，运行&lt;code&gt;rc-update add chronyd default&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;网络工具&lt;code&gt;NetworkManager&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;引导程序GRUB（UEFI）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;安装Grub
+&lt;code&gt;echo &#39;GRUB_PLATFORMS=&amp;quot;efi-64&amp;quot;&#39; &amp;gt;&amp;gt; /etc/portage/make.conf&lt;/code&gt;， &lt;code&gt;emerge --ask sys-boot/grub&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;激活Grub &lt;code&gt;grub-install --target=x86_64-efi --efi-directory=/boot --removable&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;生成Grub配置文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo grub-mkconfig -o /boot/grub/grub.cfg
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;密码：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;正在生成 grub 配置文件 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;找到主题：/usr/share/grub/themes/Cyberpunk/theme.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;找到 Linux 镜像：/boot/vmlinuz-6.1.28-gentoo-x86_64
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;找到 initrd 镜像：/boot/initramfs-6.1.28-gentoo-x86_64.img
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;警告： os-prober will not be executed to detect other bootable partitions.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Systems on them will not be added to the GRUB boot configuration.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Check GRUB_DISABLE_OS_PROBER documentation entry.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Adding boot menu entry &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; UEFI Firmware Settings ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;完成
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后就可以重启进入新系统了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;重新启动正常将进入系统之后，就要自己创建一个日常使用的用户了，然后记得安装&lt;code&gt;sudo&lt;/code&gt; 并且修改用户权限。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;恭喜你，完成了Gentoo Linux 的安装工作，然后就要开始进行个人的配置工作了。下面是一些我自己的随手小记，想要了解的话可以继续阅读。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;安装后相关问题记录&#34;&gt;安装后相关问题记录&lt;/h2&gt;
+&lt;h3 id=&#34;包管理器&#34;&gt;包管理器&lt;/h3&gt;
+&lt;p&gt;Portage是用Python和Bash两种语言编写的，&lt;strong&gt;Portage软件系统是Gentoo最显著的特色之一。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Gentoo是滚动发行版，需要将软件仓库与上游同步:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emaint --auto sync&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;然后再更新整个系统:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emerge --ask --verbose --update --deep --newuse @world&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;内核的更新可以参考&amp;ndash;&amp;gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Kernel/Upgrade/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;更新内核&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;获取新的内核源码（一般会在更新系统软件包的时候自行下载完成）&lt;/p&gt;
+&lt;p&gt;当然您也可以单独下载&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emerge --ask sys-kernel/gentoo-sources&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用&lt;code&gt;eselect&lt;/code&gt;设置一个符号链接到新的内核源码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ sudo eselect kernel list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Available kernel symlink targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  [1]   linux-6.1.31-gentoo *
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ sudo eselect kernel set 1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;当然也可以手动链接&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ln -sf /usr/src/linux-6.1.31-gentoo /usr/src/linux&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;移动到新内核文件夹并配置&lt;/p&gt;
+&lt;p&gt;移动到新内核文件夹&lt;code&gt;cd /usr/src/linux&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;配置新内核&lt;code&gt;make menuconfig&lt;/code&gt;，或者直接使用旧内核的配置&lt;code&gt;make olddefconfig&lt;/code&gt;，该命令会保持所有旧的&lt;code&gt;.config&lt;/code&gt;的选项并将旧内核没有包括的新的内核选项设置为默认值&lt;/p&gt;
+&lt;p&gt;然后编译内核，本人比较菜，采用的是自动编译的工具&lt;code&gt;genkernel&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Genkernel/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Genkernel&lt;/a&gt;自动构建和安装&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;genkernel all&lt;/code&gt;可以自动构建和安装内核到&lt;code&gt;/usr/src/linux&lt;/code&gt;符号链接指向的&lt;code&gt;$BOOTDIR&lt;/code&gt;和引导程序&lt;/p&gt;
+&lt;p&gt;如果还有外部内核模块如&lt;code&gt;nvidia&lt;/code&gt;等需要再重新编译一次&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo make modules_prepare&lt;/code&gt; &lt;code&gt;sudo emerge --ask @module-rebuid&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;最后将内核更新到引导程序&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo grub-mkconfig -o /boot/grub/grub.cfg&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;安装和卸载软件以mpv为例&#34;&gt;安装和卸载软件（以mpv为例）&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;安装mpv播放器&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emerge --ask media-video/mpv&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;该过程会从软件源下载源代码并默认存在&lt;code&gt;/var/cache/distfiles/&lt;/code&gt;中，然后解压缩、编译和安装该软件包。如果仅下载源代码而不安装，可以添加&lt;code&gt;--fetchonly&lt;/code&gt;到emerge命令&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载mpv播放器&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emerge --deselect media-video/mpv&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;该命令告诉Protage这个软件包现在不需要了，可以通过&lt;code&gt;--depclean&lt;/code&gt;清理掉
+注意&lt;code&gt;emerge --depclean&lt;/code&gt;是一项危险的操作，我们可以添加一个&lt;code&gt;-p&lt;/code&gt;选项来只列出这些包而不删除他们，示例如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emerge -p --depclean&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;tty自动登录&#34;&gt;tty自动登录&lt;/h3&gt;
+&lt;p&gt;我用的init是OpenRC，在安装系统时已经附带安装了sysvinit
+因此直接编辑&lt;code&gt;/etc/inittab&lt;/code&gt;文件修改为如下样式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# TERMINALS
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c1:12345:respawn:/sbin/agetty --autologin &amp;lt;username&amp;gt; --noclear 38400 tty1 linux
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c2:2345:respawn:/sbin/agetty 38400 tty2 linux
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c3:2345:respawn:/sbin/agetty 38400 tty3 linux
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c4:2345:respawn:/sbin/agetty 38400 tty4 linux
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c5:2345:respawn:/sbin/agetty 38400 tty5 linux
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c6:2345:respawn:/sbin/agetty 38400 tty6 linux
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;双系统时间同步问题&#34;&gt;双系统时间同步问题&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;sudo nvim /etc/conf.d/hwclock&lt;/code&gt;对应项修改为&lt;code&gt;clock=&amp;quot;local&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;禁用-nouveau-并安装-nvidia-驱动&#34;&gt;禁用 nouveau 并安装 Nvidia 驱动&lt;/h3&gt;
+&lt;p&gt;编辑配置文件 &lt;code&gt;/etc/modprobe.d/blacklist.conf&lt;/code&gt; 以禁用nouveau驱动&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;blacklist nouveau
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;blacklist lbm-nouveau
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;options nouveau modeset=0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装nvidia驱动&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo emerge --ask x11-drivers/nvidia-drivers&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;图形界面&#34;&gt;图形界面&lt;/h3&gt;
+&lt;p&gt;附上我的xorg环境下的&lt;a class=&#34;link&#34; href=&#34;https://github.com/haoleng-Wick/dwm&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;dwm配置和源码&lt;/a&gt;，配置简单，基本上clone下来之后&lt;code&gt;make clean install&lt;/code&gt;就可以使用。&lt;/p&gt;
+&lt;h3 id=&#34;firefox浏览器下指定网站禁用插件&#34;&gt;Firefox浏览器下指定网站禁用插件&lt;/h3&gt;
+&lt;p&gt;原理是Firefx为了保护用户隐私，有些官方的域名是强制不开启扩展的，因此我们可以在这些域名后加或者删除域名&lt;/p&gt;
+&lt;p&gt;具体操作如下：&lt;/p&gt;
+&lt;p&gt;首先在地址栏输入&lt;code&gt;about:config&lt;/code&gt;然后无视风险继续浏览，进入之后在搜索框输入&lt;code&gt;extensions.webextensions.restrictedDomains&lt;/code&gt;，在里面添加指定域名即可，注意使用&lt;code&gt;,&lt;/code&gt;隔开。&lt;/p&gt;
+&lt;h2 id=&#34;linux下一些实用的软件介绍&#34;&gt;Linux下一些实用的软件介绍&lt;/h2&gt;
+&lt;h3 id=&#34;android设备投屏软件scrcpyhttpsgithubcomgenymobilescrcpy&#34;&gt;Android设备投屏软件&lt;a class=&#34;link&#34; href=&#34;https://github.com/Genymobile/scrcpy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;scrcpy&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;该软件在gentoo的软件源里有，如果您使用的是&lt;code&gt;ACCEPT_KEYWORDS=&amp;quot;amd64&amp;quot;&lt;/code&gt;或者我需要把软件包加入accept_keywords中，操作如下&lt;/p&gt;
+&lt;p&gt;编辑&lt;code&gt;/etc/portage/package.accept_keywords&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;# Always use unstable packages
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mobilephone&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;scrcpy&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;amd64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;或者将其&lt;code&gt;ACCEPT_KEYWORDS=&amp;quot;amd64&amp;quot;&lt;/code&gt;改为&lt;code&gt;&amp;quot;~amd64&amp;quot;&lt;/code&gt;，&lt;del&gt;个人不建议这样&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;然后就可以安装软件包了，
+但是安装之后有个坑，就是adb无法连接usb手机&lt;/p&gt;
+&lt;p&gt;会报错如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Shell&#34; data-lang=&#34;Shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;adb no permissions&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;user xxx is not in the plugdev group&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;....
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们需要将用户加入&lt;code&gt;plugdev&lt;/code&gt;组中，&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root #usermod -aG plugdev $LOGNAME 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后还是会报错，我们还需要编辑android规则文件&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo nvim /etc/udev/rules.d/android.rules&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;内容如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;SUBSYSTEM==&amp;#34;usb&amp;#34;, ENV{DEVTYPE}==&amp;#34;usb_device&amp;#34;, MODE=&amp;#34;0666&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后就可以顺利使用使用scrcpy了。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;adb tcpip 5037&lt;/code&gt;
+&lt;code&gt;adb connect 192.168.0.4:5037&lt;/code&gt;
+&lt;code&gt;scrcpy -S&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;scrcpy的一些快捷键(Mod默认为ALT键)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;快捷键&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;运行命令&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + f&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;切换全屏&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + g&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;重置屏幕尺寸到像素比1：1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + w&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;重置屏幕尺寸消除黑边&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + p&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;相当于电源按键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + o&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;关闭屏幕&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + Shift + o&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;点亮关闭的屏幕&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + c&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;同步复制到电脑剪切板&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + v&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;同步粘贴剪切板的内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Mod + i&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;启用或者禁用FPS监视器&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        </item>
+        <item>
+        <title>Shell基础</title>
+        <link>https://example.com/p/shell%E5%9F%BA%E7%A1%80/</link>
+        <pubDate>Thu, 18 Jun 2020 05:59:13 +0800</pubDate>
+        
+        <guid>https://example.com/p/shell%E5%9F%BA%E7%A1%80/</guid>
+        <description>&lt;img src="https://example.com/p/shell%E5%9F%BA%E7%A1%80/terminal.png" alt="Featured image of post Shell基础" /&gt;&lt;h1 id=&#34;shell基础&#34;&gt;Shell基础&lt;/h1&gt;
+&lt;h2 id=&#34;基础正则表达式符号&#34;&gt;基础正则表达式符号&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;RE字符&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;意义&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;^word&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;待查词word在行首&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;word$&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;待查词word在行尾&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;.&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;一定有一个任意字符&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;重复零到无穷个 * 前面的字符&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;[ABC]&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;ABC中的一个字符&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;[a-z]&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;a~z中的一个字符&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;[^peach]&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;列出不包含peach中一个字符的行&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;反向选取&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;\{n,m\}&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;连续n～m个的前一个RE字符&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;code&gt;\{n,\}&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;表示连续n个以上的前一个RE字符&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;grep管道命令&#34;&gt;grep管道命令&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;grep -n &#39;[^a-z]pple&#39; filename.md&lt;/code&gt;选取出pple前面不包含a~z中一个字符的行（像apple就不会被列出来）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;grep -n &#39;^$&#39; filename.md&lt;/code&gt;列出文件中的所有空行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;grep -v &#39;^$&#39; /etc/rsyslog.conf |grep -v &#39;^#&#39;&lt;/code&gt;去掉空行和以#开头的行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;sed管道命令&#34;&gt;sed管道命令&lt;/h3&gt;
+&lt;p&gt;格式：&lt;code&gt;sed -[nefr] {操作}&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sed &#39;2,5d&lt;/code&gt;删除第2～5行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sed &#39;2,$d&lt;/code&gt;删除第2行到最后一行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sed &#39;2a add something&#39;&lt;/code&gt;在第二行后加入add something&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sed &#39;2i add something&#39;&lt;/code&gt;在第二行前加入add something&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sed &#39;2,5c Something&lt;/code&gt;将第二行到第五行按行替换为Something&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sed &#39;s/要被替换的字符/新的字符/g&lt;/code&gt;（部分替换）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;栗子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cat /etc/man_db.conf|grep &amp;#34;MAN&amp;#34;|sed &amp;#39;s/#.*$//g&amp;#39;|sed &amp;#39;/^$/d&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;列出文件中含有MAN字符的整行并把以#开头的行换成空行之后删掉空行
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;sed -i xxx 修改原文件而不是仅修改打印，比较危险 例如&lt;code&gt;sed -i &#39;s/\.$/\!/g&#39; filename.md&lt;/code&gt;表示修改filename.md中以.结尾的行的句末的.为！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;awk&#34;&gt;awk&lt;/h3&gt;
+&lt;p&gt;awk不是整行操作的，它更倾向于一行中分成数个字段来处理。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ last -n &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng  tty1         :0               Thu Jun &lt;span class=&#34;m&#34;&gt;18&lt;/span&gt; 07:28   still logged in
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reboot   system boot  5.7.2-arch1-1    Thu Jun &lt;span class=&#34;m&#34;&gt;18&lt;/span&gt; 07:27   still running
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng  tty1         :0               Wed Jun &lt;span class=&#34;m&#34;&gt;17&lt;/span&gt; 16:07 - down   &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;00:41&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng  tty1         :0               Wed Jun &lt;span class=&#34;m&#34;&gt;17&lt;/span&gt; 16:04 - 16:07  &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;00:02&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reboot   system boot  5.7.2-arch1-1    Wed Jun &lt;span class=&#34;m&#34;&gt;17&lt;/span&gt; 16:04 - 16:48  &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;00:44&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wtmp begins Sat Apr &lt;span class=&#34;m&#34;&gt;11&lt;/span&gt; 12:49:36 &lt;span class=&#34;m&#34;&gt;2020&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用awk之后：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ last -n &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;{print $1 &amp;#34;\t&amp;#34; $3}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng	:0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reboot	boot
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng	:0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng	:0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reboot	boot
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wtmp	Sat
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h5 id=&#34;awk的内置变量&#34;&gt;awk的内置变量&lt;/h5&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;变量名称&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;代表意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;NF&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;每一行（$0）拥有的字段总数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;NR&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;目前awk所处理的是第几行数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;FS&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;目前的分割字符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ last -n 5&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;{print $1 &amp;#34;\t line_count: &amp;#34;NF &amp;#34;\t line: &amp;#34; NR}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng	 line_count: 10	 line: &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reboot	 line_count: 10	 line: &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng	 line_count: 10	 line: &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;haoleng	 line_count: 10	 line: &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reboot	 line_count: 11	 line: &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 line_count: 0	 line: &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wtmp	 line_count: 7	 line: &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;假设有一份薪资数据表pay.txt，内容如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Name&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;st&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nd&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;th&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;John&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;23000&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;24000&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;25000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Wick&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;21000&lt;/span&gt; 	&lt;span class=&#34;mi&#34;&gt;20000&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;26000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;V&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;43000&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;42000&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;41900&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以用awk求和：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ cat pay.txt &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&amp;gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1{printf &amp;#34;%10s %10s %10s %10s %10s\n&amp;#34;,$1,$2,$3,$4,&amp;#34;Total&amp;#34;}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;gt; NR&amp;gt;=2{total = $2 +$3 +$4;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;gt; printf &amp;#34;%10s %10s %10s %10s %10.2f\n&amp;#34;,$1,$2,$3,$4,total}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      Name        1st        2nd        3th      Total
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      John      &lt;span class=&#34;m&#34;&gt;23000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;24000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;25000&lt;/span&gt;   72000.00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      Wick      &lt;span class=&#34;m&#34;&gt;21000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;20000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;26000&lt;/span&gt;   67000.00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         V      &lt;span class=&#34;m&#34;&gt;43000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;42000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;41900&lt;/span&gt;  126900.00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;或者用下面的命令同样可以：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ cat pay.txt &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&amp;gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;{if (NR==1) printf &amp;#34;%10s %10s %10s %10s %10s\n&amp;#34;,$1,$2,$3,$4,&amp;#34;Total&amp;#34;}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;gt; NR&amp;gt;=2{total = $2 +$3 +$4;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;gt; printf &amp;#34;%10s %10s %10s %10s %10.2f\n&amp;#34;,$1,$2,$3,$4,total}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      Name        1st        2nd        3th      Total
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      John      &lt;span class=&#34;m&#34;&gt;23000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;24000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;25000&lt;/span&gt;   72000.00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      Wick      &lt;span class=&#34;m&#34;&gt;21000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;20000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;26000&lt;/span&gt;   67000.00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         V      &lt;span class=&#34;m&#34;&gt;43000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;42000&lt;/span&gt;      &lt;span class=&#34;m&#34;&gt;41900&lt;/span&gt;  126900.00
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;简单的扩展正则表达式&#34;&gt;简单的扩展正则表达式&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;RE字符&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;意义&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;范例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;+&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;一个或一个以上+前面的字符&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;egrep -n &#39;go+d&#39; filename.md&lt;/code&gt;——good god&amp;hellip;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;?&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;一个或者零个？前面的字符&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;go+d与go?d的集合是 go*d&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;|&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;用or的方法找出数个字符串&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;`egrep -n &amp;lsquo;god&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;( )&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;找出[组群]字符串&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;`egrep -n &amp;lsquo;g(lo&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;( )+&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;重复的组群&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;一个简单的栗子：&lt;code&gt;grep -v &#39;^$&#39; filename.md|grep -v &#39;^#&#39;&lt;/code&gt; 等价与 &lt;code&gt;egrep -v &#39;^$|^#&#39; filename.md&lt;/code&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

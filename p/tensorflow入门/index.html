@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Tensorflow Object Detection API 在GentooLinux环境下的安装和介绍。'>
+<title>Tensorflow入门</title>
+
+<link rel='canonical' href='https://example.com/p/tensorflow%E5%85%A5%E9%97%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Tensorflow入门'>
+<meta property='og:description' content='Tensorflow Object Detection API 在GentooLinux环境下的安装和介绍。'>
+<meta property='og:url' content='https://example.com/p/tensorflow%E5%85%A5%E9%97%A8/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='机器视觉' /><meta property='article:tag' content='Tensorflow' /><meta property='article:published_time' content='2023-07-17T10:50:29&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:36:10&#43;08:00'/><meta property='og:image' content='https://example.com/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.jpg' />
+<meta name="twitter:title" content="Tensorflow入门">
+<meta name="twitter:description" content="Tensorflow Object Detection API 在GentooLinux环境下的安装和介绍。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.jpg' />
+    <link rel="shortcut icon" href="static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以致千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#gentoo-linux-系统下-tenosorflow-gpu-的安装">Gentoo Linux 系统下 Tenosorflow-gpu 的安装</a>
+      <ol>
+        <li><a href="#安装-nvidia-驱动">安装 nvidia 驱动</a>
+          <ol>
+            <li><a href="#安装cuda">安装cuda</a></li>
+          </ol>
+        </li>
+        <li><a href="#安装anaconda">安装Anaconda</a></li>
+        <li><a href="#安装tensorflow">安装Tensorflow</a></li>
+        <li><a href="#tensorflow-object-detection-api-安装">Tensorflow Object Detection API 安装</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow_hud8524d9562d7473f3449c190ff1a23cc_42729_800x0_resize_q75_box.jpg"
+                        srcset="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow_hud8524d9562d7473f3449c190ff1a23cc_42729_800x0_resize_q75_box.jpg 800w, /p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow_hud8524d9562d7473f3449c190ff1a23cc_42729_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post Tensorflow入门" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" style="background-color: #2a9d8f; color: #fff;">
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">Tensorflow入门</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Tensorflow Object Detection API 在GentooLinux环境下的安装和介绍。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023-07-17</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-20</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="gentoo-linux-系统下-tenosorflow-gpu-的安装">Gentoo Linux 系统下 Tenosorflow-gpu 的安装</h2>
+<h3 id="安装-nvidia-驱动">安装 nvidia 驱动</h3>
+<p>可以参考我的这篇<a class="link" href="https://haoleng-wick.github.io/gentoo%e9%9a%8f%e6%89%8b%e8%ae%b0/#%e7%a6%81%e7%94%a8-nouveau-%e5%b9%b6%e5%ae%89%e8%a3%85-nvidia-%e9%a9%b1%e5%8a%a8"  target="_blank" rel="noopener"
+    >文章</a></p>
+<p>使用 <code>nvidia-smi</code>命令 验证安装是否成功</p>
+<p>我的电脑输出如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Mon Jul 17 10:54:53 2023
+</span></span><span class="line"><span class="cl">+-----------------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">| NVIDIA-SMI 525.125.06   Driver Version: 525.125.06   CUDA Version: 12.0     |
+</span></span><span class="line"><span class="cl">|-------------------------------+----------------------+----------------------+
+</span></span><span class="line"><span class="cl">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+</span></span><span class="line"><span class="cl">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+</span></span><span class="line"><span class="cl">|                               |                      |               MIG M. |
+</span></span><span class="line"><span class="cl">|===============================+======================+======================|
+</span></span><span class="line"><span class="cl">|   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0 Off |                  N/A |
+</span></span><span class="line"><span class="cl">| N/A   37C    P0    N/A /  80W |      6MiB /  6144MiB |      0%      Default |
+</span></span><span class="line"><span class="cl">|                               |                      |                  N/A |
+</span></span><span class="line"><span class="cl">+-------------------------------+----------------------+----------------------+
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">+-----------------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">| Processes:                                                                  |
+</span></span><span class="line"><span class="cl">|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+</span></span><span class="line"><span class="cl">|        ID   ID                                                   Usage      |
+</span></span><span class="line"><span class="cl">|=============================================================================|
+</span></span><span class="line"><span class="cl">|    0   N/A  N/A      3640      G   /usr/bin/X                          4MiB |
+</span></span><span class="line"><span class="cl">+-----------------------------------------------------------------------------+
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="安装cuda">安装cuda</h4>
+<p>安装软件包</p>
+<p><code>sudo emerge --ask dev-util/nvidia-cuda-toolkit</code></p>
+<p><a class="link" href="https://developer.nvidia.cn/cudnn-download-survey"  target="_blank" rel="noopener"
+    >下载cudnn</a></p>
+<p>将下载后的文件解压缩并复制到指定位置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tar xvzf cudnn-linux-x86_64-8.9.3.28_cuda12-archive.tar.xz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cd cudnn-linux-x86_64-8.9.3.28_cuda12-archive
+</span></span><span class="line"><span class="cl">sudo cp include/cudnn.h /opt/cuda/include
+</span></span><span class="line"><span class="cl">sudo cp lib/libcudnn* /opt/cuda/lib64
+</span></span><span class="line"><span class="cl">sudo chmod a+r /opt/cuda/include/cudnn.h
+</span></span><span class="line"><span class="cl">sudo chmod a+r /opt/cuda/lib64/libcudnn*
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="安装anaconda">安装Anaconda</h3>
+<p>下载安装脚本<a class="link" href="https://repo.anaconda.com/archive/Anaconda3-2023.07-1-Linux-x86_64.sh"  target="_blank" rel="noopener"
+    >Download</a></p>
+<p>给予执行权限<code>chomd +x Anaconda3-*.sh</code></p>
+<p>执行<code>./Download/Anaconda3-*.sh</code></p>
+<p>然后配置安装目录，是否在当前shell环境中激活，建议是。</p>
+<h3 id="安装tensorflow">安装Tensorflow</h3>
+<p>创建虚拟环境</p>
+<p><code>conda create --name tensorflow python=3.10</code></p>
+<p>激活虚拟环境</p>
+<p><code>conda activate tensorflow</code></p>
+<p>安装软件包</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="c1"># conda环境下的cuda和cudnn</span>
+</span></span><span class="line"><span class="cl"><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">cudatoolkit</span><span class="o">=</span><span class="mf">11.8</span><span class="o">.</span><span class="mi">0</span> <span class="n">cudnn</span><span class="o">=</span><span class="mf">8.9</span><span class="o">.</span><span class="mf">2.26</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># conda虚拟环境的环境变量配置</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 临时设置</span>
+</span></span><span class="line"><span class="cl"><span class="k">export</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=$</span><span class="n">CONDA_PREFIX</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="p">:</span><span class="o">$</span><span class="n">CUDNN_PATH</span><span class="o">/</span><span class="n">lib</span><span class="p">:</span><span class="o">$</span><span class="n">LD_LIBRARY_PATH</span>
+</span></span><span class="line"><span class="cl"><span class="k">export</span> <span class="n">XLA_FLAGS</span><span class="o">=--</span><span class="n">xla_gpu_cuda_data_dir</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">cuda</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 永久配置（建议临时设置测试tensorflow环境，成功之后再进行永久性配置）</span>
+</span></span><span class="line"><span class="cl"><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">$</span><span class="n">CONDA_PREFIX</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">conda</span><span class="o">/</span><span class="n">activate</span><span class="o">.</span><span class="n">d</span>
+</span></span><span class="line"><span class="cl"><span class="n">echo</span> <span class="s1">&#39;export LD_LIBRARY_PATH=$CONDA_PREFIX/lib/:$CUDNN_PATH/lib:$LD_LIBRARY_PATH&#39;</span> <span class="o">&gt;&gt;</span> <span class="o">$</span><span class="n">CONDA_PREFIX</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">conda</span><span class="o">/</span><span class="n">activate</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">env_vars</span><span class="o">.</span><span class="n">sh</span>
+</span></span><span class="line"><span class="cl"><span class="n">echo</span> <span class="s1">&#39;export XLA_FLAGS=--xla_gpu_cuda_data_dir=/opt/cuda&#39;</span> <span class="o">&gt;&gt;</span> <span class="o">$</span><span class="n">CONDA_PREFIX</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">conda</span><span class="o">/</span><span class="n">activate</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">env_vars</span><span class="o">.</span><span class="n">sh</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># pip安装tensorflow</span>
+</span></span><span class="line"><span class="cl"><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span>
+</span></span><span class="line"><span class="cl"><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorflow</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>验证</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 -c &#34;import tensorflow as tf; print(&#39;GPU&#39;, tf.test.is_gpu_available())&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本人电脑上输出如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">****
+</span></span><span class="line"><span class="cl">2023-07-17 11:14:12.266188: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /device:GPU:0 with 4069 MB memory:  -&gt; device: 0, name: NVIDIA GeForce RTX 3060 Laptop GPU, pci bus id: 0000:01:00.0, compute capability: 8.6
+</span></span><span class="line"><span class="cl">GPU True
+</span></span><span class="line"><span class="cl">****
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至此，Tensorflow安装完毕。</p>
+<h3 id="tensorflow-object-detection-api-安装">Tensorflow Object Detection API 安装</h3>
+<p>安装教程参考 <a class="link" href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2.md"  target="_blank" rel="noopener"
+    >tensorflow2 od install</a></p>
+<ol>
+<li>
+<p>克隆tensorflow模型存储库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git clone https://github.com/tensorflow/models.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>pip安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd models/research
+</span></span><span class="line"><span class="cl"># 需要安装 protos 在环境当中
+</span></span><span class="line"><span class="cl">protoc object_detection/protos/*.proto --python_out=.
+</span></span><span class="line"><span class="cl"># 安装 TensorFlow Object Detection API
+</span></span><span class="line"><span class="cl">cp object_detection/packages/tf2/setup.py .
+</span></span><span class="line"><span class="cl">pip install .
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>测试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># Test the installation.
+</span></span><span class="line"><span class="cl">python object_detection/builders/model_builder_tf2_test.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p>恭喜您，已经完成了安装，下来试试一个小例子吧。</p>
+<p><a class="link" href="https://github.com/haoleng-Wick/arccoon_detection"  target="_blank" rel="noopener"
+    >一个浣熊检测小模型</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉</a>
+        
+            <a href="/tags/tensorflow/">Tensorflow</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-20 22:36 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/pytorch%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu9f713ad84f2edfa72e78551edd5f644f_73867_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Pytorch入门"
+                        
+                        data-hash="md5-NGf4aI7KuaOloQtq3EkYMA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.d67e3b6f1bb78779f5bd074efaf98994_hu897fca54ae8e34409121667f57e687d2_226190_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 传统机器视觉基础"
+                        
+                        data-hash="md5-1n47bxu3h3n1vQdO&#43;vmJlA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">传统机器视觉基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post KMP算法"
+                        
+                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KMP算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.05c035e802c47910fc7f4a76f93763d8_hu3380120350b8de274e915bc3a29bb5f0_49092_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 无人机基础"
+                        
+                        data-hash="md5-BcA16ALEeRD8f0p2&#43;Tdj2A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">无人机基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/shell%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/shell%E5%9F%BA%E7%A1%80/terminal.0b2c3cc4ed1a8b425baeab64ca586a5a_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell基础"
+                        
+                        data-hash="md5-Cyw8xO0ai0JbrqtkylhqWg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

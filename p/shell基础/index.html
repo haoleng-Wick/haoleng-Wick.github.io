@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Linux Shell相关的一些东西。'>
+<title>Shell基础</title>
+
+<link rel='canonical' href='https://example.com/p/shell%E5%9F%BA%E7%A1%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Shell基础'>
+<meta property='og:description' content='Linux Shell相关的一些东西。'>
+<meta property='og:url' content='https://example.com/p/shell%E5%9F%BA%E7%A1%80/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:published_time' content='2020-06-18T05:59:13&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:28:52&#43;08:00'/><meta property='og:image' content='https://example.com/p/shell%E5%9F%BA%E7%A1%80/terminal.png' />
+<meta name="twitter:title" content="Shell基础">
+<meta name="twitter:description" content="Linux Shell相关的一些东西。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/shell%E5%9F%BA%E7%A1%80/terminal.png' />
+    <link rel="shortcut icon" href="static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以致千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#基础正则表达式符号">基础正则表达式符号</a>
+      <ol>
+        <li><a href="#grep管道命令">grep管道命令</a></li>
+        <li><a href="#sed管道命令">sed管道命令</a></li>
+        <li><a href="#awk">awk</a>
+          <ol>
+            <li></li>
+          </ol>
+        </li>
+        <li><a href="#简单的扩展正则表达式">简单的扩展正则表达式</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/shell%E5%9F%BA%E7%A1%80/">
+                <img src="/p/shell%E5%9F%BA%E7%A1%80/terminal_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_800x0_resize_box_3.png"
+                        srcset="/p/shell%E5%9F%BA%E7%A1%80/terminal_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_800x0_resize_box_3.png 800w, /p/shell%E5%9F%BA%E7%A1%80/terminal_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="257" 
+                        loading="lazy"
+                        alt="Featured image of post Shell基础" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" style="background-color: #2a9d8f; color: #fff;">
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/shell%E5%9F%BA%E7%A1%80/">Shell基础</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Linux Shell相关的一些东西。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2020-06-18</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-20</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="shell基础">Shell基础</h1>
+<h2 id="基础正则表达式符号">基础正则表达式符号</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">RE字符</th>
+<th style="text-align:center">意义</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>^word</code></td>
+<td style="text-align:center">待查词word在行首</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>word$</code></td>
+<td style="text-align:center">待查词word在行尾</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>.</code></td>
+<td style="text-align:center">一定有一个任意字符</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*</code></td>
+<td style="text-align:center">重复零到无穷个 * 前面的字符</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[ABC]</code></td>
+<td style="text-align:center">ABC中的一个字符</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[a-z]</code></td>
+<td style="text-align:center">a~z中的一个字符</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[^peach]</code></td>
+<td style="text-align:center">列出不包含peach中一个字符的行</td>
+<td style="text-align:center">反向选取</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\{n,m\}</code></td>
+<td style="text-align:center">连续n～m个的前一个RE字符</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\{n,\}</code></td>
+<td style="text-align:center">表示连续n个以上的前一个RE字符</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="grep管道命令">grep管道命令</h3>
+<ul>
+<li><code>grep -n '[^a-z]pple' filename.md</code>选取出pple前面不包含a~z中一个字符的行（像apple就不会被列出来）</li>
+<li><code>grep -n '^$' filename.md</code>列出文件中的所有空行</li>
+<li><code>grep -v '^$' /etc/rsyslog.conf |grep -v '^#'</code>去掉空行和以#开头的行</li>
+</ul>
+<h3 id="sed管道命令">sed管道命令</h3>
+<p>格式：<code>sed -[nefr] {操作}</code></p>
+<ul>
+<li><code>sed '2,5d</code>删除第2～5行</li>
+<li><code>sed '2,$d</code>删除第2行到最后一行</li>
+<li><code>sed '2a add something'</code>在第二行后加入add something</li>
+<li><code>sed '2i add something'</code>在第二行前加入add something</li>
+<li><code>sed '2,5c Something</code>将第二行到第五行按行替换为Something</li>
+<li><code>sed 's/要被替换的字符/新的字符/g</code>（部分替换）</li>
+</ul>
+<p>栗子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cat /etc/man_db.conf|grep &#34;MAN&#34;|sed &#39;s/#.*$//g&#39;|sed &#39;/^$/d&#39;
+</span></span><span class="line"><span class="cl">列出文件中含有MAN字符的整行并把以#开头的行换成空行之后删掉空行
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>sed -i xxx 修改原文件而不是仅修改打印，比较危险 例如<code>sed -i 's/\.$/\!/g' filename.md</code>表示修改filename.md中以.结尾的行的句末的.为！</li>
+</ul>
+<h3 id="awk">awk</h3>
+<p>awk不是整行操作的，它更倾向于一行中分成数个字段来处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ last -n <span class="m">5</span>
+</span></span><span class="line"><span class="cl">haoleng  tty1         :0               Thu Jun <span class="m">18</span> 07:28   still logged in
+</span></span><span class="line"><span class="cl">reboot   system boot  5.7.2-arch1-1    Thu Jun <span class="m">18</span> 07:27   still running
+</span></span><span class="line"><span class="cl">haoleng  tty1         :0               Wed Jun <span class="m">17</span> 16:07 - down   <span class="o">(</span>00:41<span class="o">)</span>
+</span></span><span class="line"><span class="cl">haoleng  tty1         :0               Wed Jun <span class="m">17</span> 16:04 - 16:07  <span class="o">(</span>00:02<span class="o">)</span>
+</span></span><span class="line"><span class="cl">reboot   system boot  5.7.2-arch1-1    Wed Jun <span class="m">17</span> 16:04 - 16:48  <span class="o">(</span>00:44<span class="o">)</span>
+</span></span><span class="line"><span class="cl">wtmp begins Sat Apr <span class="m">11</span> 12:49:36 <span class="m">2020</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用awk之后：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ last -n <span class="m">5</span> <span class="p">|</span>awk <span class="s1">&#39;{print $1 &#34;\t&#34; $3}&#39;</span>
+</span></span><span class="line"><span class="cl">haoleng	:0
+</span></span><span class="line"><span class="cl">reboot	boot
+</span></span><span class="line"><span class="cl">haoleng	:0
+</span></span><span class="line"><span class="cl">haoleng	:0
+</span></span><span class="line"><span class="cl">reboot	boot
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">wtmp	Sat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="awk的内置变量">awk的内置变量</h5>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">变量名称</th>
+<th style="text-align:center">代表意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">NF</td>
+<td style="text-align:center">每一行（$0）拥有的字段总数</td>
+</tr>
+<tr>
+<td style="text-align:center">NR</td>
+<td style="text-align:center">目前awk所处理的是第几行数据</td>
+</tr>
+<tr>
+<td style="text-align:center">FS</td>
+<td style="text-align:center">目前的分割字符</td>
+</tr>
+</tbody>
+</table></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ last -n 5<span class="p">|</span>awk <span class="s1">&#39;{print $1 &#34;\t line_count: &#34;NF &#34;\t line: &#34; NR}&#39;</span>
+</span></span><span class="line"><span class="cl">haoleng	 line_count: 10	 line: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">reboot	 line_count: 10	 line: <span class="m">2</span>
+</span></span><span class="line"><span class="cl">haoleng	 line_count: 10	 line: <span class="m">3</span>
+</span></span><span class="line"><span class="cl">haoleng	 line_count: 10	 line: <span class="m">4</span>
+</span></span><span class="line"><span class="cl">reboot	 line_count: 11	 line: <span class="m">5</span>
+</span></span><span class="line"><span class="cl">	 line_count: 0	 line: <span class="m">6</span>
+</span></span><span class="line"><span class="cl">wtmp	 line_count: 7	 line: <span class="m">7</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>假设有一份薪资数据表pay.txt，内容如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="n">Name</span>	<span class="mi">1</span><span class="n">st</span>	<span class="mi">2</span><span class="n">nd</span>	<span class="mi">3</span><span class="n">th</span>
+</span></span><span class="line"><span class="cl"><span class="n">John</span>	<span class="mi">23000</span>	<span class="mi">24000</span>	<span class="mi">25000</span>
+</span></span><span class="line"><span class="cl"><span class="n">Wick</span>	<span class="mi">21000</span> 	<span class="mi">20000</span>	<span class="mi">26000</span>
+</span></span><span class="line"><span class="cl"><span class="n">V</span>	<span class="mi">43000</span>	<span class="mi">42000</span>	<span class="mi">41900</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以用awk求和：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat pay.txt <span class="p">|</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; awk <span class="s1">&#39;NR==1{printf &#34;%10s %10s %10s %10s %10s\n&#34;,$1,$2,$3,$4,&#34;Total&#34;}
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; NR&gt;=2{total = $2 +$3 +$4;\
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; printf &#34;%10s %10s %10s %10s %10.2f\n&#34;,$1,$2,$3,$4,total}&#39;</span>
+</span></span><span class="line"><span class="cl">      Name        1st        2nd        3th      Total
+</span></span><span class="line"><span class="cl">      John      <span class="m">23000</span>      <span class="m">24000</span>      <span class="m">25000</span>   72000.00
+</span></span><span class="line"><span class="cl">      Wick      <span class="m">21000</span>      <span class="m">20000</span>      <span class="m">26000</span>   67000.00
+</span></span><span class="line"><span class="cl">         V      <span class="m">43000</span>      <span class="m">42000</span>      <span class="m">41900</span>  126900.00
+</span></span><span class="line"><span class="cl">或者用下面的命令同样可以：
+</span></span><span class="line"><span class="cl">$ cat pay.txt <span class="p">|</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; awk <span class="s1">&#39;{if (NR==1) printf &#34;%10s %10s %10s %10s %10s\n&#34;,$1,$2,$3,$4,&#34;Total&#34;}
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; NR&gt;=2{total = $2 +$3 +$4;\
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; printf &#34;%10s %10s %10s %10s %10.2f\n&#34;,$1,$2,$3,$4,total}&#39;</span>
+</span></span><span class="line"><span class="cl">      Name        1st        2nd        3th      Total
+</span></span><span class="line"><span class="cl">      John      <span class="m">23000</span>      <span class="m">24000</span>      <span class="m">25000</span>   72000.00
+</span></span><span class="line"><span class="cl">      Wick      <span class="m">21000</span>      <span class="m">20000</span>      <span class="m">26000</span>   67000.00
+</span></span><span class="line"><span class="cl">         V      <span class="m">43000</span>      <span class="m">42000</span>      <span class="m">41900</span>  126900.00
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="简单的扩展正则表达式">简单的扩展正则表达式</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">RE字符</th>
+<th style="text-align:center">意义</th>
+<th style="text-align:left">范例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">一个或一个以上+前面的字符</td>
+<td style="text-align:left"><code>egrep -n 'go+d' filename.md</code>——good god&hellip;</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">一个或者零个？前面的字符</td>
+<td style="text-align:left"><code>go+d与go?d的集合是 go*d</code></td>
+</tr>
+<tr>
+<td style="text-align:center">|</td>
+<td style="text-align:center">用or的方法找出数个字符串</td>
+<td style="text-align:left">`egrep -n &lsquo;god</td>
+</tr>
+<tr>
+<td style="text-align:center">( )</td>
+<td style="text-align:center">找出[组群]字符串</td>
+<td style="text-align:left">`egrep -n &lsquo;g(lo</td>
+</tr>
+<tr>
+<td style="text-align:center">( )+</td>
+<td style="text-align:center">重复的组群</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>一个简单的栗子：<code>grep -v '^$' filename.md|grep -v '^#'</code> 等价与 <code>egrep -v '^$|^#' filename.md</code></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">Linux</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-20 22:28 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hud8524d9562d7473f3449c190ff1a23cc_42729_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Tensorflow入门"
+                        
+                        data-hash="md5-ipEKHxnOb3nhN33mV6xCmQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tensorflow入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/pytorch%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu9f713ad84f2edfa72e78551edd5f644f_73867_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Pytorch入门"
+                        
+                        data-hash="md5-NGf4aI7KuaOloQtq3EkYMA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post KMP算法"
+                        
+                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KMP算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.d67e3b6f1bb78779f5bd074efaf98994_hu897fca54ae8e34409121667f57e687d2_226190_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 传统机器视觉基础"
+                        
+                        data-hash="md5-1n47bxu3h3n1vQdO&#43;vmJlA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">传统机器视觉基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.05c035e802c47910fc7f4a76f93763d8_hu3380120350b8de274e915bc3a29bb5f0_49092_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 无人机基础"
+                        
+                        data-hash="md5-BcA16ALEeRD8f0p2&#43;Tdj2A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">无人机基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

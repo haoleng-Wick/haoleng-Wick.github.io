@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本人收集的经典图像处理算法介绍，包括Fast特征检测，ORB算法等……'>
+<title>传统机器视觉基础</title>
+
+<link rel='canonical' href='https://example.com/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='传统机器视觉基础'>
+<meta property='og:description' content='本人收集的经典图像处理算法介绍，包括Fast特征检测，ORB算法等……'>
+<meta property='og:url' content='https://example.com/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='机器视觉' /><meta property='article:published_time' content='2023-05-06T03:20:13&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:37:14&#43;08:00'/><meta property='og:image' content='https://example.com/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.png' />
+<meta name="twitter:title" content="传统机器视觉基础">
+<meta name="twitter:description" content="本人收集的经典图像处理算法介绍，包括Fast特征检测，ORB算法等……"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.png' />
+    <link rel="shortcut icon" href="static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以致千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#fast特征点检测算法">FAST特征点检测算法</a></li>
+    <li><a href="#brief特征点描述算法">BRIEF特征点描述算法</a></li>
+    <li><a href="#orb算法快速特征点提取和描述算法">ORB算法（快速特征点提取和描述算法）</a></li>
+    <li><a href="#nms算法非极大值抑制">NMS算法（非极大值抑制）</a></li>
+    <li><a href="#ransac算法">RANSAC算法()</a></li>
+    <li><a href="#kmeans算法">Kmeans算法</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+                <img src="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C_hu897fca54ae8e34409121667f57e687d2_226190_800x0_resize_box_3.png"
+                        srcset="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C_hu897fca54ae8e34409121667f57e687d2_226190_800x0_resize_box_3.png 800w, /p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C_hu897fca54ae8e34409121667f57e687d2_226190_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="229" 
+                        loading="lazy"
+                        alt="Featured image of post 传统机器视觉基础" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" style="background-color: #2a9d8f; color: #fff;">
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">传统机器视觉基础</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本人收集的经典图像处理算法介绍，包括Fast特征检测，ORB算法等……
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023-05-06</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-20</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="传统机器视觉基础">传统机器视觉基础</h1>
+<h1 id="传统计算机视觉">传统计算机视觉</h1>
+<h2 id="fast特征点检测算法">FAST特征点检测算法</h2>
+<p><em><strong>FAST只是一种特征点检测算法，并不涉及特征点的特征描述。</strong></em></p>
+<ul>
+<li>
+<p>FAST的提出者Rosten等将 <strong>FAST角点</strong> 定义为：若某像素与其周围邻域内足够多的像素点相差较大，则该像素可能是角点。</p>
+</li>
+<li>
+<p><strong>算法流程</strong></p>
+<ul>
+<li>
+<div align=center><img src="./NMP_Fast_1.png" * ! alt="" /></div>
+</li>
+</ul>
+<ol>
+<li>以像素$p$为中心，半径为3的圆上，有16个像素点</li>
+<li>定义一个阈值，计算$p1$、$p5$、$p9$、$p13$与中心$p$的像素差，若它们的绝对值至少有三个超过阈值，则当作候选角点，否则不可能是角点</li>
+<li>若$p$是候选点，则计算$p1$到$p16$这16个点与中心$p$点的像素差，若它们至少有<strong>连续9</strong>个超过阈值，则为角点，否则不可能是角点</li>
+<li><strong>对图像进行非极大值抑制（nms）</strong>：判断以特征点$p$为中心的一个邻域（如3x3或5x5）内，计算若有多个特征点，则判断每个特征点的$s$值（16个点与中心差值的绝对值总和），若$p$是邻域所有特征点中响应值最大的，则保留；否则，抑制。若邻域内只有一个特征点（角点），则保留。得分计算公式如下（公式中用$V$表示得分，$t$表示阈值）：</li>
+</ol>
+<p>$$
+V = max \begin{cases}
+\sum{pixel values - p}, &amp; \text{if (value - p) &gt; t} \\\
+\sum{p - pixel values}, &amp; \text{if (p- value) &gt; t}
+\end{cases}
+$$</p>
+</li>
+</ul>
+<hr>
+<h2 id="brief特征点描述算法">BRIEF特征点描述算法</h2>
+<ul>
+<li>
+<p>BRIEF是对已检测到的特征点进行描述，它是一种二进制编码的描述子，摈弃了利用区域灰度直方图描述特征点的传统方法，大大的加快了特征描述符建立的速度，同时也极大的降低了特征匹配的时间，是一种非常快速，很有潜力的算法。
+<em><strong>由于BRIEF仅仅是特征描述子，所以事先要得到特征点的位置</strong></em></p>
+</li>
+<li>
+<p><strong>算法流程</strong></p>
+<ol>
+<li>
+<p>为减少噪声干扰，需对图像先进行滤波（如高斯滤波）</p>
+</li>
+<li>
+<p>以特征点为中心，取$S \times S$的邻域窗口。在窗口内随机选取一对（两个）点，比较二者像素的大小，进行如下二进制赋值。
+$$
+\iota(p;x,y):=\begin{cases} 1,&amp; \text{$if p(x)&lt;p(y)$ } \\\ 0,&amp; \text{$otherwise$} \end{cases}
+$$
+其中，$p(x)$，$p(y)$分别是随机点$x=(u1,v1)$, $y=(u2,v2)$的像素值。</p>
+</li>
+<li>
+<p>在窗口中随机选取$N$对随机点，重复步骤2的二进制赋值，形成一个二进制编码，这个编码就是对特征点的描述，即特征描述子。（一般$N=256$）</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>利用BPIEF特征进行配准</strong></p>
+<p>经过特征点提取，对于一幅图中的每一个特征点，都得到了一个256bit的二进制编码。接下来对有相似或重叠部分的两幅图像进行配准。</p>
+<ul>
+<li>特征配对是利用汉明距离进行判决的：
+<ol>
+<li>两个特征编码对应bit位上相同元素的个数小于128的，一定不是配对的。</li>
+<li>一幅图上特征点与另一幅图上特征编码对应bit位上相同元素的个数最多的特征点配成一对。</li>
+</ol>
+</li>
+</ul>
+<hr>
+</li>
+</ul>
+<h2 id="orb算法快速特征点提取和描述算法">ORB算法（快速特征点提取和描述算法）</h2>
+<ul>
+<li>ORB算法分为两部分，分别是特征点提取和特征点描述。特征提取是由FAST算法（前面已经学过）发展来的，特征点描述是根据BRIEF特征描述算法改进的。
+<ul>
+<li>
+<p><strong>算法流程</strong></p>
+<blockquote>
+<p>ORB对FAST的改进或者拓展，主要是为其增加了其尺度不变性以及旋转不变性。接下里来看一看怎么实现的。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>关键点提取</strong></p>
+<ol>
+<li>通过FAST算法提取特征点</li>
+<li>建立金字塔 设置一个比例因子$scale$（opencv默认取1.2）和金字塔层数$n$（通常取8），将原图像按比例因子缩小为$n$幅图像（ $I&rsquo; = I/scale^k$ ）  $k=1、2、3 \dots n$幅不同比例的图像提取特征点总和作为原图的FAST特征点</li>
+<li>定义特征点方向
+<blockquote>
+<p>ORB的论文中提出了一种利用灰度质心法来解决这个问题，通过计算一个矩来计算特征点以$r$为半径范围内的质心，特征点坐标到质心形成一个向量作为该特征点的方向。我们来看看具体怎么实现灰度质心法。
+一个图像块（比如5x5的图像块），对应2x2的矩的元素表达为：</p>
+</blockquote>
+</li>
+</ol>
+<p>$$
+m_{pq} = \sum_{x,y} \ x^p y^q I(x,y)
+$$</p>
+<ul>
+<li>$x,y$ 分别为坐标值，$I(x,y)$为像素值而该图像的窗口质心为：</li>
+</ul>
+<p>$$
+C = (\frac{m_{10}}{m_{00}},\frac{m_{01}}{m_{00}})
+$$</p>
+<p>那么特征点与质心的夹角定义为FAST特征点的方向：</p>
+<p>$$
+\theta = arctan(m_{01},m_{10})
+$$</p>
+<p>有了特征点的方向，继而实现旋转不变性。</p>
+</li>
+<li>
+<p><strong>关键点描述</strong></p>
+<blockquote>
+<p>ORB选择了BRIEF作为特征描述方法，并对其进行改进使其加上旋转不变性并增加其可区分性。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>
+<p>BRIEF描述子</p>
+<p><em>BRIEF算法计算出来的是一个二进制串的特征描述符。</em> 它是在每一个特征点的邻域内，<strong>选择n对像素点</strong>$8pi、qi（i=1,2,…,n）$。然后比较每个点对的灰度值的大小。如果$I(pi)&gt; I(qi)$，则生成二进制串中的1，否则为0。所有的点对都进行比较，则生成长度为$n$的二进制串。一般$n$取128、256或512，通常取256。
+<strong>为了增强抗噪性，一般会先对图像进行高斯平滑。ORB算子采用5x5的子窗口进行平滑。</strong></p>
+<p>$n$个点对的选取方法</p>
+<ol>
+<li>
+<p>在点周围选取点对$（p,q）$的方法</p>
+</li>
+<li>
+<p>$p$和$q$都符合$(0,S2/25)$的高斯分布；</p>
+<ol start="3">
+<li>$p$符合$(0,S2/25)$的高斯分布，而$q$符合$(0,S2/100)$的高斯分布；</li>
+</ol>
+</li>
+<li>
+<p>在空间量化极坐标下的离散位置随机采样；</p>
+</li>
+<li>
+<p>把$p$固定为$(0,0)$，$q$在周围平均采样。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>BRIEF算法改进</p>
+<blockquote>
+<p>增加其旋转不变性，选点方式改进</p>
+</blockquote>
+<ul>
+<li>
+<p>steered BRIEF增加其旋转不变性</p>
+<p>所谓steered BRIEF就是对挑选出的点对加上一个旋转角度$θ$。对于任何一个特征点来说，它的BRIEF描述子是一个长度为𝑛的二值码串，这个二值码串是由特征点邻域𝑛个点对生成的，我们现在讲这2𝑛个点(𝑥𝑖,𝑦𝑖),𝑖=1,2,&hellip;..,2𝑛组成一个矩阵𝑆:
+$$
+S = \left[
+\begin{matrix}
+x_1 &amp; x_2 &amp; &hellip; &amp; x_{2n}\\\
+y_1 &amp; y_2 &amp; &hellip; &amp; y_{2n}
+\end{matrix}
+\right]
+$$</p>
+<p>使用<strong>邻域方向</strong>$\theta$和对应的旋转矩阵$R_\theta$，构建$S$的一个校正版本$S_\theta$：
+$$
+S_\theta = R_\theta S
+$$
+其中</p>
+<p>$$
+R_\theta = \left[
+\begin{matrix}
+\cos\theta &amp; sin\theta \\\
+-sin\theta &amp; cos\theta
+\end{matrix}
+\right]
+$$</p>
+<ul>
+<li>
+<p><em>steered BRIEF加入了旋转不变性，但同时特征描述量的可区分行就下降了,所以就有了ORB作者提出的rBRIEF</em></p>
+</li>
+<li>
+<p>rBRIEF增加其可区分性
+<em>ORB使用统计学习的方法来重新选择点对集合，目的是增大其特征描述量的可区分行。</em></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>OpenCV大致思路：</li>
+</ol>
+<ul>
+<li>一个就是将提取的角点信息进行格式化，输出为numpy数组：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## 提取图像ORB特征并转化为numpy数组</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">extraORBfromImg</span><span class="p">(</span><span class="n">ORB</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl"><span class="n">keypoints</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="n">ORB</span><span class="o">.</span><span class="n">detectAndCompute</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="c1"># 关键点检测</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 特征点信息</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">kp</span><span class="o">.</span><span class="n">pt</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">keypoints</span><span class="p">])</span> <span class="c1"># 特征点图像坐标</span>
+</span></span><span class="line"><span class="cl"><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">kp</span><span class="o">.</span><span class="n">octave</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">keypoints</span><span class="p">])</span><span class="c1"># 特征点尺度(在哪一层金字塔)</span>
+</span></span><span class="line"><span class="cl"><span class="n">direct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">kp</span><span class="o">.</span><span class="n">angle</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">keypoints</span><span class="p">])</span> <span class="c1"># 特征点方向(弧度)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 拼接</span>
+</span></span><span class="line"><span class="cl"><span class="n">infos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">scale</span><span class="p">,</span><span class="n">direct</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="n">cors_info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">axis</span><span class="p">,</span><span class="n">infos</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">cors_info</span><span class="p">,</span> <span class="n">desc</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>另一个就是进行图像间的角点匹配函数：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## ORB特征BRIEF描述子匹配</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">ORBMatch</span><span class="p">(</span><span class="n">BF</span><span class="p">,</span> <span class="n">desc1</span><span class="p">,</span> <span class="n">desc2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl"><span class="n">matches</span> <span class="o">=</span> <span class="n">BF</span><span class="o">.</span><span class="k">match</span><span class="p">(</span><span class="n">desc1</span><span class="p">,</span> <span class="n">desc2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mc</span><span class="o">.</span><span class="n">distance</span> <span class="k">for</span> <span class="n">mc</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">idx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mc</span><span class="o">.</span><span class="n">trainIdx</span> <span class="k">for</span> <span class="n">mc</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">idx0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mc</span><span class="o">.</span><span class="n">queryIdx</span> <span class="k">for</span> <span class="n">mc</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">idx0</span><span class="p">,</span><span class="n">idx1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 匹配点筛选，当描述子之间的距离大于两倍的最小距离时，认为匹配有误</span>
+</span></span><span class="line"><span class="cl"><span class="n">min_dist</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">filte_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dist</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">min_dist</span><span class="p">,</span> <span class="mi">30</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">dist</span><span class="p">[</span><span class="n">filte_idx</span><span class="p">],</span> <span class="n">idx</span><span class="p">[</span><span class="n">filte_idx</span><span class="p">,:]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>由于<code>ORBMatch</code>函数返回的是所有点的匹配距离和匹配索引，因此必要时我们还需要一个函数计算匹配点对的坐标：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## 获取图像对匹配点的坐标(一对)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">findMatchCord</span><span class="p">(</span><span class="n">match_idx</span><span class="p">,</span> <span class="n">cors1</span><span class="p">,</span> <span class="n">cors2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl"><span class="n">left</span> <span class="o">=</span> <span class="n">cors1</span><span class="p">[</span><span class="n">match_idx</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">right</span> <span class="o">=</span> <span class="n">cors2</span><span class="p">[</span><span class="n">match_idx</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>结果示例：</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div align=center><img src="./ORB_demo_1.png"	! alt="" /></div>
+<hr>
+<h2 id="nms算法非极大值抑制">NMS算法（非极大值抑制）</h2>
+<ul>
+<li>目标检测过程中在同一目标的位置上会产生大量的候选框，这些候选框相互之间可能会有重叠，此时我们需要利用非极大值抑制找到最佳的目标边界框，消除冗余的边界框。</li>
+</ul>
+<div align=center><img src="./NMP_demo.jpg" ! alt="" /></div>
+<ul>
+<li>
+<p>流程一般如下：</p>
+<p><strong>前提</strong> ：目标边界框列表及其对应的置信度得分列表，设定阈值，阈值用来删除重叠较大的边界框。</p>
+<p><strong>IOU</strong> ：intersection-over-union，即两个边界框的交集部分除以它们的并集。</p>
+<ol>
+<li>根据置信度得分进行排序</li>
+<li>选择置信度最高的边界框添加到最终的传输列表中，将其从边界框列表中删除</li>
+<li>计算所有边界框的面积</li>
+<li>计算置信度最高的边界框与其他候选框的loU</li>
+<li>删除loU大于阈值的边界框</li>
+<li>重复上述过程，直至边界框列表为空</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="ransac算法">RANSAC算法()</h2>
+<ul>
+<li>
+<p><strong>随机抽样一致算法</strong> ，采用迭代的方式从一组包含离群的被观测数据中估算出数学模型的参数，RANSAC算法假设数据中包含正确数据和异常数据（或者噪声）。正确数据记为内点（inliers），异常数据记为外点（outliers）。同时RANSAC也假设，给定一组正确的数据，存在可以计算出符合这些数据的模型参数的方法。该算法<strong>核心思想就是随机性和假设性</strong>， <strong>随机性</strong> 是根据正确数据出现概率去随机选取抽样数据，根据大数定律，随机性模拟可以近似得到正确结果。 <strong>假设性</strong> 是假设选取出的抽样数据都是正确数据，然后用这些正确数据通过问题满足的模型，去计算其他点，然后对这次结果进行一个评分。</p>
+<p>RANSAC的基本就假设是：</p>
+<ol>
+<li>数据由“局内点”组成，例如：数据的分布可以用一些模型来解释;</li>
+<li>“局外点”是不能是适应模型的数据;</li>
+<li>除此之外的数据属于噪声。</li>
+</ol>
+<p>RANSAC也做出了以下假设：给定一组（通常很小的）局内点，存在一个可以估计模型参数的过程；而该模型能够解释或者适用于局内点。</p>
+</li>
+<li>
+<p>算法流程：</p>
+<ol>
+<li>选择出可以估计出模型的最小数据集；(对于直线拟合来说就是两个点，对于计算Homography矩阵就是4个点)</li>
+<li>使用这个数据集来计算出数据模型；</li>
+<li>将所有数据带入这个模型，计算出“内点”的数目；(累加在一定误差范围内的适合当前迭代推出模型的数据)</li>
+<li>比较当前模型和之前推出的最好的模型的“内点“的数量，记录最大“内点”数的模型参数和“内点”数；</li>
+<li>重复1-4步，直到迭代结束或者当前模型已经足够好了(“内点数目大于一定数量”)。</li>
+</ol>
+<blockquote>
+<p>RANSAC算法的输入是一组观测数据，一个可以解释或者适应于观测数据的参数化模型，一些可信的参数。</p>
+</blockquote>
+<ul>
+<li>输入</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	data	// 一组观测数据
+</span></span><span class="line"><span class="cl">	model	// 适应于数据的模型
+</span></span><span class="line"><span class="cl">	n	// 适应于模型的最少数据个数，如果是直线的话，n=2
+</span></span><span class="line"><span class="cl">	k	// 算法的迭代次数
+</span></span><span class="line"><span class="cl">	t	// 用于决定数据是否应用于模型的阈值
+</span></span><span class="line"><span class="cl">	d	// 判定模型是否适用于数据集的数据个数，人为设定
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>输出</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">best_model	 // 跟数据最匹配的模型参数（如果没有好的模型，返回null）
+</span></span><span class="line"><span class="cl">best_consensus_set	 // 估计出模型的数据点
+</span></span><span class="line"><span class="cl">best_error	 // 跟数据相关的估计出的模型错误
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="kmeans算法">Kmeans算法</h2>
+<ul>
+<li>
+<p>聚类与KMeans</p>
+<p>聚类是在事先并不知道任何样本标签的情况下，通过数据之间的内在关系把样本划分为若干类别，使得同类别样本之间的相似度高，不同类别之间的样本相似度低（即增大类内聚，减少类间距）。</p>
+<p>K均值聚类是最基础常用的聚类算法。它的基本思想是：通过迭代寻找K个簇（Cluster）的一种划分方案，使得聚类结果对应的损失函数最小。其中，损失函数可以定义为各个样本距离所属簇中心点的误差平方和：
+$$
+J(c, \mu) = \sum _{i=1} ^{M} \parallel x_i - \mu _{c_i} \parallel ^2
+$$</p>
+</li>
+</ul>
+<p>其中 $x_i$ 代表第 $i$ 个样本，$c_i$ 是 $x_i$ 所属的簇，$\mu_{c_i}$ 代表簇对应的中心点，$M$是样本总数</p>
+<ul>
+<li>
+<p>算法流程</p>
+<p>KMeans的核心目标是将给定的数据集划分成K个簇（K是超参），并给出每个样本数据对应的中心点。具体步骤非常简单，可以分为4步：</p>
+<ol>
+<li>数据预处理。主要是标准化、异常点过滤。</li>
+<li>随机选取K个中心，记为 $\mu_1^{(0)}$ , $\mu_2^{(0)}$ ,……, $\mu_k^{(0)}$</li>
+<li>定义损失函数:</li>
+</ol>
+<p>$$
+J(c, \mu) = \sum _{i=1} ^{M} \parallel x_i -\mu _{c_i} \parallel ^2
+$$</p>
+<ol start="5">
+<li>
+<p>令 t = 0, 1, 2,……为迭代步数，重复如下过程直到 $J$ 收敛:</p>
+<ol>
+<li>对于每一个样本 $x_i$ ,将其分配到距离最近的中心
+$$
+c_i^t &lt; - argmin_k \parallel x_i - \mu_k^t \parallel ^2
+$$</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>对于每一个类中心k，重新计算该类的中心</li>
+</ol>
+<p>$$
+\mu_k^{t+1} &lt; -argmin_{\mu} \sum _{i:c_i^t = k} ^b \parallel x_i - \mu \parallel ^2
+$$</p>
+<p>KMeans最核心的部分就是先固定中心点，调整每个样本所属的类别来减少 $J$ ；再固定每个样本的类别，调整中心点继续减小$J$ 。两个过程交替循环， $J$ 单调递减直到最（极）小值，中心点和样本划分的类别同时收敛。</p>
+<p>KMeans 迭代示意图：</p>
+<div align=center><img src="./KMeans_demo_1.png" ! alt="" /></div>
+<ul>
+<li>
+<p>KMeans算法步骤：</p>
+<ol>
+<li>随机初始化k个点作为簇质心；</li>
+<li>将样本集中的每个点分配到一个簇中；计算每个点与质心之间的距离（常用欧式距离和余弦距离），并将其分配给距离最近的质心所对应的簇中；</li>
+<li>更新簇的质心。每个簇的质心更新为该簇所有点的平均值；</li>
+<li>反复迭代2 - 3 步骤，直到达到某个终止条件；（a. 达到指定的迭代次数；b. 簇心不再发生明显的变化，即收敛；c. 最小误差平方和SSE；）</li>
+</ol>
+</li>
+<li>
+<p>SSE(Sum of Square Error, 误差平方和)，SSE值越小表示数据点越接近于它们的质心，聚类效果也越好。</p>
+</li>
+</ul>
+<p>$$
+SSE = \sum_{i = 1} ^ k \sum_{x\in C_i} (x-\mu_i) ^2
+$$</p>
+<p>$$
+\mu_i = \frac{1}{|C_i|} \sum_{x\in{C_i}} x
+$$</p>
+<p>算法过程：</p>
+<div align=center><img src="./KMeans_demo_2.png"	! alt="" /></div>
+<ul>
+<li>点 $x = (x_1,x_2,……,x_n)$ 和点 $y = (y_1,y_2,……,y_n)$ 之间的欧氏距离为：</li>
+</ul>
+<p>$$
+d(x,y) = \sqrt{(x_1-y_1)^2 + (x_2-y_2)^2 +……+ (x_n-y_n)^2}
+$$</p>
+<ul>
+<li>两个向量 A 和 B，其余弦距离（即两向量夹角的余弦）由点积和向量长度给出，计算公式如下：</li>
+</ul>
+<p>$$
+cos\theta = \frac{A * B}{|A|*|B|}
+= \frac{\sum_{i=1}^n A_i B_i} {\sqrt{\sum_{i=1}^n (A_i)^2} \sqrt{\sum_{i=1}^n (B_i)^2}}
+$$</p>
+<p>$$
+dist(A,B) = 1 - cos(A,B) = \frac{|A| _2 |B|_2 - A * B}{|A| |B|}
+$$</p>
+<p>式子中， $A_i$ 和 $B_i$ 分别代表向量A和B的各分量。</p>
+<ul>
+<li>
+<p>算法优缺点</p>
+<p>优点：容易实现</p>
+<p>缺点：可能收敛到局部最小值，在大规模数据集上收敛较慢</p>
+<p>适用数据类型：数值型数据</p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-20 22:37 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hud8524d9562d7473f3449c190ff1a23cc_42729_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Tensorflow入门"
+                        
+                        data-hash="md5-ipEKHxnOb3nhN33mV6xCmQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tensorflow入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/pytorch%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu9f713ad84f2edfa72e78551edd5f644f_73867_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Pytorch入门"
+                        
+                        data-hash="md5-NGf4aI7KuaOloQtq3EkYMA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post KMP算法"
+                        
+                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KMP算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.05c035e802c47910fc7f4a76f93763d8_hu3380120350b8de274e915bc3a29bb5f0_49092_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 无人机基础"
+                        
+                        data-hash="md5-BcA16ALEeRD8f0p2&#43;Tdj2A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">无人机基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/shell%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/shell%E5%9F%BA%E7%A1%80/terminal.0b2c3cc4ed1a8b425baeab64ca586a5a_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell基础"
+                        
+                        data-hash="md5-Cyw8xO0ai0JbrqtkylhqWg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

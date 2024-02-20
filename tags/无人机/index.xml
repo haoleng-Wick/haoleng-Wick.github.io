@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>无人机 on 好冷の小窝</title>
+        <link>https://example.com/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/</link>
+        <description>Recent content in 无人机 on 好冷の小窝</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>欢迎前来窜门子</copyright>
+        <lastBuildDate>Tue, 18 Apr 2023 05:59:13 +0800</lastBuildDate><atom:link href="https://example.com/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>无人机基础</title>
+        <link>https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/</link>
+        <pubDate>Tue, 18 Apr 2023 05:59:13 +0800</pubDate>
+        
+        <guid>https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/</guid>
+        <description>&lt;img src="https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg" alt="Featured image of post 无人机基础" /&gt;&lt;h1 id=&#34;无人机基础&#34;&gt;无人机基础&lt;/h1&gt;
+&lt;h2 id=&#34;四旋翼无人机基础&#34;&gt;四旋翼无人机基础&lt;/h2&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./drone_1.png&#34; alt=&#34;&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;keywords&lt;/strong&gt; : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、&lt;/p&gt;
+&lt;h3 id=&#34;四旋翼无人机的动力学模型&#34;&gt;四旋翼无人机的动力学模型&lt;/h3&gt;
+&lt;dir style=&#34;float: right; width: 20%; padding: 5px;&#34;&gt;
+&lt;img src=&#34;https://example.com/img/guaige.gif&#34; style=&#34;box-shadow: 8px 8px 8px rgba(0.2,0.4,0.3,0.5);&#34;&gt;
+&lt;/dir&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./drone_2.png&#34; alt=&#34;]&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;基本假设：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;四旋翼飞行器是均匀对称的刚体&lt;/li&gt;
+&lt;li&gt;四旋翼飞行器的质量和转动惯量不发生改变&lt;/li&gt;
+&lt;li&gt;四旋翼飞行器的几何中心与其重心重合&lt;/li&gt;
+&lt;li&gt;四旋翼飞行器只受重力和螺旋桨拉力&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;牛顿&amp;ndash;欧拉方程&lt;/strong&gt; : : 刚体运动 = 质心的平动 + 绕质心的转动&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;质心的平动&lt;/em&gt; : $F = m \frac{dv}{dt}$&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;绕质心的转动&lt;/em&gt; : $M = J \dot\omega + \omega \times J\omega$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 &lt;strong&gt;叉乘&lt;/strong&gt; ）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;位置动力学模型&lt;/strong&gt; (合外力和速度的方程)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;旋转矩阵&lt;/strong&gt; 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:&lt;/p&gt;
+&lt;p&gt;$$
+R^e_b = \left[
+\begin{matrix}
+\cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi + \sin\psi\sin\phi \\\
+\cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi + \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\
+-\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta
+\end{matrix}
+\right]
+$$&lt;/p&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./drone_3.png&#34; alt=&#34;&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;根据牛顿第二定律整理得：&lt;/p&gt;
+&lt;p&gt;$$
+\dot v^e = g^e + R^e_b \cdot \frac{T^b}{m}
+$$&lt;/p&gt;
+&lt;p&gt;即：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+\dot v_x = -\frac{f}{m}(\cos\psi\sin\theta\cos\phi + \sin\psi\sin\phi) \\\
+\dot v_y = -\frac{f}{m}(\sin\psi\sin\theta\cos\phi - \cos\psi\sin\theta) \\\
+\dot v_z = g - \frac{f}{m}\cos\phi\cos\theta
+\end{cases}
+$$&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;姿态动力学模型&lt;/strong&gt; (合力矩和角速度的方程)&lt;/p&gt;
+&lt;p&gt;由欧拉方程知：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;$$
+J\dot\omega^b + \omega^b \times J\omega^b = G^b_a + \tau^b
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\omega^b = \left[\begin{matrix}\omega_{xb} &amp;amp; \omega_{yb} &amp;amp; \omega_{zb}\end{matrix} \right]^T
+$$&lt;/p&gt;
+&lt;p&gt;式中， $\omega^b$ 表示在机体坐标系下的角速度； $G_a$ 表示陀螺力矩； $\tau$ 表示螺旋桨在机体轴上产生的力矩，包括绕 $O_bX_b$ 轴的滚转力矩 $\tau_x$ 、绕 $O_bY_b$ 轴的俯仰力矩 $\tau_y$ 以及绕 $O_bZ_b$ 轴的偏航力矩 $\tau_z$ 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;陀螺力矩Ga&lt;/strong&gt;: 当电机高速旋转的时候，相当于一个陀螺。高速旋转的陀螺是非常稳定的个体，具有保持自身轴向不变的能力。&lt;/p&gt;
+&lt;p&gt;$$
+G_a = \left[
+\begin{matrix}
+G_{a,\phi} \\\
+G_{a, \theta} \\\
+G_{a,\psi}
+\end{matrix}
+\right]
+= \left[
+\begin{matrix}
+J_1q(\overline\omega_1 - \overline\omega_2 + \overline\omega_3 - \overline\omega_4) \\\
+J_1p(-\overline\omega_1 + \overline\omega_2 - \overline\omega_3 + \overline\omega_4) \\\
+0
+\end{matrix}
+\right]
+$$&lt;/p&gt;
+&lt;p&gt;式中， $J_1$ 表示整个电机转子和螺旋桨绕机体转轴的总转动惯量； $\overline\omega_i$ 表示螺旋桨 1,2,3,4 的转速。&lt;/p&gt;
+&lt;p&gt;由于假设四旋翼飞行器是均匀对称的刚体,所以 &lt;strong&gt;惯性矩阵J&lt;/strong&gt; 可表示为:&lt;/p&gt;
+&lt;p&gt;$$
+J = \left[
+\begin{matrix}
+I_{xx} &amp;amp; -I_{xy} &amp;amp; -I_{xz} \\\
+-I_{xy} &amp;amp; I_{yy} &amp;amp; -I_{yz} \\\
+-I_{xz} &amp;amp; -I_{yz} &amp;amp; I_{zz}
+\end{matrix}
+\right]
+= \left[
+\begin{matrix}
+I_{xx} &amp;amp;   &amp;amp;   \\\
+&amp;amp; I_{yy} &amp;amp;   \\\
+&amp;amp;   &amp;amp; I_{zz}
+\end{matrix}
+\right]
+$$&lt;/p&gt;
+&lt;p&gt;所以上式可化为:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+\dot p = \dot\omega_{xb} = \frac{1}{I_{xx}}\left[\tau_x + qr(I_{yy} - I_{zz}) - J_{RP} q \cdot \Omega\right]	\\\
+\dot q = \dot\omega_{yb} = \frac{1}{I_{yy}}\left[\tau_y + pr(I_{zz} - I_{xx}) + J_{RP} p \cdot\Omega\right]	\\\
+\dot r = \dot\omega_{zb} =\frac{1}{I{zz}}\left[\tau_z + pq(I_{xx} - I_{yy})\right]
+\end{cases}
+$$&lt;/p&gt;
+&lt;p&gt;式中， $\Omega = -\overline\omega_1 + \overline\omega_2 - \overline\omega_3 + \overline\omega_4$&lt;/p&gt;
+&lt;h3 id=&#34;四旋翼飞行器的运动学模型&#34;&gt;四旋翼飞行器的运动学模型&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;输入&lt;/strong&gt; -&amp;gt;[速度和角速度] &lt;strong&gt;输出&lt;/strong&gt; -&amp;gt;[位置和姿态]&lt;/p&gt;
+&lt;p&gt;位置：&lt;/p&gt;
+&lt;p&gt;$$
+\dot p^e = v^e
+$$&lt;/p&gt;
+&lt;p&gt;姿态：&lt;/p&gt;
+&lt;p&gt;$$
+\left[
+\begin{matrix}
+\dot\phi \\\
+\dot\theta \\\
+\dot\psi
+\end{matrix}
+\right]	= \left[
+\begin{matrix}
+1 &amp;amp; \tan\theta\sin\phi &amp;amp; \tan\theta\cos\phi \\\
+0 &amp;amp; \cos\phi &amp;amp; -\sin\phi \\\
+0 &amp;amp; \frac{\sin\phi}{\cos\theta} &amp;amp; \frac{\cos\phi}{\cos\theta}
+\end{matrix}
+\right]  \left[
+\begin{matrix}
+p \\\ q \\\ r
+\end{matrix}
+\right]
+$$&lt;/p&gt;
+&lt;h3 id=&#34;无人机姿态&#34;&gt;无人机姿态&lt;/h3&gt;
+&lt;p&gt;Pich,俯仰&lt;/p&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./pich.gif&#34; alt=&#34;Pich&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;Roll，横滚&lt;/p&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./roll.gif&#34; alt=&#34;Roll&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;Yaw，航向（偏航）&lt;/p&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./yaw.gif&#34; alt=&#34;Yaw&#34; /&gt;&lt;/div&gt;
+&lt;h2 id=&#34;共轴双桨旋翼无人机基础&#34;&gt;共轴双桨旋翼无人机基础&lt;/h2&gt;
+&lt;p&gt;共轴双桨旋翼无人机的飞行原理类似于常见的直升机。但是共轴双桨无人机取消了直升机的尾桨，而使用两个直径相同共轴布局的螺旋桨，利用两个共轴螺旋桨反向旋转来抵消扭矩，再通过倾斜盘作为变距机构，从而控制飞行器的俯仰和横滚自由度。&lt;/p&gt;
+&lt;p&gt;该类型飞行器的优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;没有尾桨的功率损耗，具有&lt;strong&gt;更高的悬停效率&lt;/strong&gt;，根据莫卡夫设计局的研究资料，共轴双旋翼直升机的悬停效率要比单旋翼带尾桨的直升机高出17%~30%。&lt;/li&gt;
+&lt;li&gt;由于没有尾桨，可以将机身做的很短，因此其结构重量和载荷均集中在重心处，从而减少了直升机俯仰和偏航的转动惯量，计有&lt;strong&gt;较高的加速特性&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;该类飞行器的缺点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;机械机构相对复杂，制造成本和可维护性上不如多旋翼飞行器&lt;/li&gt;
+&lt;li&gt;飞行模态相对多旋翼复杂一些，在飞控设计方面有一定的挑战性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;共轴双桨旋翼无人机基本操纵原理&#34;&gt;共轴双桨旋翼无人机基本操纵原理&lt;/h3&gt;
+&lt;p&gt;共轴旋翼无人机在空中有6个自由度，分别为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;沿X轴的纵向移动、绕X轴的横滚&lt;/li&gt;
+&lt;li&gt;沿Y轴的横向移动、绕Z轴的偏航&lt;/li&gt;
+&lt;li&gt;沿Z轴的垂直移动、绕Y轴的俯仰&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其主要操纵原理如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;通过&lt;strong&gt;总距&lt;/strong&gt;操纵调节上下旋翼的总距，从而改变旋翼拉力的大小，操纵无人机的垂直运动。&lt;/li&gt;
+&lt;li&gt;通过&lt;strong&gt;周期变距&lt;/strong&gt;操纵使倾斜盘沿不同的方向倾斜，从而改变旋翼拉力的方向，操纵无人机的横向运动和纵向运动。&lt;/li&gt;
+&lt;li&gt;通过&lt;strong&gt;航向操纵&lt;/strong&gt;改变上下旋翼的扭矩差使无人机的航向改变来操纵航向运动。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;关于相机的内参&#34;&gt;关于相机的内参&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;相机内参&lt;/strong&gt;的作用就是把坐标从&lt;strong&gt;相机坐标系&lt;/strong&gt;转换到&lt;strong&gt;像素坐标系&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;设 $O - x - y - z$ 为&lt;strong&gt;相机坐标系&lt;/strong&gt;，习惯上我们把 $z$ 轴指向相机前方， $x$ 向右， $y$ 向下。 $O$ 为摄像机的光心，也就是针孔模型中的针孔。 &lt;strong&gt;P&lt;/strong&gt; 为真实世界中的一点，在相机坐标系中坐标为 $[X, Y, Z]^T$，成像点**P&amp;rsquo;**的坐标为 $[X&amp;rsquo;, Y&amp;rsquo;, Z&amp;rsquo;]^T$ ，焦距（物理成像平面和光心的距离）为 $f$ 。&lt;/p&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./camera1.png&#34; alt=&#34;相机坐标系&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;根据相似三角形可知：
+$$
+X&amp;rsquo; = f \frac{X} {Z} \
+Y&amp;rsquo; = f \frac{Y} {Z}
+$$
+设 $O&amp;rsquo; - u - v$ 是&lt;strong&gt;像素坐标系&lt;/strong&gt;，原点 $o&amp;rsquo;$ 位于图像左上角， $u$  轴向右与 $x$ 轴平行， $v$ 轴向下与 $y$ 轴平行。像素坐标在 $u$ 轴上缩 $\alpha$ 放倍，在v轴上缩放了 $\beta$ 倍，原点平移了 $[c_x, c_y]^T$ 。**P&amp;rsquo;**在像素平面坐标系上的坐标是 $[u, v]^T$ 。&lt;/p&gt;
+&lt;p&gt;则可以得到&lt;strong&gt;P‘与像素坐标系&lt;/strong&gt;的关系为：
+$$
+u = \alpha X&amp;rsquo; + c_x \
+v = \beta  Y&amp;rsquo; + c_y
+$$
+进而得到&lt;strong&gt;P&lt;/strong&gt;与**P’**的关系：
+$$
+u = \alpha f \frac{X} {Z} + c_x = f_x  \frac{X} {Z} + c_x
+$$&lt;/p&gt;
+&lt;p&gt;$$
+v = \beta f \frac{Y} {Z} + c_y = f_y  \frac{Y} {Z} + c_y
+$$&lt;/p&gt;
+&lt;p&gt;转换为矩阵形式：
+$$
+Z \left(
+\begin{matrix}
+u \\\ v \\\ 1
+\end{matrix}
+\right)
+= \left(
+\begin{matrix}
+f_x &amp;amp; 0 &amp;amp; c_x \\\
+0 &amp;amp; f_y &amp;amp; c_y \\\
+0 &amp;amp; 0 &amp;amp; 1
+\end{matrix}
+\right)
+\left(
+\begin{matrix}
+X \\\ Y \\\ Z
+\end{matrix}
+\right)
+=KP
+$$
+其中，&lt;strong&gt;K&lt;/strong&gt;为相机的&lt;strong&gt;内参矩阵&lt;/strong&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;相机外参&lt;/strong&gt;的作用是把坐标从&lt;strong&gt;世界坐标系&lt;/strong&gt;转换到&lt;strong&gt;相机坐标系中&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div align=center&gt;&lt;img src=&#34;./camera2.png&#34; alt=&#34;&#34; /&gt;&lt;/div&gt;
+&lt;p&gt;最右边那个矩阵就是相机的&lt;strong&gt;外参矩阵&lt;/strong&gt;。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

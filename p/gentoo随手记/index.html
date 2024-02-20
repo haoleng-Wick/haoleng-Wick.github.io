@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本人的Gentoo安装和配置手记'>
+<title>Gentoo随手记</title>
+
+<link rel='canonical' href='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Gentoo随手记'>
+<meta property='og:description' content='本人的Gentoo安装和配置手记'>
+<meta property='og:url' content='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:published_time' content='2023-05-21T21:38:04&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:35:49&#43;08:00'/><meta property='og:image' content='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo.png' />
+<meta name="twitter:title" content="Gentoo随手记">
+<meta name="twitter:description" content="本人的Gentoo安装和配置手记"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo.png' />
+    <link rel="shortcut icon" href="static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以致千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#安装的总流程">安装的总流程</a>
+      <ol>
+        <li><a href="#下载镜像并进入livecd">下载镜像并进入LiveCD</a></li>
+        <li><a href="#前置准备">前置准备</a></li>
+        <li><a href="#开始安装">开始安装</a></li>
+        <li><a href="#配置系统并完成安装">配置系统并完成安装</a></li>
+      </ol>
+    </li>
+    <li><a href="#安装后相关问题记录">安装后相关问题记录</a>
+      <ol>
+        <li><a href="#包管理器">包管理器</a>
+          <ol>
+            <li><a href="#安装和卸载软件以mpv为例">安装和卸载软件（以mpv为例）</a></li>
+          </ol>
+        </li>
+        <li><a href="#tty自动登录">tty自动登录</a></li>
+        <li><a href="#双系统时间同步问题">双系统时间同步问题</a></li>
+        <li><a href="#禁用-nouveau-并安装-nvidia-驱动">禁用 nouveau 并安装 Nvidia 驱动</a></li>
+        <li><a href="#图形界面">图形界面</a></li>
+        <li><a href="#firefox浏览器下指定网站禁用插件">Firefox浏览器下指定网站禁用插件</a></li>
+      </ol>
+    </li>
+    <li><a href="#linux下一些实用的软件介绍">Linux下一些实用的软件介绍</a>
+      <ol>
+        <li><a href="#android设备投屏软件scrcpyhttpsgithubcomgenymobilescrcpy">Android设备投屏软件<a href="https://github.com/Genymobile/scrcpy">scrcpy</a></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/">
+                <img src="/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo_hu4541de2a5849e4e73188ffede29a7d0c_64158_800x0_resize_box_3.png"
+                        srcset="/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo_hu4541de2a5849e4e73188ffede29a7d0c_64158_800x0_resize_box_3.png 800w, /p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo_hu4541de2a5849e4e73188ffede29a7d0c_64158_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="387" 
+                        loading="lazy"
+                        alt="Featured image of post Gentoo随手记" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%94%9F%E6%B4%BB/" style="background-color: #2a9d8f; color: #fff;">
+                生活
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/">Gentoo随手记</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本人的Gentoo安装和配置手记
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023-05-21</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-20</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>Gentoo 是一个快速、现代化的 Linux 发行版，它的设计简洁、灵活。Gentoo 围绕自由软件建立，它不会对它的用户隐瞒“引擎盖下的细节”。Gentoo 所使用的软件包维护系统 Portage 是用 Python 编写的，这意味着用户可以轻松地查看和修改它的源代码。 Gentoo 的软件包管理系统使用源代码包（虽然也支持预编译软件包），并通过标准的文本文件配置Gentoo。换句话说，开放无处不在。  &mdash;&mdash;- 摘抄自<a class="link" href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn"  target="_blank" rel="noopener"
+    >Gentoo Wiki</a></p>
+<h2 id="安装的总流程">安装的总流程</h2>
+<p>强烈建议参考<a class="link" href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn"  target="_blank" rel="noopener"
+    >Wiki</a></p>
+<p>我在这里只是做了一些简单的记录，而且可能因为版本迭代不再适用，强烈建议参考官方<a class="link" href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn"  target="_blank" rel="noopener"
+    >Wiki</a>。</p>
+<ul>
+<li>准备好镜像和环境</li>
+<li>互联网连接</li>
+<li>完成分区 并挂载</li>
+<li>chroot，安装核心部件</li>
+<li>配置并编译内核</li>
+<li>创建大部分Gentoo的系统配置文件</li>
+<li>必要的系统工具安装</li>
+<li>引导程序安装</li>
+<li>退出livecd环境并进入新系统</li>
+<li>添加用户配置图形界面等</li>
+</ul>
+<h3 id="下载镜像并进入livecd">下载镜像并进入LiveCD</h3>
+<p>本人是在清华大学镜像站下载的iso镜像，链接如下</p>
+<p><a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/"  target="_blank" rel="noopener"
+    >镜像传送门</a>，选择合适的镜像下载。</p>
+<p>然后制作U盘启动器，推荐使用<a class="link" href="https://www.ventoy.net/cn/"  target="_blank" rel="noopener"
+    >Ventoy</a></p>
+<p>U盘插入电脑选择启动项启动，选择gentoo默认内核启动</p>
+<h3 id="前置准备">前置准备</h3>
+<ol>
+<li>
+<p>联网<code>ping www.baidu.com</code></p>
+<ul>
+<li>有线网的话本人使用手机联网通过USB共享给LiveCD，使用<code>dhcpcd</code>命令</li>
+<li>无线网的话可以使用<code>wpa_supplicant -i &lt;dev&gt; -c &lt;(wpa_passphrase [SSID] [passwd])&gt;</code></li>
+</ul>
+</li>
+<li>
+<p>硬盘分区</p>
+<p>分区工具建议使用<code>fdisk</code>，分区前建议使用<code>lsblk</code>查看</p>
+<ul>
+<li>UEFI or BIOS 引导分区（UEFI建议256MB及以上）</li>
+<li>swap （如果内存足够可以不要，如果内存不足，建议设置为RAMx2）</li>
+<li>root 根目录（其实本人并不建议为home目录单独分一个分区，因为我觉得对于ssd来说没必要，当然也可以创建一个共用区ntf给Windows）</li>
+</ul>
+</li>
+<li>
+<p>创建文件系统（以sda为例）</p>
+<ul>
+<li>UEFI分区<code>mkfs.vfat -F 32 /dev/sda1</code></li>
+<li>swap分区：初始化<code>mkswap /dev/sda2</code>，激活<code>swapon /dev/sda2</code></li>
+<li>root分区<code>mkfs.ext4 /dev/sda3</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="开始安装">开始安装</h3>
+<ol>
+<li>
+<p>挂载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">mkdir --parents /mnt/gentoo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mount /dev/sda3 /mnt/gentoo
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果/tmp/需要放在一个单独的分区，请确保其在挂载后有对应的权限</span>
+</span></span><span class="line"><span class="cl">chmod <span class="m">1777</span> /mnt/gentoo/tmp
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装Gentoo安装文件</p>
+<ul>
+<li>
+<p>确保时间正确<code>date</code>，从互联网下载<a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/current-stage3-amd64-desktop-openrc/stage3-amd64-desktop-openrc-20230521T160357Z.tar.xz"  target="_blank" rel="noopener"
+    >stage3</a>归档文件，建议使用<code>links https://mirrors.tuna.tsinghua.edu.cn/gentoo/</code>命令行浏览器进入tui界面进行下载，或者也可以用其他的电脑下载到硬盘后直接挂载导入到当前地址</p>
+</li>
+<li>
+<p>下载完成之后将下载的归档文件解压到新系统根目录</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">tar xpvf stage3-amd64-desktop-openrc-20230521T160357Z.tar.xz --xattrs-include<span class="o">=</span><span class="s1">&#39;*.*&#39;</span> --numeric-owner
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后配置编译选项</p>
+<p><code>nano -w /mnt/gentoo/etc/portage/make.conf</code></p>
+<p>本人的<code>make.conf</code>文件如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp"># These settings were set by the catalyst build script that automatically
+</span></span></span><span class="line"><span class="cl"><span class="cp"># built this stage.
+</span></span></span><span class="line"><span class="cl"><span class="cp"># Please consult /usr/share/portage/config/make.conf.example for a more
+</span></span></span><span class="line"><span class="cl"><span class="cp"># detailed example.
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">COMMON_FLAGS</span><span class="o">=</span><span class="s">&#34;-march=native -O2 -pipe&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CFLAGS</span><span class="o">=</span><span class="s">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CXXFLAGS</span><span class="o">=</span><span class="s">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">FCFLAGS</span><span class="o">=</span><span class="s">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">FFLAGS</span><span class="o">=</span><span class="s">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp"># NOTE: This stage was built with the bindist Use flag enabled
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp"># This sets the language of build output to English.
+</span></span></span><span class="line"><span class="cl"><span class="cp"># Please keep this setting intact when reporting bugs.
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">LC_MESSAGES</span><span class="o">=</span><span class="n">C</span><span class="p">.</span><span class="n">utf8</span>
+</span></span><span class="line"><span class="cl"><span class="n">MAKEOPTS</span><span class="o">=</span><span class="s">&#34;-j4&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">ACCEPT_LICENSE</span><span class="o">=</span><span class="s">&#34;*&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">ACCEPT_KEYWORDS</span><span class="o">=</span><span class="s">&#34;amd64&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">GENTOO_MIRRORS</span><span class="o">=</span><span class="s">&#34;https://mirrors.aliyun.com/gentoo/ http://mirrors.aliyun.com/gentoo/ https://mirrors.tuna.tsinghua.edu.cn/gentoo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GRUB_PLATFORMS</span><span class="o">=</span><span class="s">&#34;efi-64&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp"># USE
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">USE</span><span class="o">=</span><span class="s">&#34;networkmanager savedconfig X elogind alsa icu zsh-completion -systemd&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp"># Xorg
+</span></span></span><span class="line"><span class="cl"><span class="cp"># support for touchpad, mouse, and keyboard
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">INPUT_DEVICES</span><span class="o">=</span><span class="s">&#34;synaptics libinput&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置并Chroot进入新系统环境</p>
+<p>选择镜像<code>mirroselect -i -o &gt;&gt; /mnt/gentoo/etc/portage/make.conf</code>，</p>
+<p>配置软件仓库<code>mkdir --parents /mnt/gentoo/etc/portage/repos.conf</code>，</p>
+<p>复制Portage提供的Gentoo仓库配置文件到新创建的目录<code>cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf</code></p>
+<p>复制DNS信息，不然进新环境后会没有网络<code>cp --dereference /etc/resolv.conf /mnt/gentoo/etc/</code></p>
+<p>挂载必要的文件系统</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">mount --types proc /proc /mnt/gentoo/proc
+</span></span><span class="line"><span class="cl">mount --rbind /sys /mnt/gentoo/sys
+</span></span><span class="line"><span class="cl">mount --make-rslave /mnt/gentoo/sys
+</span></span><span class="line"><span class="cl">mount --rbind /dev /mnt/gentoo/dev
+</span></span><span class="line"><span class="cl">mount --make-rslave /mnt/gentoo/dev
+</span></span><span class="line"><span class="cl">mount --bind /run /mnt/gentoo/run
+</span></span><span class="line"><span class="cl">mount --make-slave /mnt/gentoo/run  <span class="c1">#----# 为systemd提供的</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Chroot</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">chroot /mnt/gentoo /bin/bash
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> /etc/profile
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PS1</span><span class="o">=</span><span class="s2">&#34;(chroot) </span><span class="si">${</span><span class="nv">PS1</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 挂载boot分区</span>
+</span></span><span class="line"><span class="cl">mount /dev/sda1 /boot
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置Portage</p>
+<ul>
+<li>从网站安装ebuild数据库快照<code>emerge-webrsync</code></li>
+<li>更新ebuild数据库<code>emerge --sync</code></li>
+<li>选择正确的配置文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">eselect profile list
+</span></span><span class="line"><span class="cl">Available profile symlink targets:
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>1<span class="o">]</span>   default/linux/amd64/17.1 <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>2<span class="o">]</span>   default/linux/amd64/17.1/selinux <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>3<span class="o">]</span>   default/linux/amd64/17.1/hardened <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>4<span class="o">]</span>   default/linux/amd64/17.1/hardened/selinux <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>5<span class="o">]</span>   default/linux/amd64/17.1/desktop <span class="o">(</span>stable<span class="o">)</span> *
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>6<span class="o">]</span>   default/linux/amd64/17.1/desktop/gnome <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>7<span class="o">]</span>   default/linux/amd64/17.1/desktop/gnome/systemd <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span>8<span class="o">]</span>   default/linux/amd64/17.1/desktop/gnome/systemd/merged-usr <span class="o">(</span>stable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  ......
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>eselect profile set 5</code></p>
+<ul>
+<li>更新@world集合<code>emerge --ask --verbose --update --deep --newuse @world</code> 或者 <code>emerge -avuDN @world</code></li>
+<li>配置USE变量 见我上面展示的make.conf</li>
+</ul>
+</li>
+<li>
+<p>时区、区域配置（OpenRC）</p>
+<ul>
+<li>选择系统时区<code>echo &quot;Asia/Shanghai&quot; &gt; /etc/timezone</code>，<code>emerge --config sys-libs/timezone-data</code></li>
+<li>区域配置<code>nano -w /etc/locale.gen</code> 启用<code>en_US.UTF-8 UTF-8</code>和<code>zh_CN.UTF-8 UTF-8</code>，然后执行<code>locale-gen</code></li>
+<li>选择区域<code>eselect locale list</code>我选的是<code>en_US.utf8</code></li>
+<li>重新加载环境<code>env-update &amp;&amp; source /etc/profile &amp;&amp; export PS1=&quot;(chroot) ${PS1}&quot;</code></li>
+</ul>
+</li>
+<li>
+<p>安装微码和固件</p>
+<ul>
+<li>
+<p>固件 <code>emerge --ask sys-kernel/linux-firmware</code></p>
+</li>
+<li>
+<p>微码 <code>emerge --ask sys-firmware/intel-microcode</code></p>
+<p>其中，AMD处理器的微码已经在linux-firmware固件里面包含了</p>
+</li>
+</ul>
+</li>
+<li>
+<p>编译内核（冲！！）</p>
+<p>我使用的是<a class="link" href="https://wiki.gentoo.org/wiki/Genkernel/zh-cn"  target="_blank" rel="noopener"
+    >Genkernel</a></p>
+<p>接受系统范围任意软件的许可证，也可以在<code>/etc/portage/make.conf</code>中设置。
+<code>mkdir /etc/portage/package.license</code></p>
+<p>安装<code>genkernel</code>包
+<code>emerge --ask sys-kernel/genkernel</code></p>
+<p>编译内核源码并安装
+<code>genkernel --mountboot --install all</code></p>
+<p>第一次可能比较慢，当然如果你的电脑性能好，也可能会编译的很快，Howerver，等到编译浏览器的时候，你会发现是处理器性能和内存大小对这影响还是很大的 <del>(确信)</del> 。</p>
+</li>
+</ol>
+<h3 id="配置系统并完成安装">配置系统并完成安装</h3>
+<ol>
+<li>
+<p><strong>fstab</strong></p>
+<p>建议使用UUID， <code>blkid</code>命令可以查看UUID
+内附我的fstab文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp"># &lt;fs&gt;                  &lt;mountpoint&gt;    &lt;type&gt;          &lt;opts&gt;          &lt;dump/pass&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp"># NOTE: If your BOOT partition is ReiserFS, add the notail option to opts.
+</span></span></span><span class="line"><span class="cl"><span class="cp">#
+</span></span></span><span class="line"><span class="cl"><span class="cp"># NOTE: Even though we list ext4 as the type here, it will work with ext2/ext3
+</span></span></span><span class="line"><span class="cl"><span class="cp">#       filesystems.  This just tells the kernel to use the ext4 driver.
+</span></span></span><span class="line"><span class="cl"><span class="cp">#
+</span></span></span><span class="line"><span class="cl"><span class="cp"># NOTE: You can use full paths to devices like /dev/sda3, but it is often
+</span></span></span><span class="line"><span class="cl"><span class="cp">#       more reliable to use filesystem labels or UUIDs. See your filesystem
+</span></span></span><span class="line"><span class="cl"><span class="cp">#       documentation for details on setting a label. To obtain the UUID, use
+</span></span></span><span class="line"><span class="cl"><span class="cp">#       the blkid(8) command.
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#LABEL=boot             /boot           ext4            noauto,noatime  1 2
+</span></span></span><span class="line"><span class="cl"><span class="cp">#UUID=58e72203-57d1-4497-81ad-97655bd56494              /               ext4            noatime         0 1
+</span></span></span><span class="line"><span class="cl"><span class="cp">#LABEL=swap             none            swap            sw              0 0
+</span></span></span><span class="line"><span class="cl"><span class="cp">#/dev/cdrom             /mnt/cdrom      auto            noauto,ro       0 0
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp"># /dev/sda1
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">UUID</span><span class="o">=</span><span class="s">&#34;80AE-02C2&#34;</span>        <span class="o">/</span><span class="n">boot</span>   <span class="n">vfat</span>    <span class="n">defaults</span><span class="p">,</span><span class="n">noatime</span>        <span class="mi">0</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="cp"># /dev/sda2
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">UUID</span><span class="o">=</span><span class="s">&#34;711c9bab-9f43-4ebf-8817-1712928b6a89&#34;</span>     <span class="o">/</span>       <span class="n">ext4</span>    <span class="n">defaults</span><span class="p">,</span><span class="n">noatime</span><span class="p">,</span><span class="n">discard</span>        <span class="mi">0</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="cp"># /dev/sda3
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">UUID</span><span class="o">=</span><span class="s">&#34;6676917276914429&#34;</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">haoleng</span><span class="o">/</span><span class="n">Public</span>    <span class="n">ntfs</span>    <span class="n">defaults</span><span class="p">,</span><span class="n">noatime</span><span class="p">,</span><span class="n">discard</span>        <span class="mi">0</span> <span class="mi">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><a class="link" href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Networking/zh-cn"  target="_blank" rel="noopener"
+    >网络配置</a></p>
+</li>
+<li>
+<p>root密码<code>passwd</code></p>
+</li>
+<li>
+<p>OpenRC</p>
+<p>查看<code>/etc/rc.conf</code>的注释并根据需求修改</p>
+<p>安装系统日志工具<code>emerge --ask app-admin/sysklogd</code>，更新应用配置<code>rc-update add sysklogd default</code></p>
+<p>时间同步<code>emerge --ask net-misc/chrony</code>，运行<code>rc-update add chronyd default</code></p>
+<p>网络工具<code>NetworkManager</code></p>
+</li>
+<li>
+<p><strong>引导程序GRUB（UEFI）</strong></p>
+<p>安装Grub
+<code>echo 'GRUB_PLATFORMS=&quot;efi-64&quot;' &gt;&gt; /etc/portage/make.conf</code>， <code>emerge --ask sys-boot/grub</code></p>
+<p>激活Grub <code>grub-install --target=x86_64-efi --efi-directory=/boot --removable</code></p>
+<p>生成Grub配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">sudo grub-mkconfig -o /boot/grub/grub.cfg
+</span></span><span class="line"><span class="cl">密码：
+</span></span><span class="line"><span class="cl">正在生成 grub 配置文件 ...
+</span></span><span class="line"><span class="cl">找到主题：/usr/share/grub/themes/Cyberpunk/theme.txt
+</span></span><span class="line"><span class="cl">找到 Linux 镜像：/boot/vmlinuz-6.1.28-gentoo-x86_64
+</span></span><span class="line"><span class="cl">找到 initrd 镜像：/boot/initramfs-6.1.28-gentoo-x86_64.img
+</span></span><span class="line"><span class="cl">警告： os-prober will not be executed to detect other bootable partitions.
+</span></span><span class="line"><span class="cl">Systems on them will not be added to the GRUB boot configuration.
+</span></span><span class="line"><span class="cl">Check GRUB_DISABLE_OS_PROBER documentation entry.
+</span></span><span class="line"><span class="cl">Adding boot menu entry <span class="k">for</span> UEFI Firmware Settings ...
+</span></span><span class="line"><span class="cl">完成
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后就可以重启进入新系统了。</p>
+</li>
+</ol>
+<ul>
+<li>重新启动正常将进入系统之后，就要自己创建一个日常使用的用户了，然后记得安装<code>sudo</code> 并且修改用户权限。</li>
+</ul>
+<blockquote>
+<p>恭喜你，完成了Gentoo Linux 的安装工作，然后就要开始进行个人的配置工作了。下面是一些我自己的随手小记，想要了解的话可以继续阅读。</p>
+</blockquote>
+<h2 id="安装后相关问题记录">安装后相关问题记录</h2>
+<h3 id="包管理器">包管理器</h3>
+<p>Portage是用Python和Bash两种语言编写的，<strong>Portage软件系统是Gentoo最显著的特色之一。</strong></p>
+<p>Gentoo是滚动发行版，需要将软件仓库与上游同步:</p>
+<p><code>sudo emaint --auto sync</code></p>
+<p>然后再更新整个系统:</p>
+<p><code>sudo emerge --ask --verbose --update --deep --newuse @world</code></p>
+<p>内核的更新可以参考&ndash;&gt;<a class="link" href="https://wiki.gentoo.org/wiki/Kernel/Upgrade/zh-cn"  target="_blank" rel="noopener"
+    >更新内核</a></p>
+<ol>
+<li>
+<p>获取新的内核源码（一般会在更新系统软件包的时候自行下载完成）</p>
+<p>当然您也可以单独下载</p>
+<p><code>sudo emerge --ask sys-kernel/gentoo-sources</code></p>
+</li>
+<li>
+<p>使用<code>eselect</code>设置一个符号链接到新的内核源码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">❯ sudo eselect kernel list
+</span></span><span class="line"><span class="cl">Available kernel symlink targets:
+</span></span><span class="line"><span class="cl">  [1]   linux-6.1.31-gentoo *
+</span></span><span class="line"><span class="cl">❯ sudo eselect kernel set 1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然也可以手动链接</p>
+<p><code>ln -sf /usr/src/linux-6.1.31-gentoo /usr/src/linux</code></p>
+</li>
+<li>
+<p>移动到新内核文件夹并配置</p>
+<p>移动到新内核文件夹<code>cd /usr/src/linux</code></p>
+<p>配置新内核<code>make menuconfig</code>，或者直接使用旧内核的配置<code>make olddefconfig</code>，该命令会保持所有旧的<code>.config</code>的选项并将旧内核没有包括的新的内核选项设置为默认值</p>
+<p>然后编译内核，本人比较菜，采用的是自动编译的工具<code>genkernel</code></p>
+</li>
+<li>
+<p><a class="link" href="https://wiki.gentoo.org/wiki/Genkernel/zh-cn"  target="_blank" rel="noopener"
+    >Genkernel</a>自动构建和安装</p>
+<p><code>genkernel all</code>可以自动构建和安装内核到<code>/usr/src/linux</code>符号链接指向的<code>$BOOTDIR</code>和引导程序</p>
+<p>如果还有外部内核模块如<code>nvidia</code>等需要再重新编译一次</p>
+<p><code>sudo make modules_prepare</code> <code>sudo emerge --ask @module-rebuid</code></p>
+<p>最后将内核更新到引导程序</p>
+<p><code>sudo grub-mkconfig -o /boot/grub/grub.cfg</code></p>
+</li>
+</ol>
+<h4 id="安装和卸载软件以mpv为例">安装和卸载软件（以mpv为例）</h4>
+<p><strong>安装mpv播放器</strong></p>
+<p><code>sudo emerge --ask media-video/mpv</code></p>
+<p>该过程会从软件源下载源代码并默认存在<code>/var/cache/distfiles/</code>中，然后解压缩、编译和安装该软件包。如果仅下载源代码而不安装，可以添加<code>--fetchonly</code>到emerge命令</p>
+<p><strong>卸载mpv播放器</strong></p>
+<p><code>sudo emerge --deselect media-video/mpv</code></p>
+<p>该命令告诉Protage这个软件包现在不需要了，可以通过<code>--depclean</code>清理掉
+注意<code>emerge --depclean</code>是一项危险的操作，我们可以添加一个<code>-p</code>选项来只列出这些包而不删除他们，示例如下：</p>
+<p><code>sudo emerge -p --depclean</code></p>
+<h3 id="tty自动登录">tty自动登录</h3>
+<p>我用的init是OpenRC，在安装系统时已经附带安装了sysvinit
+因此直接编辑<code>/etc/inittab</code>文件修改为如下样式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># TERMINALS
+</span></span><span class="line"><span class="cl">c1:12345:respawn:/sbin/agetty --autologin &lt;username&gt; --noclear 38400 tty1 linux
+</span></span><span class="line"><span class="cl">c2:2345:respawn:/sbin/agetty 38400 tty2 linux
+</span></span><span class="line"><span class="cl">c3:2345:respawn:/sbin/agetty 38400 tty3 linux
+</span></span><span class="line"><span class="cl">c4:2345:respawn:/sbin/agetty 38400 tty4 linux
+</span></span><span class="line"><span class="cl">c5:2345:respawn:/sbin/agetty 38400 tty5 linux
+</span></span><span class="line"><span class="cl">c6:2345:respawn:/sbin/agetty 38400 tty6 linux
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="双系统时间同步问题">双系统时间同步问题</h3>
+<p><code>sudo nvim /etc/conf.d/hwclock</code>对应项修改为<code>clock=&quot;local&quot;</code></p>
+<h3 id="禁用-nouveau-并安装-nvidia-驱动">禁用 nouveau 并安装 Nvidia 驱动</h3>
+<p>编辑配置文件 <code>/etc/modprobe.d/blacklist.conf</code> 以禁用nouveau驱动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">blacklist nouveau
+</span></span><span class="line"><span class="cl">blacklist lbm-nouveau
+</span></span><span class="line"><span class="cl">options nouveau modeset=0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装nvidia驱动</p>
+<p><code>sudo emerge --ask x11-drivers/nvidia-drivers</code></p>
+<h3 id="图形界面">图形界面</h3>
+<p>附上我的xorg环境下的<a class="link" href="https://github.com/haoleng-Wick/dwm"  target="_blank" rel="noopener"
+    >dwm配置和源码</a>，配置简单，基本上clone下来之后<code>make clean install</code>就可以使用。</p>
+<h3 id="firefox浏览器下指定网站禁用插件">Firefox浏览器下指定网站禁用插件</h3>
+<p>原理是Firefx为了保护用户隐私，有些官方的域名是强制不开启扩展的，因此我们可以在这些域名后加或者删除域名</p>
+<p>具体操作如下：</p>
+<p>首先在地址栏输入<code>about:config</code>然后无视风险继续浏览，进入之后在搜索框输入<code>extensions.webextensions.restrictedDomains</code>，在里面添加指定域名即可，注意使用<code>,</code>隔开。</p>
+<h2 id="linux下一些实用的软件介绍">Linux下一些实用的软件介绍</h2>
+<h3 id="android设备投屏软件scrcpyhttpsgithubcomgenymobilescrcpy">Android设备投屏软件<a class="link" href="https://github.com/Genymobile/scrcpy"  target="_blank" rel="noopener"
+    >scrcpy</a></h3>
+<p>该软件在gentoo的软件源里有，如果您使用的是<code>ACCEPT_KEYWORDS=&quot;amd64&quot;</code>或者我需要把软件包加入accept_keywords中，操作如下</p>
+<p>编辑<code>/etc/portage/package.accept_keywords</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp"># Always use unstable packages
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">app</span><span class="o">-</span><span class="n">mobilephone</span><span class="o">/</span><span class="n">scrcpy</span> <span class="o">~</span><span class="n">amd64</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者将其<code>ACCEPT_KEYWORDS=&quot;amd64&quot;</code>改为<code>&quot;~amd64&quot;</code>，<del>个人不建议这样</del></p>
+<p>然后就可以安装软件包了，
+但是安装之后有个坑，就是adb无法连接usb手机</p>
+<p>会报错如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Shell" data-lang="Shell"><span class="line"><span class="cl">adb no permissions<span class="o">(</span>user xxx is not in the plugdev group<span class="o">)</span><span class="p">;</span>....
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们需要将用户加入<code>plugdev</code>组中，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">root #usermod -aG plugdev $LOGNAME 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后还是会报错，我们还需要编辑android规则文件</p>
+<p><code>sudo nvim /etc/udev/rules.d/android.rules</code></p>
+<p>内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SUBSYSTEM==&#34;usb&#34;, ENV{DEVTYPE}==&#34;usb_device&#34;, MODE=&#34;0666&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后就可以顺利使用使用scrcpy了。</p>
+<p><code>adb tcpip 5037</code>
+<code>adb connect 192.168.0.4:5037</code>
+<code>scrcpy -S</code></p>
+<p>scrcpy的一些快捷键(Mod默认为ALT键)</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">运行命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Mod + f</td>
+<td style="text-align:center">切换全屏</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + g</td>
+<td style="text-align:center">重置屏幕尺寸到像素比1：1</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + w</td>
+<td style="text-align:center">重置屏幕尺寸消除黑边</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + p</td>
+<td style="text-align:center">相当于电源按键</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + o</td>
+<td style="text-align:center">关闭屏幕</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + Shift + o</td>
+<td style="text-align:center">点亮关闭的屏幕</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + c</td>
+<td style="text-align:center">同步复制到电脑剪切板</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + v</td>
+<td style="text-align:center">同步粘贴剪切板的内容</td>
+</tr>
+<tr>
+<td style="text-align:center">Mod + i</td>
+<td style="text-align:center">启用或者禁用FPS监视器</td>
+</tr>
+</tbody>
+</table></div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">Linux</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-20 22:35 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

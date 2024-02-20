@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
+四旋翼无人机的动力学模型 基本假设：
+四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
+质心的平动 : $F = m \frac{dv}{dt}$
+绕质心的转动 : $M = J \dot\omega &#43; \omega \times J\omega$
+&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 叉乘 ）
+位置动力学模型 (合外力和速度的方程) 旋转矩阵 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:
+$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta \end{matrix} \right] $$'>
+<title>无人机基础</title>
+
+<link rel='canonical' href='https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='无人机基础'>
+<meta property='og:description' content='无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
+四旋翼无人机的动力学模型 基本假设：
+四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
+质心的平动 : $F = m \frac{dv}{dt}$
+绕质心的转动 : $M = J \dot\omega &#43; \omega \times J\omega$
+&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 叉乘 ）
+位置动力学模型 (合外力和速度的方程) 旋转矩阵 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:
+$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta \end{matrix} \right] $$'>
+<meta property='og:url' content='https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='无人机' /><meta property='article:published_time' content='2023-04-18T05:59:13&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:37:38&#43;08:00'/><meta property='og:image' content='https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg' />
+<meta name="twitter:title" content="无人机基础">
+<meta name="twitter:description" content="无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
+四旋翼无人机的动力学模型 基本假设：
+四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
+质心的平动 : $F = m \frac{dv}{dt}$
+绕质心的转动 : $M = J \dot\omega &#43; \omega \times J\omega$
+&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 叉乘 ）
+位置动力学模型 (合外力和速度的方程) 旋转矩阵 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:
+$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta \end{matrix} \right] $$"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg' />
+    <link rel="shortcut icon" href="static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以致千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#四旋翼无人机基础">四旋翼无人机基础</a>
+      <ol>
+        <li><a href="#四旋翼无人机的动力学模型">四旋翼无人机的动力学模型</a></li>
+        <li><a href="#四旋翼飞行器的运动学模型">四旋翼飞行器的运动学模型</a></li>
+        <li><a href="#无人机姿态">无人机姿态</a></li>
+      </ol>
+    </li>
+    <li><a href="#共轴双桨旋翼无人机基础">共轴双桨旋翼无人机基础</a>
+      <ol>
+        <li><a href="#共轴双桨旋翼无人机基本操纵原理">共轴双桨旋翼无人机基本操纵原理</a></li>
+      </ol>
+    </li>
+    <li><a href="#关于相机的内参">关于相机的内参</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu3380120350b8de274e915bc3a29bb5f0_49092_800x0_resize_q75_box.jpg"
+                        srcset="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu3380120350b8de274e915bc3a29bb5f0_49092_800x0_resize_q75_box.jpg 800w, /p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu3380120350b8de274e915bc3a29bb5f0_49092_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="413" 
+                        loading="lazy"
+                        alt="Featured image of post 无人机基础" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" style="background-color: #2a9d8f; color: #fff;">
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">无人机基础</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023-04-18</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-20</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="无人机基础">无人机基础</h1>
+<h2 id="四旋翼无人机基础">四旋翼无人机基础</h2>
+<div align=center><img src="./drone_1.png" alt="" /></div>
+<p><strong>keywords</strong> : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、</p>
+<h3 id="四旋翼无人机的动力学模型">四旋翼无人机的动力学模型</h3>
+<dir style="float: right; width: 20%; padding: 5px;">
+<img src="/img/guaige.gif" style="box-shadow: 8px 8px 8px rgba(0.2,0.4,0.3,0.5);">
+</dir>
+<div align=center><img src="./drone_2.png" alt="]" /></div>
+<p>基本假设：</p>
+<ul>
+<li>四旋翼飞行器是均匀对称的刚体</li>
+<li>四旋翼飞行器的质量和转动惯量不发生改变</li>
+<li>四旋翼飞行器的几何中心与其重心重合</li>
+<li>四旋翼飞行器只受重力和螺旋桨拉力</li>
+</ul>
+<p><strong>牛顿&ndash;欧拉方程</strong> : : 刚体运动 = 质心的平动 + 绕质心的转动</p>
+<p><em>质心的平动</em> : $F = m \frac{dv}{dt}$</p>
+<p><em>绕质心的转动</em> : $M = J \dot\omega + \omega \times J\omega$</p>
+<blockquote>
+<p>&ldquo;x&quot;表示的是矩阵乘法（即 <strong>叉乘</strong> ）</p>
+</blockquote>
+<ol>
+<li><strong>位置动力学模型</strong> (合外力和速度的方程)</li>
+</ol>
+<p><strong>旋转矩阵</strong> 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:</p>
+<p>$$
+R^e_b = \left[
+\begin{matrix}
+\cos\theta\cos\psi &amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp; \cos\psi\sin\theta\cos\phi + \sin\psi\sin\phi \\\
+\cos\theta\sin\psi &amp; \sin\psi\sin\theta\sin\phi + \cos\psi\cos\phi &amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\
+-\sin\theta &amp; \sin\phi\cos\theta &amp; \cos\phi\cos\theta
+\end{matrix}
+\right]
+$$</p>
+<div align=center><img src="./drone_3.png" alt="" /></div>
+<p>根据牛顿第二定律整理得：</p>
+<p>$$
+\dot v^e = g^e + R^e_b \cdot \frac{T^b}{m}
+$$</p>
+<p>即：</p>
+<p>$$
+\begin{cases}
+\dot v_x = -\frac{f}{m}(\cos\psi\sin\theta\cos\phi + \sin\psi\sin\phi) \\\
+\dot v_y = -\frac{f}{m}(\sin\psi\sin\theta\cos\phi - \cos\psi\sin\theta) \\\
+\dot v_z = g - \frac{f}{m}\cos\phi\cos\theta
+\end{cases}
+$$</p>
+<ol start="2">
+<li>
+<p><strong>姿态动力学模型</strong> (合力矩和角速度的方程)</p>
+<p>由欧拉方程知：</p>
+</li>
+</ol>
+<p>$$
+J\dot\omega^b + \omega^b \times J\omega^b = G^b_a + \tau^b
+$$</p>
+<p>$$
+\omega^b = \left[\begin{matrix}\omega_{xb} &amp; \omega_{yb} &amp; \omega_{zb}\end{matrix} \right]^T
+$$</p>
+<p>式中， $\omega^b$ 表示在机体坐标系下的角速度； $G_a$ 表示陀螺力矩； $\tau$ 表示螺旋桨在机体轴上产生的力矩，包括绕 $O_bX_b$ 轴的滚转力矩 $\tau_x$ 、绕 $O_bY_b$ 轴的俯仰力矩 $\tau_y$ 以及绕 $O_bZ_b$ 轴的偏航力矩 $\tau_z$ 。</p>
+<p><strong>陀螺力矩Ga</strong>: 当电机高速旋转的时候，相当于一个陀螺。高速旋转的陀螺是非常稳定的个体，具有保持自身轴向不变的能力。</p>
+<p>$$
+G_a = \left[
+\begin{matrix}
+G_{a,\phi} \\\
+G_{a, \theta} \\\
+G_{a,\psi}
+\end{matrix}
+\right]
+= \left[
+\begin{matrix}
+J_1q(\overline\omega_1 - \overline\omega_2 + \overline\omega_3 - \overline\omega_4) \\\
+J_1p(-\overline\omega_1 + \overline\omega_2 - \overline\omega_3 + \overline\omega_4) \\\
+0
+\end{matrix}
+\right]
+$$</p>
+<p>式中， $J_1$ 表示整个电机转子和螺旋桨绕机体转轴的总转动惯量； $\overline\omega_i$ 表示螺旋桨 1,2,3,4 的转速。</p>
+<p>由于假设四旋翼飞行器是均匀对称的刚体,所以 <strong>惯性矩阵J</strong> 可表示为:</p>
+<p>$$
+J = \left[
+\begin{matrix}
+I_{xx} &amp; -I_{xy} &amp; -I_{xz} \\\
+-I_{xy} &amp; I_{yy} &amp; -I_{yz} \\\
+-I_{xz} &amp; -I_{yz} &amp; I_{zz}
+\end{matrix}
+\right]
+= \left[
+\begin{matrix}
+I_{xx} &amp;   &amp;   \\\
+&amp; I_{yy} &amp;   \\\
+&amp;   &amp; I_{zz}
+\end{matrix}
+\right]
+$$</p>
+<p>所以上式可化为:</p>
+<p>$$
+\begin{cases}
+\dot p = \dot\omega_{xb} = \frac{1}{I_{xx}}\left[\tau_x + qr(I_{yy} - I_{zz}) - J_{RP} q \cdot \Omega\right]	\\\
+\dot q = \dot\omega_{yb} = \frac{1}{I_{yy}}\left[\tau_y + pr(I_{zz} - I_{xx}) + J_{RP} p \cdot\Omega\right]	\\\
+\dot r = \dot\omega_{zb} =\frac{1}{I{zz}}\left[\tau_z + pq(I_{xx} - I_{yy})\right]
+\end{cases}
+$$</p>
+<p>式中， $\Omega = -\overline\omega_1 + \overline\omega_2 - \overline\omega_3 + \overline\omega_4$</p>
+<h3 id="四旋翼飞行器的运动学模型">四旋翼飞行器的运动学模型</h3>
+<p><strong>输入</strong> -&gt;[速度和角速度] <strong>输出</strong> -&gt;[位置和姿态]</p>
+<p>位置：</p>
+<p>$$
+\dot p^e = v^e
+$$</p>
+<p>姿态：</p>
+<p>$$
+\left[
+\begin{matrix}
+\dot\phi \\\
+\dot\theta \\\
+\dot\psi
+\end{matrix}
+\right]	= \left[
+\begin{matrix}
+1 &amp; \tan\theta\sin\phi &amp; \tan\theta\cos\phi \\\
+0 &amp; \cos\phi &amp; -\sin\phi \\\
+0 &amp; \frac{\sin\phi}{\cos\theta} &amp; \frac{\cos\phi}{\cos\theta}
+\end{matrix}
+\right]  \left[
+\begin{matrix}
+p \\\ q \\\ r
+\end{matrix}
+\right]
+$$</p>
+<h3 id="无人机姿态">无人机姿态</h3>
+<p>Pich,俯仰</p>
+<div align=center><img src="./pich.gif" alt="Pich" /></div>
+<p>Roll，横滚</p>
+<div align=center><img src="./roll.gif" alt="Roll" /></div>
+<p>Yaw，航向（偏航）</p>
+<div align=center><img src="./yaw.gif" alt="Yaw" /></div>
+<h2 id="共轴双桨旋翼无人机基础">共轴双桨旋翼无人机基础</h2>
+<p>共轴双桨旋翼无人机的飞行原理类似于常见的直升机。但是共轴双桨无人机取消了直升机的尾桨，而使用两个直径相同共轴布局的螺旋桨，利用两个共轴螺旋桨反向旋转来抵消扭矩，再通过倾斜盘作为变距机构，从而控制飞行器的俯仰和横滚自由度。</p>
+<p>该类型飞行器的优点：</p>
+<ul>
+<li>没有尾桨的功率损耗，具有<strong>更高的悬停效率</strong>，根据莫卡夫设计局的研究资料，共轴双旋翼直升机的悬停效率要比单旋翼带尾桨的直升机高出17%~30%。</li>
+<li>由于没有尾桨，可以将机身做的很短，因此其结构重量和载荷均集中在重心处，从而减少了直升机俯仰和偏航的转动惯量，计有<strong>较高的加速特性</strong>。</li>
+</ul>
+<p>该类飞行器的缺点：</p>
+<ul>
+<li>机械机构相对复杂，制造成本和可维护性上不如多旋翼飞行器</li>
+<li>飞行模态相对多旋翼复杂一些，在飞控设计方面有一定的挑战性</li>
+</ul>
+<h3 id="共轴双桨旋翼无人机基本操纵原理">共轴双桨旋翼无人机基本操纵原理</h3>
+<p>共轴旋翼无人机在空中有6个自由度，分别为：</p>
+<ul>
+<li>沿X轴的纵向移动、绕X轴的横滚</li>
+<li>沿Y轴的横向移动、绕Z轴的偏航</li>
+<li>沿Z轴的垂直移动、绕Y轴的俯仰</li>
+</ul>
+<p>其主要操纵原理如下：</p>
+<ol>
+<li>通过<strong>总距</strong>操纵调节上下旋翼的总距，从而改变旋翼拉力的大小，操纵无人机的垂直运动。</li>
+<li>通过<strong>周期变距</strong>操纵使倾斜盘沿不同的方向倾斜，从而改变旋翼拉力的方向，操纵无人机的横向运动和纵向运动。</li>
+<li>通过<strong>航向操纵</strong>改变上下旋翼的扭矩差使无人机的航向改变来操纵航向运动。</li>
+</ol>
+<h2 id="关于相机的内参">关于相机的内参</h2>
+<blockquote>
+<p><strong>相机内参</strong>的作用就是把坐标从<strong>相机坐标系</strong>转换到<strong>像素坐标系</strong></p>
+</blockquote>
+<p>设 $O - x - y - z$ 为<strong>相机坐标系</strong>，习惯上我们把 $z$ 轴指向相机前方， $x$ 向右， $y$ 向下。 $O$ 为摄像机的光心，也就是针孔模型中的针孔。 <strong>P</strong> 为真实世界中的一点，在相机坐标系中坐标为 $[X, Y, Z]^T$，成像点**P&rsquo;**的坐标为 $[X&rsquo;, Y&rsquo;, Z&rsquo;]^T$ ，焦距（物理成像平面和光心的距离）为 $f$ 。</p>
+<div align=center><img src="./camera1.png" alt="相机坐标系" /></div>
+<p>根据相似三角形可知：
+$$
+X&rsquo; = f \frac{X} {Z} \
+Y&rsquo; = f \frac{Y} {Z}
+$$
+设 $O&rsquo; - u - v$ 是<strong>像素坐标系</strong>，原点 $o&rsquo;$ 位于图像左上角， $u$  轴向右与 $x$ 轴平行， $v$ 轴向下与 $y$ 轴平行。像素坐标在 $u$ 轴上缩 $\alpha$ 放倍，在v轴上缩放了 $\beta$ 倍，原点平移了 $[c_x, c_y]^T$ 。**P&rsquo;**在像素平面坐标系上的坐标是 $[u, v]^T$ 。</p>
+<p>则可以得到<strong>P‘与像素坐标系</strong>的关系为：
+$$
+u = \alpha X&rsquo; + c_x \
+v = \beta  Y&rsquo; + c_y
+$$
+进而得到<strong>P</strong>与**P’**的关系：
+$$
+u = \alpha f \frac{X} {Z} + c_x = f_x  \frac{X} {Z} + c_x
+$$</p>
+<p>$$
+v = \beta f \frac{Y} {Z} + c_y = f_y  \frac{Y} {Z} + c_y
+$$</p>
+<p>转换为矩阵形式：
+$$
+Z \left(
+\begin{matrix}
+u \\\ v \\\ 1
+\end{matrix}
+\right)
+= \left(
+\begin{matrix}
+f_x &amp; 0 &amp; c_x \\\
+0 &amp; f_y &amp; c_y \\\
+0 &amp; 0 &amp; 1
+\end{matrix}
+\right)
+\left(
+\begin{matrix}
+X \\\ Y \\\ Z
+\end{matrix}
+\right)
+=KP
+$$
+其中，<strong>K</strong>为相机的<strong>内参矩阵</strong>。</p>
+<blockquote>
+<p><strong>相机外参</strong>的作用是把坐标从<strong>世界坐标系</strong>转换到<strong>相机坐标系中</strong></p>
+</blockquote>
+<div align=center><img src="./camera2.png" alt="" /></div>
+<p>最右边那个矩阵就是相机的<strong>外参矩阵</strong>。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/">无人机</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-20 22:37 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hud8524d9562d7473f3449c190ff1a23cc_42729_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Tensorflow入门"
+                        
+                        data-hash="md5-ipEKHxnOb3nhN33mV6xCmQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tensorflow入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/pytorch%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu9f713ad84f2edfa72e78551edd5f644f_73867_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Pytorch入门"
+                        
+                        data-hash="md5-NGf4aI7KuaOloQtq3EkYMA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post KMP算法"
+                        
+                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KMP算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.d67e3b6f1bb78779f5bd074efaf98994_hu897fca54ae8e34409121667f57e687d2_226190_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 传统机器视觉基础"
+                        
+                        data-hash="md5-1n47bxu3h3n1vQdO&#43;vmJlA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">传统机器视觉基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/shell%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/shell%E5%9F%BA%E7%A1%80/terminal.0b2c3cc4ed1a8b425baeab64ca586a5a_hu9098e1810c2bc18a0c2e9a2992f5ea5a_45469_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell基础"
+                        
+                        data-hash="md5-Cyw8xO0ai0JbrqtkylhqWg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
