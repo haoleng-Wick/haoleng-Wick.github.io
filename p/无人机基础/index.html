@@ -13,7 +13,7 @@ $$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta
 
 <link rel='canonical' href='https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/'>
 
-<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='无人机基础'>
+<link rel="stylesheet" href="/scss/style.min.68d9dfc60d720378f40eff92079a6e7c6e6b4db696686bd28db0096d1bafeadd.css"><meta property='og:title' content='无人机基础'>
 <meta property='og:description' content='无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
 四旋翼无人机的动力学模型 基本假设：
 四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
@@ -1055,6 +1055,16 @@ $$
         document.head.appendChild(customFont);
     }());
 </script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
 
     </body>
 </html>
