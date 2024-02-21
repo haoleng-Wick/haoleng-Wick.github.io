@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pytorch on 好冷の小窝</title>
-        <link>https://example.com/tags/pytorch/</link>
+        <link>https://haoleng-wick.github.io/tags/pytorch/</link>
         <description>Recent content in Pytorch on 好冷の小窝</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>欢迎前来窜门子</copyright>
-        <lastBuildDate>Sat, 20 May 2023 05:59:13 +0800</lastBuildDate><atom:link href="https://example.com/tags/pytorch/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 20 May 2023 05:59:13 +0800</lastBuildDate><atom:link href="https://haoleng-wick.github.io/tags/pytorch/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Pytorch入门</title>
-        <link>https://example.com/p/pytorch%E5%85%A5%E9%97%A8/</link>
+        <link>https://haoleng-wick.github.io/p/pytorch%E5%85%A5%E9%97%A8/</link>
         <pubDate>Sat, 20 May 2023 05:59:13 +0800</pubDate>
         
-        <guid>https://example.com/p/pytorch%E5%85%A5%E9%97%A8/</guid>
-        <description>&lt;img src="https://example.com/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.jpg" alt="Featured image of post Pytorch入门" /&gt;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
+        <guid>https://haoleng-wick.github.io/p/pytorch%E5%85%A5%E9%97%A8/</guid>
+        <description>&lt;img src="https://haoleng-wick.github.io/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.jpg" alt="Featured image of post Pytorch入门" /&gt;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
 &lt;h3 id=&#34;安装相关&#34;&gt;安装相关&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;安装Anaconda&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;通过链接&lt;a class=&#34;link&#34; href=&#34;https://www.anaconda.com/download/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>无人机 on 好冷の小窝</title>
-        <link>https://example.com/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/</link>
+        <link>https://haoleng-wick.github.io/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/</link>
         <description>Recent content in 无人机 on 好冷の小窝</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>欢迎前来窜门子</copyright>
-        <lastBuildDate>Tue, 18 Apr 2023 05:59:13 +0800</lastBuildDate><atom:link href="https://example.com/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 18 Apr 2023 05:59:13 +0800</lastBuildDate><atom:link href="https://haoleng-wick.github.io/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>无人机基础</title>
-        <link>https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/</link>
+        <link>https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/</link>
         <pubDate>Tue, 18 Apr 2023 05:59:13 +0800</pubDate>
         
-        <guid>https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/</guid>
-        <description>&lt;img src="https://example.com/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg" alt="Featured image of post 无人机基础" /&gt;&lt;h1 id=&#34;无人机基础&#34;&gt;无人机基础&lt;/h1&gt;
+        <guid>https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/</guid>
+        <description>&lt;img src="https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg" alt="Featured image of post 无人机基础" /&gt;&lt;h1 id=&#34;无人机基础&#34;&gt;无人机基础&lt;/h1&gt;
 &lt;h2 id=&#34;四旋翼无人机基础&#34;&gt;四旋翼无人机基础&lt;/h2&gt;
 &lt;div align=center&gt;&lt;img src=&#34;./drone_1.png&#34; alt=&#34;&#34; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;keywords&lt;/strong&gt; : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、&lt;/p&gt;
 &lt;h3 id=&#34;四旋翼无人机的动力学模型&#34;&gt;四旋翼无人机的动力学模型&lt;/h3&gt;
 &lt;dir style=&#34;float: right; width: 20%; padding: 5px;&#34;&gt;
-&lt;img src=&#34;https://example.com/img/guaige.gif&#34; style=&#34;box-shadow: 8px 8px 8px rgba(0.2,0.4,0.3,0.5);&#34;&gt;
+&lt;img src=&#34;https://haoleng-wick.github.io/img/guaige.gif&#34; style=&#34;box-shadow: 8px 8px 8px rgba(0.2,0.4,0.3,0.5);&#34;&gt;
 &lt;/dir&gt;
 &lt;div align=center&gt;&lt;img src=&#34;./drone_2.png&#34; alt=&#34;]&#34; /&gt;&lt;/div&gt;
 &lt;p&gt;基本假设：&lt;/p&gt;

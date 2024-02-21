@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>生活 on 好冷の小窝</title>
-        <link>https://example.com/categories/%E7%94%9F%E6%B4%BB/</link>
+        <link>https://haoleng-wick.github.io/categories/%E7%94%9F%E6%B4%BB/</link>
         <description>Recent content in 生活 on 好冷の小窝</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>欢迎前来窜门子</copyright><atom:link href="https://example.com/categories/%E7%94%9F%E6%B4%BB/index.xml" rel="self" type="application/rss+xml" /><item>
+        <copyright>欢迎前来窜门子</copyright><atom:link href="https://haoleng-wick.github.io/categories/%E7%94%9F%E6%B4%BB/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Gentoo随手记</title>
-        <link>https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/</link>
+        <link>https://haoleng-wick.github.io/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/</link>
         <pubDate>Sun, 21 May 2023 21:38:04 +0800</pubDate>
         
-        <guid>https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/</guid>
-        <description>&lt;img src="https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo.png" alt="Featured image of post Gentoo随手记" /&gt;&lt;p&gt;Gentoo 是一个快速、现代化的 Linux 发行版，它的设计简洁、灵活。Gentoo 围绕自由软件建立，它不会对它的用户隐瞒“引擎盖下的细节”。Gentoo 所使用的软件包维护系统 Portage 是用 Python 编写的，这意味着用户可以轻松地查看和修改它的源代码。 Gentoo 的软件包管理系统使用源代码包（虽然也支持预编译软件包），并通过标准的文本文件配置Gentoo。换句话说，开放无处不在。  &amp;mdash;&amp;mdash;- 摘抄自&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+        <guid>https://haoleng-wick.github.io/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/</guid>
+        <description>&lt;img src="https://haoleng-wick.github.io/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo.png" alt="Featured image of post Gentoo随手记" /&gt;&lt;p&gt;Gentoo 是一个快速、现代化的 Linux 发行版，它的设计简洁、灵活。Gentoo 围绕自由软件建立，它不会对它的用户隐瞒“引擎盖下的细节”。Gentoo 所使用的软件包维护系统 Portage 是用 Python 编写的，这意味着用户可以轻松地查看和修改它的源代码。 Gentoo 的软件包管理系统使用源代码包（虽然也支持预编译软件包），并通过标准的文本文件配置Gentoo。换句话说，开放无处不在。  &amp;mdash;&amp;mdash;- 摘抄自&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Gentoo Wiki&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;安装的总流程&#34;&gt;安装的总流程&lt;/h2&gt;
 &lt;p&gt;强烈建议参考&lt;a class=&#34;link&#34; href=&#34;https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
