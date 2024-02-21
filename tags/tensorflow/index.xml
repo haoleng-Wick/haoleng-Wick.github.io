@@ -15,7 +15,7 @@
         <guid>https://example.com/p/tensorflow%E5%85%A5%E9%97%A8/</guid>
         <description>&lt;img src="https://example.com/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.jpg" alt="Featured image of post Tensorflow入门" /&gt;&lt;h2 id=&#34;gentoo-linux-系统下-tenosorflow-gpu-的安装&#34;&gt;Gentoo Linux 系统下 Tenosorflow-gpu 的安装&lt;/h2&gt;
 &lt;h3 id=&#34;安装-nvidia-驱动&#34;&gt;安装 nvidia 驱动&lt;/h3&gt;
-&lt;p&gt;可以参考我的这篇&lt;a class=&#34;link&#34; href=&#34;https://haoleng-wick.github.io/gentoo%e9%9a%8f%e6%89%8b%e8%ae%b0/#%e7%a6%81%e7%94%a8-nouveau-%e5%b9%b6%e5%ae%89%e8%a3%85-nvidia-%e9%a9%b1%e5%8a%a8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;可以参考我的这篇&lt;a class=&#34;link&#34; href=&#34;https://haoleng-wick.github.io/p/gentoo%e9%9a%8f%e6%89%8b%e8%ae%b0/#%e7%a6%81%e7%94%a8-nouveau-%e5%b9%b6%e5%ae%89%e8%a3%85-nvidia-%e9%a9%b1%e5%8a%a8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;文章&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;使用 &lt;code&gt;nvidia-smi&lt;/code&gt;命令 验证安装是否成功&lt;/p&gt;
 &lt;p&gt;我的电脑输出如下：&lt;/p&gt;

@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='视觉导航综述'>
+<title>视觉导航综述</title>
+
+<link rel='canonical' href='https://example.com/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.9f6c7a0973184b86869b760881dc61fd961c2d8d84d6f39660be71ab8a29dc85.css"><meta property='og:title' content='视觉导航综述'>
+<meta property='og:description' content='视觉导航综述'>
+<meta property='og:url' content='https://example.com/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='机器视觉' /><meta property='article:published_time' content='2023-07-17T10:50:29&#43;08:00'/><meta property='article:modified_time' content='2024-02-21T12:44:12&#43;08:00'/><meta property='og:image' content='https://example.com/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C.jpg' />
+<meta name="twitter:title" content="视觉导航综述">
+<meta name="twitter:description" content="视觉导航综述"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以至千里</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#室内导航">室内导航</a>
+      <ol>
+        <li><a href="#基于深度视觉感知的slam导航">基于深度视觉感知的SLAM导航</a></li>
+      </ol>
+    </li>
+    <li><a href="#室外导航">室外导航</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#视觉感知单元">视觉感知单元</a>
+      <ol>
+        <li><a href="#单目摄像头">单目摄像头</a></li>
+        <li><a href="#双目摄像头">双目摄像头</a></li>
+      </ol>
+    </li>
+    <li><a href="#姿态感知单元">姿态感知单元</a>
+      <ol>
+        <li><a href="#惯性导航系统">惯性导航系统</a></li>
+      </ol>
+    </li>
+    <li><a href="#多源融合视觉处理">多源融合视觉处理</a>
+      <ol>
+        <li><a href="#视觉惯性融合">视觉+惯性融合</a></li>
+        <li><a href="#视觉无线电融合">视觉+无线电融合</a></li>
+        <li><a href="#多源融合">多源融合</a>
+          <ol>
+            <li><a href="#多传感器融合层次级别">多传感器融合层次（级别）</a></li>
+            <li><a href="#多传感器融合体系结构">多传感器融合体系结构</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/">
+                <img src="/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C_hua8e57d294448123456c3e7a479108155_17488_800x0_resize_q75_box.jpg"
+                        srcset="/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C_hua8e57d294448123456c3e7a479108155_17488_800x0_resize_q75_box.jpg 800w, /p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C_hua8e57d294448123456c3e7a479108155_17488_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="466" 
+                        loading="lazy"
+                        alt="Featured image of post 视觉导航综述" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" style="background-color: #2a9d8f; color: #fff;">
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/">视觉导航综述</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            视觉导航综述
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023-07-17</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-02-21</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+     
+<section class="toc toc--inline">
+    <h2 class="">目录</h2>
+    <div class="" >
+        <nav id="TableOfContents">
+  <ol>
+    <li><a href="#室内导航">室内导航</a>
+      <ol>
+        <li><a href="#基于深度视觉感知的slam导航">基于深度视觉感知的SLAM导航</a></li>
+      </ol>
+    </li>
+    <li><a href="#室外导航">室外导航</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#视觉感知单元">视觉感知单元</a>
+      <ol>
+        <li><a href="#单目摄像头">单目摄像头</a></li>
+        <li><a href="#双目摄像头">双目摄像头</a></li>
+      </ol>
+    </li>
+    <li><a href="#姿态感知单元">姿态感知单元</a>
+      <ol>
+        <li><a href="#惯性导航系统">惯性导航系统</a></li>
+      </ol>
+    </li>
+    <li><a href="#多源融合视觉处理">多源融合视觉处理</a>
+      <ol>
+        <li><a href="#视觉惯性融合">视觉+惯性融合</a></li>
+        <li><a href="#视觉无线电融合">视觉+无线电融合</a></li>
+        <li><a href="#多源融合">多源融合</a>
+          <ol>
+            <li><a href="#多传感器融合层次级别">多传感器融合层次（级别）</a></li>
+            <li><a href="#多传感器融合体系结构">多传感器融合体系结构</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+
+    </div>
+</section>
+
+
+
+    
+    
+    <h1 id="视觉导航">视觉导航</h1>
+<h2 id="室内导航">室内导航</h2>
+<p><strong>关键技术：</strong></p>
+<ol>
+<li>
+<p><strong>传感器信息采集分析</strong></p>
+<p>SLAM建图的准确性、及时性，均取决于传感器<strong>获得数据的完备性</strong>。</p>
+</li>
+<li>
+<p><strong>视觉里程计与回环检测分析</strong></p>
+<p>传统VO框架搭配<strong>回环检测</strong>消除误差。</p>
+</li>
+<li>
+<p><strong>3D建图</strong></p>
+<p>​	传统的ORB-SLAM只能构建稀疏云点地图，无法应用与导航任务，需要构建<strong>立体视觉惯性SLAM</strong>，生成<strong>三维语义拓扑图</strong>，最后生成<strong>路径规划地图</strong>，实现自主导航。</p>
+</li>
+</ol>
+<h3 id="基于深度视觉感知的slam导航">基于深度视觉感知的SLAM导航</h3>
+<ul>
+<li>深度视觉的SLAM工作原理图：</li>
+</ul>
+<div class="mermaid">
+  
+    stateDiagram-v2
+    direction LR
+    [*] --> operation
+    state operation{
+    direction LR 
+    传感器数据 --> （前端）视觉里程计
+    （前端）视觉里程计 -->（后端）非线性优化
+    （后端）非线性优化 --> 建图
+    }
+    传感器数据 --> 回环检测
+    回环检测 --> （后端）非线性优化
+    建图 --> [*]
+
+</div>
+
+<ul>
+<li>视觉处理主要前端处理算法：</li>
+</ul>
+<div class="mermaid">
+  
+    graph LR
+    A([前端处理]) --> BB[特征法] & C[直接法]
+    BB --> B1(关键点提取)
+    B1 --> b11(["ORB(具有良好的平移旋转不变性，提取时间快)"]) 
+    B1 --> b12(["SIFT(鲁棒性强,光照,旋转等均不敏感)"])
+    B1 --> b13(["FAST(Fast角点，噪声敏感，速度快)"]) 
+    B1 --> b14(["SURF(计算量比SIFT显著降低,同时鲁棒性也降低)"])
+
+    BB --> B2(描述子)
+    B2 --> b21([梯度计算HOG描述子])
+    B2 --> b22([二进制BRISK描述子])
+    BB --> B3(特征匹配-FLANN算法)
+    BB --> B4(数据关联)
+    B4 --> b41("2D-2D(多视图几何)")
+    B4 --> b42("2D-3D(线性化(PNP)、非线性求解(BA))")
+    B4 --> b43("3D-3D")
+
+    C --> C1["半直接法(光流)"]
+    C --> C2[直接法]
+    C1 & C2 --> c("(使用最小化光度误差，非线性优化求解)")
+
+</div>
+
+<p>​		<strong>特征法：</strong> 特征法视觉里程计，将数据关联和位姿估计问题分开考虑、独立解决，但是特征计算和特征匹配非常耗时，在特征缺失、纹理重复的环境中容易跟踪丢失，并且稀疏的点云地图只能用于定位，而无法提供导航、避障等诸多功能。</p>
+<p>​		<strong>直接法：</strong> 直接法视觉里程计以一种更整体、更优雅的方式，处理数据关联和位姿估计问题，仅使用像素的灰度信息，计算效率高，并且在特征缺失的环境中，也有很好的表现。其不足在于，对光照变化非常敏感，所建立的地图无特征描述子，导致难以进行地图的复用。因此，直接法更擅长端到端的解决连续缓慢的定位问题，而特征法更适合重定位与回环检测。</p>
+<ul>
+<li>
+<p>视觉处理主要后端处理算法：</p>
+<div class="mermaid">
+  
+      graph LR
+      A([后端优化]) --> B(基于滤波的方法) & C(基于优化的方法) & D(回环检测)
+      B --> B1(["EKF算法(扩展卡尔曼滤波)"])
+      B --> B2(["PKF算法(粒子滤波算法)"])
+      B --> B3(["MSCKF算法(多状态约束卡尔曼)"])
+      
+      C --> C1(BA优化)
+      C1 --> c11(["PTAM"])
+      C1 --> c12(["ORB-SLAM"])
+      
+      C --> C2(位姿图优化,舍弃对于路标点的优化)
+      C2 --> c21([Vins-Mono])
+      C2 --> c22([OKVIS])
+      
+      C --> C3(因子图优化)
+      C3 --> c31([ISAM以及其对应的gtsam算法库])
+      
+      D --> D1(基于深度学习)
+      D --> D2(基于词袋模型)
+  
+</div>
+
+<p>​	**滤波器法：**虽然滤波器的全局优化假设了状态量之间的马尔可夫性，存在较大的线性误差，但相比非线性优化法在计算资源受限平台或结构化场景中，仍然是一种非常有效的方法。</p>
+<p>​	**优化算法：**非线性优化法是利用约束条件构造目标函数，通过最优化的算法寻找位姿和地图点的最优解。集束调整和图优化都是非线性优化法，但是比较难以求解。</p>
+<p>​	**回环检测：**基于子地图与子地图间的匹配、基于图像与子地图间的匹配、<strong>基于图像与图像间匹配</strong>（目前主流）、基于卷积神经网络的回环检测。</p>
+</li>
+</ul>
+<h2 id="室外导航">室外导航</h2>
+<p><strong>关键技术：</strong></p>
+<ol>
+<li>
+<p><strong>构建特定区域先验数据库</strong></p>
+</li>
+<li>
+<p><strong>匹配算法</strong></p>
+<p>匹配算法直接关乎无人机定位的准确度，对于 SIFT 算法而言，计算复杂度较高，内部运算的数据量巨大，难以符合无人机定位导航的实时性需求，同样也会降低让无人机的工作效率。</p>
+</li>
+<li>
+<p><strong>搜索目标特征提取、目标确认分析</strong></p>
+<p>搜索前需要得到目标的特征，目标特征点太少会导致识别率降低，目标特征不够明确会导致识别错误率增加，目标特征过于精细由于传感器精度不够，会难以匹配成功。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>无人机巡查工作原理：
+<div class="mermaid">
+  
+    stateDiagram
+    direction LR
+    特定区域先验数据库 --> 匹配算法
+    实测环境特征数据 --> 匹配算法
+    匹配算法 --> 无人机
+    无人机 --> 定位与导航
+    定位与导航 --> 巡查工作
+
+</div>
+</p>
+</li>
+<li>
+<p>特殊目标搜索识别原理：</p>
+</li>
+</ul>
+<div class="mermaid">
+  
+    stateDiagram-v2
+    direction LR
+    [*] --> operation
+    搜索目标特征 --> 目标确认
+    搜索目标特征 --> 无人机
+    state operation {
+    direction LR
+    目标搜索 --> 目标确认
+    目标确认 --> 无人机
+    无人机 --> 定位与跟踪
+    }
+    定位与跟踪 --> [*]
+
+</div>
+
+<h1 id="相关技术与设备">相关技术与设备</h1>
+<h2 id="视觉感知单元">视觉感知单元</h2>
+<h3 id="单目摄像头">单目摄像头</h3>
+<p><strong>单目测距原理：</strong></p>
+<p>测量原理主要分为基于<strong>已知运动</strong>和<strong>已知物体</strong>的测量方法。</p>
+<p>假设有一个宽度为 $W$ 的目标或者物体，然后将它放在距离相机为 $D$ 的位置，用该相机对该物体进行拍照并且测量物体的像素宽度 $P$ ,则相机的焦距公式为：
+$$
+F = (P * D) / W
+$$
+当继续将相机移动靠近或远离物体或目标是，可利用相似三角形计算物体与相机的间距：
+$$
+D = (W * F) / P
+$$
+<strong>单目目标检测：</strong></p>
+<p>在3D目标检测领域，根据输入信息的不同，大致可分为三类</p>
+<ul>
+<li><em>Point Cloud-based Methods</em> (基于点云)  ——<strong>经典</strong></li>
+<li><em>Multimodal Fusion-based Methods</em> (点云和图像的融合) ——<strong>主流</strong></li>
+<li><em>Monocular/Stereo Image-based Methods</em> (单目/立体图像的方法)</li>
+</ul>
+<h3 id="双目摄像头">双目摄像头</h3>
+<p><strong>双目测距：</strong></p>
+<p>通过两幅图像的视差计算。</p>
+<p><strong>双目视觉目标检测：</strong></p>
+<ul>
+<li>
+<p><strong>基于直接视锥空间的双目目标检测方法</strong></p>
+<p>不需要额外的坐标空间转换，只需要基础骨干提取的两个单目特征构造双目特征。</p>
+</li>
+<li>
+<p><strong>基于串接构造视锥空间特征的方法</strong></p>
+<p>将基础骨干提取的两个单目视锥空间特征串接起来，利用卷积神经网络强大的拟合能力提取候选框或直接检测三维目标。<strong>不改变原单目特征的空间坐标，简单快速</strong>。</p>
+</li>
+<li>
+<p><strong>基于平面扫描构造视锥空间特征的方法</strong></p>
+<p>基于平面扫描的检测方法受益于双目深度估计方法的发展，能够<strong>直接利用点云监督取得更好的匹配结果</strong>，进而学习到每个视锥空间像素是否被物体占据的信息，辅助提高三维检测性能。</p>
+</li>
+<li>
+<p><strong>基于显式逆投影空间的双目目标检测方法</strong></p>
+<p>逆投影变换主要可以应用在输入图像、特征、候选区域三个不同环节。</p>
+</li>
+<li>
+<p><strong>基于原始图像视差的逆投影方法</strong></p>
+<p>伪雷达方法。</p>
+</li>
+<li>
+<p><strong>基于特征体的逆投影方法</strong></p>
+<p>基于特征体逆投影的双目目标检测方法通过插值和采样的方式将平面扫描得到的匹配代价体变换到三维空间，利用了图像特征提供的颜色和纹理信息，实现了端到端训练的双目目标检测。</p>
+</li>
+<li>
+<p><strong>基于候选像素视差的逆投影方法</strong></p>
+<p>这种逆投影方法生成的三维空间有效体素较少，可以在有限的检测时间内更灵活地控制特征的空间分辨率；聚焦于前景目标，能够避免不准确的深度估计带来的性能下降。</p>
+</li>
+</ul>
+<h2 id="姿态感知单元">姿态感知单元</h2>
+<h3 id="惯性导航系统">惯性导航系统</h3>
+<p>惯性导航系统（Inertial Navigation System，INS）是一种利用惯性敏感器件、基准方向及最初的位置信息，来确定运载体在<strong>惯性空间中的位置</strong>、<strong>方向和速度</strong>的自主式导航系统，有时也简称为惯导。其工作环境不仅包括空中、地面，还可以在水下。</p>
+<p><strong>惯性系统</strong>至少需要包含加速度计、陀螺仪等的<strong>惯性测量单元</strong>和用于推理的<strong>计算单元</strong>两大部分。</p>
+<p>计算单元流程图：</p>
+<div class="mermaid">
+  
+    stateDiagram-v2
+    direction TB
+    state 惯性单元{
+    加速度计 陀螺仪 磁力计
+    }
+    惯性单元 --> 姿态解算
+    姿态解算 --> 加速度积分
+    加速度积分 --> 误差补偿
+    误差补偿 --> 姿态和位置
+
+</div>
+
+<h2 id="多源融合视觉处理">多源融合视觉处理</h2>
+<h3 id="视觉惯性融合">视觉+惯性融合</h3>
+<p>视觉惯性融合定位需要视觉传感器和惯性测量传感器进行融合。 融合方案
+一般可以分为<strong>松耦合</strong>和<strong>紧耦合</strong>。</p>
+<p><strong>松耦合情况下是两个优化问题</strong>，视觉测量优化问题包含视觉的状态变量，惯性测量的优化问题包含惯性测量的状态变量，最终，我们只是融合这两个优化得到的位姿估计结果。</p>
+<p><strong>紧耦合是一个优化问题</strong>，它将视觉测量和惯性测量放在同一个状态向量中，构建包含视觉残差和惯性测量残差的误差项，同时优化视觉状态变量和惯性测量状
+态变量。</p>
+<p><strong>基于模型的视觉/惯导组合：</strong></p>
+<div class="mermaid">
+  
+    stateDiagram-v2
+    direction TB
+
+    state 基于模型的纯视觉导航{
+    视觉原始数据 --> 前端视觉里程计
+    闭环检测 --> 后端闭环优化与构图
+    前端视觉里程计 --> 后端闭环优化与构图
+    后端闭环优化与构图 --> 闭环检测
+    视觉原始数据 --> 闭环检测
+    }
+
+    后端闭环优化与构图 --> 导航参数与环境地图
+    后端闭环优化与构图 --> 导航信息融合
+
+    state 惯导 {
+    惯性原始数据 --> 惯性信息预处理
+    惯性信息预处理 --> 导航信息融合
+    }
+
+    惯性信息预处理 --> 前端视觉里程计
+    导航信息融合 --> 导航参数与环境地图
+
+</div>
+
+<h3 id="视觉无线电融合">视觉+无线电融合</h3>
+<ul>
+<li><strong>AS算法</strong></li>
+<li><strong>随机森林分类算法</strong></li>
+<li><strong>SVM算法</strong></li>
+</ul>
+<h3 id="多源融合">多源融合</h3>
+<h4 id="多传感器融合层次级别">多传感器融合层次（级别）</h4>
+<p>基本原理图：</p>
+<div class="mermaid">
+  
+    stateDiagram-v2
+    监测对象 --> sensor
+    state sensor{
+    direction TB
+    传感器1 
+    传感器2
+    ....
+    传感器n
+    }
+    sensor --> features
+    state features{
+    direction TB
+    特征提取1
+    特征提取2
+    ..
+    特征提取n
+    }
+    features --> identify
+    state identify{
+    direction TB
+    识别1
+    识别2
+    ...
+    识别n
+    }
+    identify --> 决策级融合
+    决策级融合 --> 决策
+
+</div>
+
+<p>在多传感器信息融合中，按其在融合系统中信息处理的抽象程度可分为三个层次：</p>
+<ul>
+<li>
+<p><strong>数据级融合</strong></p>
+<p>也称像素级融合，属于底层数据融合，数据级融合不存在数据丢失的问题，得到的结果也作为准确；但是计算量大，对系统通信带宽要求较高；</p>
+</li>
+<li>
+<p><strong>特征级融合</strong></p>
+<p>分为目标状态融合、目标特征融合，</p>
+<p>特征层融合技术发展较为完善，此级别融合对计算量和通信带宽要求相对降低，但由于部分数据的舍弃使其准确性也有所下降。</p>
+</li>
+<li>
+<p><strong>决策级融合</strong></p>
+</li>
+</ul>
+<h4 id="多传感器融合体系结构">多传感器融合体系结构</h4>
+<ul>
+<li>集中式</li>
+<li>分布式</li>
+<li>混合式</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-02-21 12:44 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/tensorflow%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hud8524d9562d7473f3449c190ff1a23cc_42729_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Tensorflow入门"
+                        
+                        data-hash="md5-ipEKHxnOb3nhN33mV6xCmQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tensorflow入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/pytorch%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu9f713ad84f2edfa72e78551edd5f644f_73867_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Pytorch入门"
+                        
+                        data-hash="md5-NGf4aI7KuaOloQtq3EkYMA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/cnn_total.512992606228687834e696f0bb834992_hue114c50f1abc267ea1a1a271f180c42e_46393_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 神经网络视觉基础"
+                        
+                        data-hash="md5-USmSYGIoaHg05pbwu4NJkg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">神经网络视觉基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%BC%A0%E7%BB%9F%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80/R-C.d67e3b6f1bb78779f5bd074efaf98994_hu897fca54ae8e34409121667f57e687d2_226190_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 传统机器视觉基础"
+                        
+                        data-hash="md5-1n47bxu3h3n1vQdO&#43;vmJlA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">传统机器视觉基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post KMP算法"
+                        
+                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KMP算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+
+    </body>
+</html>

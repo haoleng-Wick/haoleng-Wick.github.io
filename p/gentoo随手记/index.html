@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/'>
 
-<link rel="stylesheet" href="/scss/style.min.68d9dfc60d720378f40eff92079a6e7c6e6b4db696686bd28db0096d1bafeadd.css"><meta property='og:title' content='Gentoo随手记'>
+<link rel="stylesheet" href="/scss/style.min.9f6c7a0973184b86869b760881dc61fd961c2d8d84d6f39660be71ab8a29dc85.css"><meta property='og:title' content='Gentoo随手记'>
 <meta property='og:description' content='本人的Gentoo安装和配置手记'>
 <meta property='og:url' content='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/'>
 <meta property='og:site_name' content='好冷の小窝'>
@@ -14,7 +14,8 @@
 <meta name="twitter:title" content="Gentoo随手记">
 <meta name="twitter:description" content="本人的Gentoo安装和配置手记"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://example.com/p/gentoo%E9%9A%8F%E6%89%8B%E8%AE%B0/gentoo.png' />
-    <link rel="shortcut icon" href="static/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
 
     </head>
     <body class="
@@ -73,7 +74,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
-            <h2 class="site-description">不积跬步，无以致千里</h2>
+            <h2 class="site-description">不积跬步，无以至千里</h2>
         </div>
     </header><ol class="social-menu">
             
@@ -482,6 +483,47 @@
 </header>
 
     <section class="article-content">
+     
+<section class="toc toc--inline">
+    <h2 class="">目录</h2>
+    <div class="" >
+        <nav id="TableOfContents">
+  <ol>
+    <li><a href="#安装的总流程">安装的总流程</a>
+      <ol>
+        <li><a href="#下载镜像并进入livecd">下载镜像并进入LiveCD</a></li>
+        <li><a href="#前置准备">前置准备</a></li>
+        <li><a href="#开始安装">开始安装</a></li>
+        <li><a href="#配置系统并完成安装">配置系统并完成安装</a></li>
+      </ol>
+    </li>
+    <li><a href="#安装后相关问题记录">安装后相关问题记录</a>
+      <ol>
+        <li><a href="#包管理器">包管理器</a>
+          <ol>
+            <li><a href="#安装和卸载软件以mpv为例">安装和卸载软件（以mpv为例）</a></li>
+          </ol>
+        </li>
+        <li><a href="#tty自动登录">tty自动登录</a></li>
+        <li><a href="#双系统时间同步问题">双系统时间同步问题</a></li>
+        <li><a href="#禁用-nouveau-并安装-nvidia-驱动">禁用 nouveau 并安装 Nvidia 驱动</a></li>
+        <li><a href="#图形界面">图形界面</a></li>
+        <li><a href="#firefox浏览器下指定网站禁用插件">Firefox浏览器下指定网站禁用插件</a></li>
+      </ol>
+    </li>
+    <li><a href="#linux下一些实用的软件介绍">Linux下一些实用的软件介绍</a>
+      <ol>
+        <li><a href="#android设备投屏软件scrcpyhttpsgithubcomgenymobilescrcpy">Android设备投屏软件<a href="https://github.com/Genymobile/scrcpy">scrcpy</a></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+
+    </div>
+</section>
+
+
+
     
     
     <p>Gentoo 是一个快速、现代化的 Linux 发行版，它的设计简洁、灵活。Gentoo 围绕自由软件建立，它不会对它的用户隐瞒“引擎盖下的细节”。Gentoo 所使用的软件包维护系统 Portage 是用 Python 编写的，这意味着用户可以轻松地查看和修改它的源代码。 Gentoo 的软件包管理系统使用源代码包（虽然也支持预编译软件包），并通过标准的文本文件配置Gentoo。换句话说，开放无处不在。  &mdash;&mdash;- 摘抄自<a class="link" href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/zh-cn"  target="_blank" rel="noopener"
