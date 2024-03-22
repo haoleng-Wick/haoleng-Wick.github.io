@@ -619,6 +619,48 @@
 </description>
         </item>
         <item>
+        <title>RaspberryPi 5初探</title>
+        <link>https://haoleng-wick.github.io/p/raspberrypi-5%E5%88%9D%E6%8E%A2/</link>
+        <pubDate>Sat, 16 Mar 2024 10:12:10 +0800</pubDate>
+        
+        <guid>https://haoleng-wick.github.io/p/raspberrypi-5%E5%88%9D%E6%8E%A2/</guid>
+        <description>&lt;h2 id=&#34;树莓派5&#34;&gt;树莓派5&lt;/h2&gt;
+&lt;p&gt;最近新买了个树莓派5，准备开启自己的树莓派折腾之旅。&lt;/p&gt;
+&lt;h2 id=&#34;系统安装&#34;&gt;系统安装&lt;/h2&gt;
+&lt;p&gt;既然要开始折腾树莓派，那就得先从操作系统说起了，首先应该体验一下树莓派的官方系统RaspberryPi OS，这是一个基于Debian 12的64位新系统。众所周知，Debian是一个很稳定的Linux系统，且去年发布了最新的版本，内核和软件都是非常新的。&lt;/p&gt;
+&lt;p&gt;为树莓派安装操作系统首先肯定是要准备SD卡和烧录软件，我使用的是&lt;a class=&#34;link&#34; href=&#34;https://www.raspberrypi.com/software/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方烧录器&lt;/a&gt;，这是它的Windows版&lt;a class=&#34;link&#34; href=&#34;https://downloads.raspberrypi.org/imager/imager_latest.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;下载连接&lt;/a&gt;，开箱即用，非常适合新人使用。&lt;/p&gt;
+&lt;p&gt;本人这里直接选择了RaspberryPi OS 64(bit) Full，因为真的是开箱即用，甚至连VNC都省的配置了。在烧录是记得设置WiFi连接和ssh服务自启动，毕竟没有显示器和键盘的情况下ssh就是它的灵魂。&lt;/p&gt;
+&lt;p&gt;系统的安装基本上就是鼠标点点点(Q点点，W点点，E点点，圣枪洗礼biubiubiu)，然后等待就好了，等系统烧录完成之后，将SD卡卸载并插入树莓派5，给树莓派上电等待启动就好了。&lt;/p&gt;
+&lt;h2 id=&#34;系统启动&#34;&gt;系统启动&lt;/h2&gt;
+&lt;p&gt;不出意外的话，树莓派上电之后过不了一会我们就可以通过局域网扫描终端软件&lt;a class=&#34;link&#34; href=&#34;https://www.advanced-ip-scanner.com/cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Advanced-ip-scanner&lt;/a&gt;找到树莓派设备以及它的ip地址了，直接使用ssh连接即可接管系统。RaspberryPi OS系统有个好一点的地方就是它内置了&lt;code&gt;raspi-config&lt;/code&gt;工具，可以对系统的很多地方进行配置，比如VNC、SSH、分辨率以及GUI后端等。我到手之后先将跟文件系统扩展至了整个磁盘（SD卡），然后开启了远程桌面VNC服务，（值得注意的是，新版RaspberryPi OS系统默认采用了Wayland作为GUI后端，因此VNC服务也和以前不一样，而是使用了wayvnc工具，比较新😬），然后重启之后就可以使用VNC软件&lt;a class=&#34;link&#34; href=&#34;https://www.realvnc.com/en/connect/download/viewer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Realvnc&lt;/a&gt;连接树莓派，远程操纵RaspberryPi OS系统的默认桌面&lt;a class=&#34;link&#34; href=&#34;&#34; &gt;wayfire&lt;/a&gt;了，恭喜你，完成了系统的初步构建。&lt;/p&gt;
+&lt;h2 id=&#34;系统配置&#34;&gt;系统配置&lt;/h2&gt;
+&lt;p&gt;接下来进行RaspberryPi OS的系统配置：&lt;/p&gt;
+&lt;h3 id=&#34;换源&#34;&gt;换源&lt;/h3&gt;
+&lt;p&gt;国内环境您懂得，建议参考清华大学开源镜像站&lt;a class=&#34;link&#34; href=&#34;https://mirrors.tuna.tsinghua.edu.cn/help/raspbian/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tsinghua&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;zsh&#34;&gt;zsh&lt;/h3&gt;
+&lt;p&gt;个人倾向于使用zsh作为默认shell，直接使用apt安装即可，记得同时安装&lt;code&gt;zsh-autosuggestions&lt;/code&gt;、&lt;code&gt;zsh-autocomplete&lt;/code&gt;和&lt;code&gt; zsh-syntax-highlighting&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;使用命令&lt;code&gt;chsh -s /usr/bin/zsh haoleng&lt;/code&gt;更改用户haoleng的默认shell&lt;/p&gt;
+&lt;p&gt;然后再在&lt;code&gt;~/.zshrc&lt;/code&gt;中&lt;code&gt;source&lt;/code&gt;一下就这些插件，它们的默认安装位置在&lt;code&gt;/usr/share/zsh&lt;/code&gt;中。&lt;/p&gt;
+&lt;h3 id=&#34;卸载不要的组件&#34;&gt;卸载不要的组件&lt;/h3&gt;
+&lt;p&gt;主要就你不喜欢的软件直接卸载
+仅供参考&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt --remove --purge liboffice*
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;heading&#34;&gt;&lt;/h3&gt;
+</description>
+        </item>
+        <item>
         <title>Tensorflow入门</title>
         <link>https://haoleng-wick.github.io/p/tensorflow%E5%85%A5%E9%97%A8/</link>
         <pubDate>Mon, 17 Jul 2023 10:50:29 +0800</pubDate>
