@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='树莓派5安装Gentoo'>
+<title>RaspberryPi 5 and Gentoo</title>
+
+<link rel='canonical' href='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/'>
+
+<link rel="stylesheet" href="/scss/style.min.9f6c7a0973184b86869b760881dc61fd961c2d8d84d6f39660be71ab8a29dc85.css"><meta property='og:title' content='RaspberryPi 5 and Gentoo'>
+<meta property='og:description' content='树莓派5安装Gentoo'>
+<meta property='og:url' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/'>
+<meta property='og:site_name' content='好冷の小窝'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='RaspberryPi' /><meta property='article:published_time' content='2024-03-20T10:16:13&#43;08:00'/><meta property='article:modified_time' content='2024-03-22T16:35:27&#43;08:00'/><meta property='og:image' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
+<meta name="twitter:title" content="RaspberryPi 5 and Gentoo">
+<meta name="twitter:description" content="树莓派5安装Gentoo"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🤪</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">好冷の小窝</a></h1>
+            <h2 class="site-description">不积跬步，无以至千里!</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/haoleng-Wick'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/103979628'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://steamcommunity.com/profiles/76561198364816762'
+                        target="_blank"
+                        title="Steam"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-steam" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 3l-.176 0a3 3 0 0 1 -2.94 -2.402l-2.56 -1.098v-3.5l3.51 1.755a2.989 2.989 0 0 1 2.834 -.635l2.727 -3.818a4.5 4.5 0 0 1 4.429 -5.302z" />
+  <circle cx="16.5" cy="9.5" r="1" fill="currentColor" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:yhx2604918320@163.com'
+                        target="_blank"
+                        title="Mail"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6" />
+  <path d="M3 7l9 6l9 -6" />
+  <path d="M15 19l2 2l4 -4" />
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://haoleng-wick.github.io/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://haoleng-wick.github.io/" selected>中文</option>
+                        
+                            <option value="https://haoleng-wick.github.io/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#gentoo-on-raspberrypi">Gentoo On RaspberryPi</a>
+      <ol>
+        <li><a href="#sd分区">SD分区</a></li>
+        <li><a href="#gentoo基本系统">Gentoo基本系统</a>
+          <ol>
+            <li><a href="#1-挂载跟分区">1. 挂载跟分区</a></li>
+            <li><a href="#2-安装基本系统和portage快照">2. 安装基本系统和portage快照</a></li>
+            <li><a href="#3-安装内核模块和固件">3. 安装内核、模块和固件</a></li>
+            <li><a href="#4-安装无线网络module">4. 安装无线网络Module</a></li>
+            <li><a href="#5-安装蓝牙module">5. 安装蓝牙Module</a></li>
+            <li><a href="#6-编辑系统挂载表文件">6. 编辑系统挂载表文件</a></li>
+            <li><a href="#7-启动前的设置">7. 启动前的设置</a></li>
+          </ol>
+        </li>
+        <li><a href="#启动之后的配置">启动之后的配置</a>
+          <ol>
+            <li><a href="#1-iwd">1. iwd</a></li>
+            <li><a href="#2-sshd">2. sshd</a></li>
+            <li><a href="#3-add-user">3. add user</a></li>
+            <li><a href="#4-安装sudo">4. 安装sudo</a></li>
+            <li><a href="#5-zsh">5. zsh</a></li>
+            <li><a href="#6-安装桌面环境">6. 安装桌面环境</a></li>
+            <li><a href="#7-配置vnc远程桌面">7. 配置VNC远程桌面</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/raspberrypi-5-and-gentoo/">
+                <img src="/p/raspberrypi-5-and-gentoo/Cover_hue56af742d0204ffcf3ea40ed7e2b741e_102510_800x0_resize_box_3.png"
+                        srcset="/p/raspberrypi-5-and-gentoo/Cover_hue56af742d0204ffcf3ea40ed7e2b741e_102510_800x0_resize_box_3.png 800w, /p/raspberrypi-5-and-gentoo/Cover_hue56af742d0204ffcf3ea40ed7e2b741e_102510_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="503" 
+                        loading="lazy"
+                        alt="Featured image of post RaspberryPi 5 and Gentoo" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%98%E8%85%BE/" style="background-color: #2a9d8f; color: #fff;">
+                折腾
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/raspberrypi-5-and-gentoo/">RaspberryPi 5 and Gentoo</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            树莓派5安装Gentoo
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2024-03-20</time>
+            </div>
+        <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+
+                <time class="article-lastmod">2024-03-22</time>
+            </div>
+        
+
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+     
+<section class="toc toc--inline">
+    <h2 class="">目录</h2>
+    <div class="" >
+        <nav id="TableOfContents">
+  <ol>
+    <li><a href="#gentoo-on-raspberrypi">Gentoo On RaspberryPi</a>
+      <ol>
+        <li><a href="#sd分区">SD分区</a></li>
+        <li><a href="#gentoo基本系统">Gentoo基本系统</a>
+          <ol>
+            <li><a href="#1-挂载跟分区">1. 挂载跟分区</a></li>
+            <li><a href="#2-安装基本系统和portage快照">2. 安装基本系统和portage快照</a></li>
+            <li><a href="#3-安装内核模块和固件">3. 安装内核、模块和固件</a></li>
+            <li><a href="#4-安装无线网络module">4. 安装无线网络Module</a></li>
+            <li><a href="#5-安装蓝牙module">5. 安装蓝牙Module</a></li>
+            <li><a href="#6-编辑系统挂载表文件">6. 编辑系统挂载表文件</a></li>
+            <li><a href="#7-启动前的设置">7. 启动前的设置</a></li>
+          </ol>
+        </li>
+        <li><a href="#启动之后的配置">启动之后的配置</a>
+          <ol>
+            <li><a href="#1-iwd">1. iwd</a></li>
+            <li><a href="#2-sshd">2. sshd</a></li>
+            <li><a href="#3-add-user">3. add user</a></li>
+            <li><a href="#4-安装sudo">4. 安装sudo</a></li>
+            <li><a href="#5-zsh">5. zsh</a></li>
+            <li><a href="#6-安装桌面环境">6. 安装桌面环境</a></li>
+            <li><a href="#7-配置vnc远程桌面">7. 配置VNC远程桌面</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+
+    </div>
+</section>
+
+
+
+    
+    
+    <h2 id="gentoo-on-raspberrypi">Gentoo On RaspberryPi</h2>
+<p>该部分就是抄的<a class="link" href="https://wiki.gentoo.org/wiki/How_to_install_Gentoo_on_Raspberry_Pi_5"  target="_blank" rel="noopener"
+    >Gentoo Wiki</a>上的，只做简要概述。</p>
+<h3 id="sd分区">SD分区</h3>
+<ol>
+<li>对SD进行分区</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fdisk /dev/mmcblk0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>
+<p>创建DOS标签</p>
+</li>
+<li>
+<p>创建启动分区</p>
+</li>
+<li>
+<p>创建交换分区</p>
+</li>
+<li>
+<p>创建跟分区</p>
+</li>
+<li>
+<p>设置文件系统</p>
+</li>
+<li>
+<p>最终检查</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Command (m for help): p
+</span></span><span class="line"><span class="cl">Disk /dev/sda: 59.48 GiB, 63864569856 bytes, 124735488 sectors
+</span></span><span class="line"><span class="cl">Disk model: Storage Device  
+</span></span><span class="line"><span class="cl">Units: sectors of 1 * 512 = 512 bytes
+</span></span><span class="line"><span class="cl">Sector size (logical/physical): 512 bytes / 512 bytes
+</span></span><span class="line"><span class="cl">I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span></span><span class="line"><span class="cl">Disklabel type: dos
+</span></span><span class="line"><span class="cl">Disk identifier: 0x4fe0c75b
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Device     Boot    Start       End   Sectors  Size Id Type
+</span></span><span class="line"><span class="cl">/dev/mmcblk0p1           2048    526335    524288  256M  b W95 FAT32
+</span></span><span class="line"><span class="cl">/dev/mmcblk0p2        526336  17303551  16777216    8G 82 Linux swap / Solaris
+</span></span><span class="line"><span class="cl">/dev/mmcblk0p3      17303552 124735487 107431936 51.2G 83 Linux
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="8">
+<li>写入并格式化</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkfs -t vfat /dev/mmcblk0p1
+</span></span><span class="line"><span class="cl">mkswap --pagesize <span class="m">16384</span> /dev/mmcblk0p2
+</span></span><span class="line"><span class="cl">mkfs -t ext4 /dev/mmcblk0p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="gentoo基本系统">Gentoo基本系统</h3>
+<h4 id="1-挂载跟分区">1. 挂载跟分区</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mount /dev/mmcblk0p3 /mnt/gentoo
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/gentoo/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2-安装基本系统和portage快照">2. 安装基本系统和portage快照</h4>
+<p>下载最新的<a class="link" href="https://www.gentoo.org/downloads/"  target="_blank" rel="noopener"
+    >stage</a>文件，解压到跟分区</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tar xpf /path/to/stage3-arm64-desktop-openrc-20240317T232028Z.tar.xz --xattrs-include=&#39;*.*&#39; --numeric-owner
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果一切顺利，那么<code>/mnt/gentoo/</code>目录下应该是如下的文件系统层次结构</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">Johnson</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">gentoo</span> <span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl"><span class="n">bin</span>   <span class="n">dev</span>  <span class="n">home</span>  <span class="n">lib64</span>       <span class="n">media</span>  <span class="n">opt</span>   <span class="n">root</span>  <span class="n">sbin</span>  <span class="n">tmp</span>  <span class="k">var</span>
+</span></span><span class="line"><span class="cl"><span class="n">boot</span>  <span class="n">etc</span>  <span class="n">lib</span>   <span class="n">lost</span><span class="o">+</span><span class="n">found</span>  <span class="n">mnt</span>    <span class="n">proc</span>  <span class="n">run</span>   <span class="n">sys</span>   <span class="n">usr</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下载最新的<a class="link" href="https://gentoo.osuosl.org//snapshots/"  target="_blank" rel="noopener"
+    >portage</a>快照，解压到软件仓库目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">gentoo</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">repos</span><span class="o">/</span><span class="n">gentoo</span>
+</span></span><span class="line"><span class="cl"><span class="n">tar</span> <span class="n">xpf</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">portage</span><span class="o">-</span><span class="n">latest</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span> <span class="o">--</span><span class="n">strip</span><span class="o">-</span><span class="n">components</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">gentoo</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">repos</span><span class="o">/</span><span class="n">gentoo</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="3-安装内核模块和固件">3. 安装内核、模块和固件</h4>
+<p>克隆树莓派官方固件存储仓库<code>git clone --depth=1 https://github.com/raspberrypi/firmware.git</code></p>
+<p>将固件放入boot</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mount /dev/mmcblk0p1 /mnt/gentoo/boot
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/bcm2712-rpi-5-b.dtb /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/fixup_cd.dat /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/fixup.dat /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/start_cd.elf /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/start.elf /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/bootcode.bin /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/kernel8.img /mnt/gentoo/boot/
+</span></span><span class="line"><span class="cl">cp -r /path/to/firmware/boot/overlays/ /mnt/gentoo/boot/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>引导配置文件(编写/mnt/gentoo/boot/cmdline.txt 和 /mnt/gentoo/boot/config.txt)</p>
+<h4 id="4-安装无线网络module">4. 安装无线网络Module</h4>
+<p>从github上将二进制固件复制到<code>/mnt/gentoo/lib/firmware/brcm/</code>目录中并作软连接</p>
+<p>克隆固件库<code>git clone --depth=1 https://github.com/RPi-Distro/firmware-nonfree.git</code></p>
+<p>然后创建存放固件的目录<code>mkdir -p /mnt/gentoo/lib/firmware/brcm</code></p>
+<p>树莓派5的wifi模式是brcmfmc43455，所以我们只需要复制brcmfmc43455的文件即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/cypress/cyfmac43455-sdio-standard.bin /mnt/gentoo/lib/firmware/brcm/brcmfmac43455-sdio.bin
+</span></span><span class="line"><span class="cl">root #cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/cypress/cyfmac43455-sdio.clm_blob /mnt/gentoo/lib/firmware/brcm/brcmfmac43455-sdio.clm_blob
+</span></span><span class="line"><span class="cl">cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/brcm/brcmfmac43455-sdio.txt /mnt/gentoo/lib/firmware/brcm/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后再对他们做软连接，最后连接完的目录如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">root #ls -l /mnt/gentoo/lib/firmware/brcm/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-rw-r--r-- 1 root root 643651 Jan 21 12:20 brcmfmac43455-sdio.bin
+</span></span><span class="line"><span class="cl"> -rw-r--r-- 1 root root 2676 Jan 21 12:18 brcmfmac43455-sdio.clm_blob
+</span></span><span class="line"><span class="cl"> lrwxrwxrwx 1 root root 22 Jan 21 12:23 brcmfmac43455-sdio.raspberrypi,5-model-b.bin -&gt; brcmfmac43455-sdio.bin
+</span></span><span class="line"><span class="cl"> lrwxrwxrwx 1 root root 27 Jan 21 12:23 brcmfmac43455-sdio.raspberrypi,5-model-b.clm_blob -&gt; brcmfmac43455-sdio.clm_blob
+</span></span><span class="line"><span class="cl"> lrwxrwxrwx 1 root root 22 Jan 21 12:24 brcmfmac43455-sdio.raspberrypi,5-model-b.txt -&gt; brcmfmac43455-sdio.txt
+</span></span><span class="line"><span class="cl"> -rw-r--r-- 1 root root 2074 年 1 月 21 日 12:19 brcmfmac43455-sdio.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="5-安装蓝牙module">5. 安装蓝牙Module</h4>
+<p>克隆固件库<code>git clone --depth=1 https://github.com/RPi-Distro/bluez-firmware.git</code></p>
+<p>树莓派5的蓝牙只需要<code>BCM4345C0.hcd</code>，把他复制到目录然后做软连接。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /home/darthjoker/raspberrypi/bluez-firmware/debian/firmware/broadcom/BCM4345C0.hcd /mnt/gentoo/lib/firmware/brcm/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ln -s /mnt/gentoo/lib/firmware/brcm/BCM4345C0.hcd /mnt/gentoo/lib/firmware/brcm/BCM4345C0.raspberrypi,5-model-b.hcd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="6-编辑系统挂载表文件">6. 编辑系统挂载表文件</h4>
+<p><code>/mnt/gentoo/etc/fstab</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/dev/mmcblk0p1          /boot           vfat            noatime,noauto,nodev,nosuid,noexec	1 2
+</span></span><span class="line"><span class="cl">/dev/mmcblk0p2          swap            swap            defaults                                0 0
+</span></span><span class="line"><span class="cl">/dev/mmcblk0p3          /               ext4            noatime                                 0 0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至此，基本上所有的固件都装完了。如果您迫不及待的话，现在就可以卸载SD卡然后在RaspberryPi 5上启动自己的Gentoo了，但是您知道的，Gentoo这个系统需要配置的地方特别多，接下来请耐心看完。</p>
+<h4 id="7-启动前的设置">7. 启动前的设置</h4>
+<p>如果你有以太网的话，直接就可以写在SD卡并启动树莓派，通过有线网络完成基本的配置了。</p>
+<p>如果没有，那就只能先设置好无线网络了，先将Networkmanager软件所需要的文件下载到软件缓存库<code>/var/cache/distfiles</code>，然后启动树莓派再本地安装Networkmanager。</p>
+<p>在登录树莓派之前，我们需要更改root用户的密码。直接简单粗暴的将<code>/mnt/gentoo/etc/shadow</code>中<code>root</code>这一行改为如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">root::::::::
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如此一来，首次登录时直接使用root用户登录，不需要密码就可以直接登录，进入系统之后再<code>passwd</code>自己设置密码。</p>
+<h3 id="启动之后的配置">启动之后的配置</h3>
+<p>刚启动的树莓派系统时间肯定是对不上的，建议使用<code>date -s &quot;2024-03-20 16:13&quot;</code>手动设置一下，不然portage密钥对不上，根本安装不了软件包。</p>
+<h4 id="1-iwd">1. iwd</h4>
+<p>对比Networkmanager，我个人更喜欢iwd，因此直接emerge安装iwd进行配置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">emerge --ask iwd
+</span></span><span class="line"><span class="cl">rc-update add iwd default
+</span></span><span class="line"><span class="cl">rc-update add dhcpcd default
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2-sshd">2. sshd</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">rc-update add sshd default
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意使用kitty进行ssh时，要先<code>kitty +kitten ssh root@192.168.8.88</code>，不然会出现难以忍受的问题(试试就知道了)</p>
+</blockquote>
+<h4 id="3-add-user">3. add user</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">useradd -m -G users,wheel,video -s /bin/bash haoleng
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">passwd haoleng
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="4-安装sudo">4. 安装sudo</h4>
+<p>安装sudo <code>emerge --ask sudo</code>，然后编辑文件<code>/etc/sudoers</code>将<code># %wheel ALL=(ALL:ALL) ALL</code>的注释取消掉。就可以在普通用户环境下使用sudo提权了。</p>
+<h4 id="5-zsh">5. zsh</h4>
+<p>个人比较喜欢用<code>zsh</code>，可以通过<code>emerge --ask zsh app-shells/gentoo-zsh-completions</code>安装，下面是我在gentoo系统下的<code>.zshrc</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># history</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HISTSIZE</span><span class="o">=</span><span class="m">1000</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SAVEHIST</span><span class="o">=</span><span class="m">1000</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HISTFILE</span><span class="o">=</span>~/.histfile
+</span></span><span class="line"><span class="cl">setopt INC_APPEND_HISTORY
+</span></span><span class="line"><span class="cl">setopt HIST_IGNORE_DUPS
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">setopt AUTO_PUSHD
+</span></span><span class="line"><span class="cl">setopt PUSHD_IGNORE_DUPS
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">setopt HIST_IGNORE_SPACE
+</span></span><span class="line"><span class="cl">setopt SHARE_HISTORY
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># gentoo-zsh-completions</span>
+</span></span><span class="line"><span class="cl">autoload -U compinit promptinit
+</span></span><span class="line"><span class="cl">compinit
+</span></span><span class="line"><span class="cl">promptinit<span class="p">;</span> prompt gentoo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># alias</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">ra</span><span class="o">=</span><span class="s1">&#39;yazi&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">ne</span><span class="o">=</span><span class="s1">&#39;neofetch&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># plugins</span>
+</span></span><span class="line"><span class="cl"><span class="nb">eval</span> <span class="s2">&#34;</span><span class="k">$(</span>starship init zsh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ssh</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&#34;</span><span class="nv">$SSH_CONNECTION</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34; &#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="k">$(</span> shuf ~/.local/share/dwm/script/messages.txt -n <span class="m">1</span> <span class="p">|</span> awk <span class="s1">&#39;{ print(&#34;󰕃 &#34; $0) }&#39;</span> <span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>记得安装git <code>sudo emerge --ask dev-vcs/git</code>，然后将<code>zsh-autosuggestions</code>插件clone到<code>/usr/share/</code>目录下。</p>
+<blockquote>
+<p>另外推荐俩工具<a class="link" href="https://starship.rs/zh-CN/"  target="_blank" rel="noopener"
+    >starship</a>和<a class="link" href="https://yazi-rs.github.io/"  target="_blank" rel="noopener"
+    >yazi</a>，用过都说好👍！</p>
+</blockquote>
+<h4 id="6-安装桌面环境">6. 安装桌面环境</h4>
+<p>由于wayland目前在树莓派5上还存在一些小问题，所以本人继续选择了xorg作为桌面，等以后问题解决了再换Wayland吧。</p>
+<p>建议直接使用我的dwm环境，<a class="link" href="" >链接地址</a>，记得安装依赖<code>xorg-server, x11-libs/libXinerama</code>，还有nerd-font，然后直接进目录<code>sudo make clean install</code>就好了。</p>
+<p>再在家目录添加xinitrc文件。<code>echo &quot;exec dwm&quot; &gt; ~/.xinitrc</code></p>
+<p>开机自启需要编辑以下配置文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 开机自动登录</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Openrc /etc/inittab</span>
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl"><span class="c1">#x1:12345:respawn:/sbin/agetty 38400 console linux</span>
+</span></span><span class="line"><span class="cl">c1:12345:respawn:/sbin/agetty --autologin haoleng --noclear <span class="m">38400</span> tty1 linux
+</span></span><span class="line"><span class="cl">c2:2345:respawn:/sbin/agetty <span class="m">38400</span> tty2 linux
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 登录后执行startx</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># zsh ~/.zprofile</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DISPLAY</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">XDG_VTNR</span><span class="si">}</span><span class="s2">&#34;</span> -eq <span class="m">1</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exec</span> startx
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="7-配置vnc远程桌面">7. 配置VNC远程桌面</h4>
+<p>介于RealVNC收费的缘故，本人选择了TigerVNC作为VNC工具，详细可以参考<a class="link" href="https://wiki.gentoo.org/wiki/TigerVNC/en"  target="_blank" rel="noopener"
+    >WIKI</a>，本人在此只做简要介绍。</p>
+<p>本人并没有使用TigerVNC的服务器软件包，只是以最简单的方式实现了VNC功能，下面是本人认为关键的步骤：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo emerge --ask net-misc/tigervnc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">vnc passwd ~/.vnc/passwd
+</span></span><span class="line"><span class="cl"><span class="c1"># 最后一个选n</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 然后再在dwm启动脚本中加入</span>
+</span></span><span class="line"><span class="cl">x0vncserver -PasswordFile ~/.vnc/passwd <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 就可以在dwm启动后执行VNC服务</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>待续未完……</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">Linux</a>
+        
+            <a href="/tags/raspberrypi/">RaspberryPi</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024-03-22 16:35 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css"integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6&#43;HX0sLNAK3q71HotJqlAn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"integrity="sha384-cpW21h6RZv/phavutF&#43;AuVYrr&#43;dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 欢迎前来窜门子
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"integrity="sha512-2R4VJGamBudpzC1NTaSkusXP7QkiUYvEKhpJAxeVCqLDsgW4OqtzorZGpulE3eEA7p&#43;&#43;U0ZYmqBwO3m&#43;R2hRjA=="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"integrity="sha512-SxO0cwfxj/QhgX1SgpmUr0U2l5304ezGVhc0AO2YwOQ/C8O67ynyTorMKGjVv1fJnPQgjdxRz6x70MY9r0sKtQ=="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"integrity="sha512-V6rhYmJy8NZQF8F0bhJiTM0iI6wX/FKJoWvYrCM15UIeb6p38HjvTZWfO0IxJnMZrHWUJZJqLuWK0zslra2FVw=="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+
+    </body>
+</html>
