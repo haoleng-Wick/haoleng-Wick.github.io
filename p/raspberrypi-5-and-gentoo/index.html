@@ -10,7 +10,7 @@
 <meta property='og:description' content='树莓派5安装Gentoo'>
 <meta property='og:url' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/'>
 <meta property='og:site_name' content='好冷の小窝'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='RaspberryPi' /><meta property='article:published_time' content='2024-03-20T10:16:13&#43;08:00'/><meta property='article:modified_time' content='2024-03-22T16:35:27&#43;08:00'/><meta property='og:image' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='RaspberryPi' /><meta property='article:published_time' content='2024-03-20T10:16:13&#43;08:00'/><meta property='article:modified_time' content='2024-03-27T14:55:48&#43;08:00'/><meta property='og:image' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
 <meta name="twitter:title" content="RaspberryPi 5 and Gentoo">
 <meta name="twitter:description" content="树莓派5安装Gentoo"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
@@ -369,7 +369,7 @@
         <li><a href="#启动之后的配置">启动之后的配置</a>
           <ol>
             <li><a href="#1-iwd">1. iwd</a></li>
-            <li><a href="#2-sshd">2. sshd</a></li>
+            <li><a href="#2-时区与时间同步">2. 时区与时间同步</a></li>
             <li><a href="#3-add-user">3. add user</a></li>
             <li><a href="#4-安装sudo">4. 安装sudo</a></li>
             <li><a href="#5-zsh">5. zsh</a></li>
@@ -454,7 +454,7 @@
   <path d="M16 5l3 3" />
 </svg>
 
-                <time class="article-lastmod">2024-03-22</time>
+                <time class="article-lastmod">2024-03-27</time>
             </div>
         
 
@@ -506,7 +506,7 @@
         <li><a href="#启动之后的配置">启动之后的配置</a>
           <ol>
             <li><a href="#1-iwd">1. iwd</a></li>
-            <li><a href="#2-sshd">2. sshd</a></li>
+            <li><a href="#2-时区与时间同步">2. 时区与时间同步</a></li>
             <li><a href="#3-add-user">3. add user</a></li>
             <li><a href="#4-安装sudo">4. 安装sudo</a></li>
             <li><a href="#5-zsh">5. zsh</a></li>
@@ -527,8 +527,8 @@
     
     
     <h2 id="gentoo-on-raspberrypi">Gentoo On RaspberryPi</h2>
-<p>该部分就是抄的<a class="link" href="https://wiki.gentoo.org/wiki/How_to_install_Gentoo_on_Raspberry_Pi_5"  target="_blank" rel="noopener"
-    >Gentoo Wiki</a>上的，只做简要概述。</p>
+<p>该部分主要参考<a class="link" href="https://wiki.gentoo.org/wiki/How_to_install_Gentoo_on_Raspberry_Pi_5"  target="_blank" rel="noopener"
+    >Gentoo Wiki</a>，部分内容仅做简要描述。</p>
 <h3 id="sd分区">SD分区</h3>
 <ol>
 <li>对SD进行分区</li>
@@ -538,7 +538,7 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fdisk /dev/mmcblk0
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">fdisk /dev/mmcblk0
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="2">
@@ -628,7 +628,7 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tar xpf /path/to/stage3-arm64-desktop-openrc-20240317T232028Z.tar.xz --xattrs-include=&#39;*.*&#39; --numeric-owner
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar xpf /path/to/stage3-arm64-desktop-openrc-20240317T232028Z.tar.xz --xattrs-include<span class="o">=</span><span class="s1">&#39;*.*&#39;</span> --numeric-owner
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果一切顺利，那么<code>/mnt/gentoo/</code>目录下应该是如下的文件系统层次结构</p>
@@ -639,9 +639,9 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">Johnson</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">gentoo</span> <span class="c1"># ls</span>
-</span></span><span class="line"><span class="cl"><span class="n">bin</span>   <span class="n">dev</span>  <span class="n">home</span>  <span class="n">lib64</span>       <span class="n">media</span>  <span class="n">opt</span>   <span class="n">root</span>  <span class="n">sbin</span>  <span class="n">tmp</span>  <span class="k">var</span>
-</span></span><span class="line"><span class="cl"><span class="n">boot</span>  <span class="n">etc</span>  <span class="n">lib</span>   <span class="n">lost</span><span class="o">+</span><span class="n">found</span>  <span class="n">mnt</span>    <span class="n">proc</span>  <span class="n">run</span>   <span class="n">sys</span>   <span class="n">usr</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Johnson /mnt/gentoo <span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">bin   dev  home  lib64       media  opt   root  sbin  tmp  var
+</span></span><span class="line"><span class="cl">boot  etc  lib   lost+found  mnt    proc  run   sys   usr
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>下载最新的<a class="link" href="https://gentoo.osuosl.org//snapshots/"  target="_blank" rel="noopener"
@@ -652,8 +652,8 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">gentoo</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">repos</span><span class="o">/</span><span class="n">gentoo</span>
-</span></span><span class="line"><span class="cl"><span class="n">tar</span> <span class="n">xpf</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">portage</span><span class="o">-</span><span class="n">latest</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span> <span class="o">--</span><span class="n">strip</span><span class="o">-</span><span class="n">components</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">gentoo</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">repos</span><span class="o">/</span><span class="n">gentoo</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p /mnt/gentoo/var/db/repos/gentoo
+</span></span><span class="line"><span class="cl">tar xpf /path/to/portage-latest.tar.bz2 --strip-components<span class="o">=</span><span class="m">1</span> -C /mnt/gentoo/var/db/repos/gentoo
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="3-安装内核模块和固件">3. 安装内核、模块和固件</h4>
@@ -673,7 +673,7 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mount /dev/mmcblk0p1 /mnt/gentoo/boot
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mount /dev/mmcblk0p1 /mnt/gentoo/boot
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/bcm2712-rpi-5-b.dtb /mnt/gentoo/boot/
 </span></span><span class="line"><span class="cl">cp /path/to/firmware/boot/fixup_cd.dat /mnt/gentoo/boot/
@@ -685,7 +685,11 @@
 </span></span><span class="line"><span class="cl">cp -r /path/to/firmware/boot/overlays/ /mnt/gentoo/boot/
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>引导配置文件(编写/mnt/gentoo/boot/cmdline.txt 和 /mnt/gentoo/boot/config.txt)</p>
+</div><blockquote>
+<p>另一种方法是利用交叉编译的方法从源码开始裁剪编译内核，详见<a class="link" href="https://pidoc.cn/docs/computers/linux-kernel/"  target="_blank" rel="noopener"
+    >树莓派内核指南</a></p>
+</blockquote>
+<p>引导配置文件(编写/mnt/gentoo/boot/cmdline.txt 和 /mnt/gentoo/boot/config.txt)</p>
 <h4 id="4-安装无线网络module">4. 安装无线网络Module</h4>
 <p>从github上将二进制固件复制到<code>/mnt/gentoo/lib/firmware/brcm/</code>目录中并作软连接</p>
 <p>克隆固件库<code>git clone --depth=1 https://github.com/RPi-Distro/firmware-nonfree.git</code></p>
@@ -698,8 +702,8 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/cypress/cyfmac43455-sdio-standard.bin /mnt/gentoo/lib/firmware/brcm/brcmfmac43455-sdio.bin
-</span></span><span class="line"><span class="cl">root #cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/cypress/cyfmac43455-sdio.clm_blob /mnt/gentoo/lib/firmware/brcm/brcmfmac43455-sdio.clm_blob
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/cypress/cyfmac43455-sdio-standard.bin /mnt/gentoo/lib/firmware/brcm/brcmfmac43455-sdio.bin
+</span></span><span class="line"><span class="cl">root <span class="c1">#cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/cypress/cyfmac43455-sdio.clm_blob /mnt/gentoo/lib/firmware/brcm/brcmfmac43455-sdio.clm_blob</span>
 </span></span><span class="line"><span class="cl">cp /path/to/raspberrypi/firmware-nonfree/debian/config/brcm80211/brcm/brcmfmac43455-sdio.txt /mnt/gentoo/lib/firmware/brcm/
 </span></span></code></pre></td></tr></table>
 </div>
@@ -716,14 +720,14 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">root #ls -l /mnt/gentoo/lib/firmware/brcm/
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root <span class="c1">#ls -l /mnt/gentoo/lib/firmware/brcm/</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">-rw-r--r-- 1 root root 643651 Jan 21 12:20 brcmfmac43455-sdio.bin
-</span></span><span class="line"><span class="cl"> -rw-r--r-- 1 root root 2676 Jan 21 12:18 brcmfmac43455-sdio.clm_blob
-</span></span><span class="line"><span class="cl"> lrwxrwxrwx 1 root root 22 Jan 21 12:23 brcmfmac43455-sdio.raspberrypi,5-model-b.bin -&gt; brcmfmac43455-sdio.bin
-</span></span><span class="line"><span class="cl"> lrwxrwxrwx 1 root root 27 Jan 21 12:23 brcmfmac43455-sdio.raspberrypi,5-model-b.clm_blob -&gt; brcmfmac43455-sdio.clm_blob
-</span></span><span class="line"><span class="cl"> lrwxrwxrwx 1 root root 22 Jan 21 12:24 brcmfmac43455-sdio.raspberrypi,5-model-b.txt -&gt; brcmfmac43455-sdio.txt
-</span></span><span class="line"><span class="cl"> -rw-r--r-- 1 root root 2074 年 1 月 21 日 12:19 brcmfmac43455-sdio.txt
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root <span class="m">643651</span> Jan <span class="m">21</span> 12:20 brcmfmac43455-sdio.bin
+</span></span><span class="line"><span class="cl"> -rw-r--r-- <span class="m">1</span> root root <span class="m">2676</span> Jan <span class="m">21</span> 12:18 brcmfmac43455-sdio.clm_blob
+</span></span><span class="line"><span class="cl"> lrwxrwxrwx <span class="m">1</span> root root <span class="m">22</span> Jan <span class="m">21</span> 12:23 brcmfmac43455-sdio.raspberrypi,5-model-b.bin -&gt; brcmfmac43455-sdio.bin
+</span></span><span class="line"><span class="cl"> lrwxrwxrwx <span class="m">1</span> root root <span class="m">27</span> Jan <span class="m">21</span> 12:23 brcmfmac43455-sdio.raspberrypi,5-model-b.clm_blob -&gt; brcmfmac43455-sdio.clm_blob
+</span></span><span class="line"><span class="cl"> lrwxrwxrwx <span class="m">1</span> root root <span class="m">22</span> Jan <span class="m">21</span> 12:24 brcmfmac43455-sdio.raspberrypi,5-model-b.txt -&gt; brcmfmac43455-sdio.txt
+</span></span><span class="line"><span class="cl"> -rw-r--r-- <span class="m">1</span> root root <span class="m">2074</span> 年 <span class="m">1</span> 月 <span class="m">21</span> 日 12:19 brcmfmac43455-sdio.txt
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="5-安装蓝牙module">5. 安装蓝牙Module</h4>
@@ -736,7 +740,7 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /home/darthjoker/raspberrypi/bluez-firmware/debian/firmware/broadcom/BCM4345C0.hcd /mnt/gentoo/lib/firmware/brcm/
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp /home/darthjoker/raspberrypi/bluez-firmware/debian/firmware/broadcom/BCM4345C0.hcd /mnt/gentoo/lib/firmware/brcm/
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">ln -s /mnt/gentoo/lib/firmware/brcm/BCM4345C0.hcd /mnt/gentoo/lib/firmware/brcm/BCM4345C0.raspberrypi,5-model-b.hcd
 </span></span></code></pre></td></tr></table>
@@ -771,7 +775,68 @@
 </div><p>如此一来，首次登录时直接使用root用户登录，不需要密码就可以直接登录，进入系统之后再<code>passwd</code>自己设置密码。</p>
 <h3 id="启动之后的配置">启动之后的配置</h3>
 <p>刚启动的树莓派系统时间肯定是对不上的，建议使用<code>date -s &quot;2024-03-20 16:13&quot;</code>手动设置一下，不然portage密钥对不上，根本安装不了软件包。</p>
-<h4 id="1-iwd">1. iwd</h4>
+<p>另外注意国内环境下可能需要换源，建议参考<a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/gentoo-portage/"  target="_blank" rel="noopener"
+    >清华大学开源镜像站</a></p>
+<p>该部分涉及到了<code>/etc/portage/make.conf</code>文件，以下是我的树莓派5的<code>make.conf</code>文件，可以参考一下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">$</span> <span class="n">sudo</span> <span class="n">cat</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">portage</span><span class="o">/</span><span class="n">make</span><span class="o">.</span><span class="n">conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># These settings were set by the catalyst build script that automatically</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># built this stage.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Please consult /usr/share/portage/config/make.conf.example for a more</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># detailed example.</span>
+</span></span><span class="line"><span class="cl"><span class="n">COMMON_FLAGS</span><span class="o">=</span><span class="s2">&#34;-mcpu=cortex-a76+crc+crypto -mtune=cortex-a76 -O2 -pipe&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CFLAGS</span><span class="o">=</span><span class="s2">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CXXFLAGS</span><span class="o">=</span><span class="s2">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">FCFLAGS</span><span class="o">=</span><span class="s2">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">FFLAGS</span><span class="o">=</span><span class="s2">&#34;${COMMON_FLAGS}&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># This sets the language of build output to English.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Please keep this setting intact when reporting bugs.</span>
+</span></span><span class="line"><span class="cl"><span class="n">LC_MESSAGES</span><span class="o">=</span><span class="n">C</span><span class="o">.</span><span class="n">utf8</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># WARNING: Changing your CHOST is not something that should be done lightly.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Please consult https://wiki.gentoo.org/wiki/Changing_the_CHOST_variable before changing.</span>
+</span></span><span class="line"><span class="cl"><span class="n">CHOST</span><span class="o">=</span><span class="s2">&#34;aarch64-unknown-linux-gnu&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">GENTOO_MIRRORS</span><span class="o">=</span><span class="s2">&#34;https://mirrors.tuna.tsinghua.edu.cn/gentoo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># NOTE: This stage was built with the bindist Use flag enabled</span>
+</span></span><span class="line"><span class="cl"><span class="n">USE</span><span class="o">=</span><span class="s2">&#34;X zsh-completion elogind -systemd&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">VIDEO_CARDS</span><span class="o">=</span><span class="s2">&#34;fbdev vc4 v3d&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="1-iwd">1. iwd</h4>
 <p>对比Networkmanager，我个人更喜欢iwd，因此直接emerge安装iwd进行配置。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -780,23 +845,40 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">emerge --ask iwd
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">emerge --ask iwd
 </span></span><span class="line"><span class="cl">rc-update add iwd default
 </span></span><span class="line"><span class="cl">rc-update add dhcpcd default
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="2-sshd">2. sshd</h4>
+</div><p>sshd</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">rc-update add sshd default
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rc-update add sshd default
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
 <p>注意使用kitty进行ssh时，要先<code>kitty +kitten ssh root@192.168.8.88</code>，不然会出现难以忍受的问题(试试就知道了)</p>
 </blockquote>
+<h4 id="2-时区与时间同步">2. 时区与时间同步</h4>
+<p>Openrc中时区的设置是通过<code>/etc/timezone</code>文件设置的</p>
+<p>以中国为例，时区的设置如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Asia/Shanghai&#34;</span> &gt; /etc/timezone
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">emerge --config sys-libs/timezone-data
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>时间自动更新可以使用<a class="link" href="https://wiki.gentoo.org/wiki/Chrony"  target="_blank" rel="noopener"
+    >Chrony</a></p>
 <h4 id="3-add-user">3. add user</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -805,7 +887,7 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">useradd -m -G users,wheel,video -s /bin/bash haoleng
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">useradd -m -G users,wheel,video -s /bin/bash haoleng
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">passwd haoleng
 </span></span></code></pre></td></tr></table>
@@ -925,6 +1007,29 @@
 </span></span><span class="line"><span class="cl"><span class="k">fi</span>
 </span></span></code></pre></td></tr></table>
 </div>
+</div><p>另外需要注意的是，在树莓派5中使用xorg需要手动创建配置文件<code>/etc/X11/xorg.conf.d/99-vc4.confg</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># Shamelessly copied from PiOS
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Section &#34;OutputClass&#34;
+</span></span><span class="line"><span class="cl">  Identifier &#34;vc4&#34;
+</span></span><span class="line"><span class="cl">  MatchDriver &#34;vc4&#34;
+</span></span><span class="line"><span class="cl">  Driver &#34;modesetting&#34;
+</span></span><span class="line"><span class="cl">  Option &#34;PrimaryGPU&#34; &#34;true&#34;
+</span></span><span class="line"><span class="cl">EndSection
+</span></span></code></pre></td></tr></table>
+</div>
 </div><h4 id="7-配置vnc远程桌面">7. 配置VNC远程桌面</h4>
 <p>介于RealVNC收费的缘故，本人选择了TigerVNC作为VNC工具，详细可以参考<a class="link" href="https://wiki.gentoo.org/wiki/TigerVNC/en"  target="_blank" rel="noopener"
     >WIKI</a>，本人在此只做简要介绍。</p>
@@ -989,7 +1094,7 @@
 
 
         <span>
-            最后更新于 2024-03-22 16:35 CST
+            最后更新于 2024-03-27 14:55 CST
         </span>
     </section></footer>
 
