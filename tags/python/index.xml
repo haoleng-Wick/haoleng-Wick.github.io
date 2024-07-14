@@ -103,6 +103,10 @@
 &lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;该程序中&lt;code&gt;__enter__()&lt;/code&gt; 先被执行，然后&lt;code&gt;__enter()__&lt;/code&gt; 返回的值赋值给变量&lt;code&gt;sample&lt;/code&gt;，然后执行&lt;code&gt;with&lt;/code&gt;中的&lt;code&gt;prin()&lt;/code&gt;，最后调用&lt;code&gt;__exit__()&lt;/code&gt;方法。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;blind date 相亲
+I&amp;rsquo;m all ears 洗耳恭听
+bad mouth sb. 说某人的坏话&lt;/p&gt;
 </description>
         </item>
         
