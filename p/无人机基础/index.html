@@ -3,12 +3,12 @@
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
 四旋翼无人机的动力学模型 基本假设：
-四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
+四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
 质心的平动 : $F = m \frac{dv}{dt}$
 绕质心的转动 : $M = J \dot\omega &#43; \omega \times J\omega$
-&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 叉乘 ）
+&ldquo;x&quot;表示的是矩阵乘法（即 叉乘 ）
 位置动力学模型 (合外力和速度的方程) 旋转矩阵 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:
-$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta \end{matrix} \right] $$'>
+$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp; \sin\phi\cos\theta &amp; \cos\phi\cos\theta \end{matrix} \right] $$'>
 <title>无人机基础</title>
 
 <link rel='canonical' href='https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/'>
@@ -16,24 +16,24 @@ $$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta
 <link rel="stylesheet" href="/scss/style.min.3a32c3f1ade81cbe3a3ab60c3481d3273386dfdf58faacf12aabf0c78b6f2c37.css"><meta property='og:title' content='无人机基础'>
 <meta property='og:description' content='无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
 四旋翼无人机的动力学模型 基本假设：
-四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
+四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
 质心的平动 : $F = m \frac{dv}{dt}$
 绕质心的转动 : $M = J \dot\omega &#43; \omega \times J\omega$
-&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 叉乘 ）
+&ldquo;x&quot;表示的是矩阵乘法（即 叉乘 ）
 位置动力学模型 (合外力和速度的方程) 旋转矩阵 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:
-$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta \end{matrix} \right] $$'>
+$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp; \sin\phi\cos\theta &amp; \cos\phi\cos\theta \end{matrix} \right] $$'>
 <meta property='og:url' content='https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/'>
 <meta property='og:site_name' content='好冷の小窝'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='无人机' /><meta property='article:published_time' content='2023-04-18T05:59:13&#43;08:00'/><meta property='article:modified_time' content='2024-02-20T22:37:38&#43;08:00'/><meta property='og:image' content='https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg' />
 <meta name="twitter:title" content="无人机基础">
 <meta name="twitter:description" content="无人机基础 四旋翼无人机基础 keywords : 构造函数、重载、启动脚本、uorb、创建线程、PID、PWM、PX4、APM、鲁棒性、
 四旋翼无人机的动力学模型 基本假设：
-四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&amp;ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
+四旋翼飞行器是均匀对称的刚体 四旋翼飞行器的质量和转动惯量不发生改变 四旋翼飞行器的几何中心与其重心重合 四旋翼飞行器只受重力和螺旋桨拉力 牛顿&ndash;欧拉方程 : : 刚体运动 = 质心的平动 &#43; 绕质心的转动
 质心的平动 : $F = m \frac{dv}{dt}$
 绕质心的转动 : $M = J \dot\omega &#43; \omega \times J\omega$
-&amp;ldquo;x&amp;quot;表示的是矩阵乘法（即 叉乘 ）
+&ldquo;x&quot;表示的是矩阵乘法（即 叉乘 ）
 位置动力学模型 (合外力和速度的方程) 旋转矩阵 可以将机体坐标系( $O_bY_bZ_b$ )下表示的向量转变到地面坐标系( $O_eY_eZ_e$ )下表示:
-$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp;amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp;amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp;amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp;amp; \sin\phi\cos\theta &amp;amp; \cos\phi\cos\theta \end{matrix} \right] $$"><meta name="twitter:card" content="summary_large_image">
+$$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp; \cos\psi\sin\theta\sin\phi - \sin\psi\cos\phi &amp; \cos\psi\sin\theta\cos\phi &#43; \sin\psi\sin\phi \\\ \cos\theta\sin\psi &amp; \sin\psi\sin\theta\sin\phi &#43; \cos\psi\cos\phi &amp; \sin\psi\sin\theta\cos\phi - \cos\psi\sin\phi \\\ -\sin\theta &amp; \sin\phi\cos\theta &amp; \cos\phi\cos\theta \end{matrix} \right] $$"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://haoleng-wick.github.io/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -84,7 +84,7 @@ $$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta
                     
                     
                         
-                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                        <img src="/img/V_hu5514348090225232094.gif" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -404,8 +404,8 @@ $$ R^e_b = \left[ \begin{matrix} \cos\theta\cos\psi &amp;amp; \cos\psi\sin\theta
     <header class="article-header">
         <div class="article-image">
             <a href="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/">
-                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu3380120350b8de274e915bc3a29bb5f0_49092_800x0_resize_q75_box.jpg"
-                        srcset="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu3380120350b8de274e915bc3a29bb5f0_49092_800x0_resize_q75_box.jpg 800w, /p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu3380120350b8de274e915bc3a29bb5f0_49092_1600x0_resize_q75_box.jpg 1600w"
+                <img src="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu17443630226152877469.jpg"
+                        srcset="/p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu17443630226152877469.jpg 800w, /p/%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%9F%BA%E7%A1%80/uav_hu6782174192750645665.jpg 1600w"
                         width="800" 
                         height="413" 
                         loading="lazy"
@@ -810,11 +810,35 @@ $$
             
                 
 <article class="has-image">
+    <a href="/p/%E6%B1%89%E6%98%8E%E7%A0%81%E6%A0%A1%E9%AA%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%B1%89%E6%98%8E%E7%A0%81%E6%A0%A1%E9%AA%8C/HanMing.7de40bbd8a953f9fa7c0a75961190611_hu7126366771190232524.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 汉明码校验"
+                        
+                        data-hash="md5-feQLvYqVP5&#43;nwKdZYRkGEQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉明码校验</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/p/c%E8%AF%AD%E8%A8%80%E6%9D%82%E8%AE%B0/">
         
         
             <div class="article-image">
-                <img src="/p/c%E8%AF%AD%E8%A8%80%E6%9D%82%E8%AE%B0/CLanguage.f870404c5bc35c1f21eb47034bf943e3_hu49e21fe23b7011216ea2a8bfb0c93686_71510_250x150_fill_q75_box_smart1.jpg" 
+                <img src="/p/c%E8%AF%AD%E8%A8%80%E6%9D%82%E8%AE%B0/CLanguage.f870404c5bc35c1f21eb47034bf943e3_hu13051196119389240301.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -838,7 +862,7 @@ $$
         
         
             <div class="article-image">
-                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hud8524d9562d7473f3449c190ff1a23cc_42729_250x150_fill_q75_box_smart1.jpg" 
+                <img src="/p/tensorflow%E5%85%A5%E9%97%A8/Tensorflow.8a910a1f19ce6f79e1377de657ac4299_hu6033543609353157804.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -862,7 +886,7 @@ $$
         
         
             <div class="article-image">
-                <img src="/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C.16e81f38818857b4f78ae52960801bb9_hua8e57d294448123456c3e7a479108155_17488_250x150_fill_q75_box_smart1.jpg" 
+                <img src="/p/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%E7%BB%BC%E8%BF%B0/R-C.16e81f38818857b4f78ae52960801bb9_hu7811467986771931093.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -886,7 +910,7 @@ $$
         
         
             <div class="article-image">
-                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu9f713ad84f2edfa72e78551edd5f644f_73867_250x150_fill_q75_box_smart1.jpg" 
+                <img src="/p/pytorch%E5%85%A5%E9%97%A8/PyTorch.3467f8688ecab9a3a5a10b6adc491830_hu12022791195514129390.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -899,30 +923,6 @@ $$
 
         <div class="article-details">
             <h2 class="article-title">Pytorch入门</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/kmp%E7%AE%97%E6%B3%95/">
-        
-        
-            <div class="article-image">
-                <img src="/p/kmp%E7%AE%97%E6%B3%95/Kmp.1f5c826340a17136f098ed9af5156aed_hu08a589af024e5e5615d19682308cdf2a_24895_250x150_fill_q75_box_smart1.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post KMP算法"
-                        
-                        data-hash="md5-H1yCY0ChcTbwmO2a9RVq7Q==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">KMP算法</h2>
         </div>
     </a>
 </article>

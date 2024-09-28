@@ -10,7 +10,7 @@
 <meta property='og:description' content='树莓派5安装Gentoo'>
 <meta property='og:url' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/'>
 <meta property='og:site_name' content='好冷の小窝'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='RaspberryPi' /><meta property='article:published_time' content='2024-03-20T10:16:13&#43;08:00'/><meta property='article:modified_time' content='2024-04-04T20:06:05&#43;08:00'/><meta property='og:image' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='RaspberryPi' /><meta property='article:published_time' content='2024-03-20T10:16:13&#43;08:00'/><meta property='article:modified_time' content='2024-08-04T11:23:16&#43;08:00'/><meta property='og:image' content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
 <meta name="twitter:title" content="RaspberryPi 5 and Gentoo">
 <meta name="twitter:description" content="树莓派5安装Gentoo"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://haoleng-wick.github.io/p/raspberrypi-5-and-gentoo/Cover.png' />
@@ -63,7 +63,7 @@
                     
                     
                         
-                        <img src="/img/V_hu9f0bc702f392808b5056dd53948f34a5_1454089_300x0_resize_box_1.gif" width="300"
+                        <img src="/img/V_hu5514348090225232094.gif" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -396,8 +396,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/raspberrypi-5-and-gentoo/">
-                <img src="/p/raspberrypi-5-and-gentoo/Cover_hue56af742d0204ffcf3ea40ed7e2b741e_102510_800x0_resize_box_3.png"
-                        srcset="/p/raspberrypi-5-and-gentoo/Cover_hue56af742d0204ffcf3ea40ed7e2b741e_102510_800x0_resize_box_3.png 800w, /p/raspberrypi-5-and-gentoo/Cover_hue56af742d0204ffcf3ea40ed7e2b741e_102510_1600x0_resize_box_3.png 1600w"
+                <img src="/p/raspberrypi-5-and-gentoo/Cover_hu3276395633646386274.png"
+                        srcset="/p/raspberrypi-5-and-gentoo/Cover_hu3276395633646386274.png 800w, /p/raspberrypi-5-and-gentoo/Cover_hu9184688540908151899.png 1600w"
                         width="800" 
                         height="503" 
                         loading="lazy"
@@ -456,7 +456,7 @@
   <path d="M16 5l3 3" />
 </svg>
 
-                <time class="article-lastmod">2024-04-04</time>
+                <time class="article-lastmod">2024-08-04</time>
             </div>
         
 
@@ -472,7 +472,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 4 分钟
+                    阅读时长: 5 分钟
                 </time>
             </div>
         
@@ -1075,6 +1075,11 @@
 </div>
 </div><p>然后可能才能启动Wayland，另外Wayland下的VNC需要安装<code>wayvnc</code>，然后再以<code>headless</code>模式启动Sway，我的配置文件在<a class="link" href="https://github.com/haoleng-Wick/dotfiles/tree/master/.config/sway"  target="_blank" rel="noopener"
     >这里</a></p>
+<h5 id="gpio">GPIO</h5>
+<h5 id="树莓派的备份">树莓派的备份</h5>
+<p>暂时先记这条：
+<code>sudo dd if=/dev/mmcblk0 |gzip&gt;/home/haoleng/raspberrypi.gz status=progress</code>
+<code>sudo gzip -dc raspberrypi.gz | sudo dd of=/dev/mmcblk0 status=progress</code></p>
 <blockquote>
 <p>待续未完……</p>
 </blockquote>
@@ -1115,7 +1120,7 @@
 
 
         <span>
-            最后更新于 2024-04-04 20:06 CST
+            最后更新于 2024-08-04 11:23 CST
         </span>
     </section></footer>
 

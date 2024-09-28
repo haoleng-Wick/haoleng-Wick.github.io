@@ -561,6 +561,11 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;然后可能才能启动Wayland，另外Wayland下的VNC需要安装&lt;code&gt;wayvnc&lt;/code&gt;，然后再以&lt;code&gt;headless&lt;/code&gt;模式启动Sway，我的配置文件在&lt;a class=&#34;link&#34; href=&#34;https://github.com/haoleng-Wick/dotfiles/tree/master/.config/sway&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;这里&lt;/a&gt;&lt;/p&gt;
+&lt;h5 id=&#34;gpio&#34;&gt;GPIO&lt;/h5&gt;
+&lt;h5 id=&#34;树莓派的备份&#34;&gt;树莓派的备份&lt;/h5&gt;
+&lt;p&gt;暂时先记这条：
+&lt;code&gt;sudo dd if=/dev/mmcblk0 |gzip&amp;gt;/home/haoleng/raspberrypi.gz status=progress&lt;/code&gt;
+&lt;code&gt;sudo gzip -dc raspberrypi.gz | sudo dd of=/dev/mmcblk0 status=progress&lt;/code&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;待续未完……&lt;/p&gt;
 &lt;/blockquote&gt;
